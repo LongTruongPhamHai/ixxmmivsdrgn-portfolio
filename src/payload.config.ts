@@ -26,6 +26,11 @@ export default buildConfig({
   },
   globals: [Profile],
   collections: [Users, Media, Projects, Skills, Experience, Posts, Education],
+  localization: {
+    locales: ['vi', 'en'],
+    defaultLocale: 'vi',
+    fallback: true,
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

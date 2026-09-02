@@ -96,14 +96,14 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  fallbackLocale: null;
+  fallbackLocale: ('false' | 'none' | 'null') | false | null | ('vi' | 'en') | ('vi' | 'en')[];
   globals: {
     profile: Profile;
   };
   globalsSelect: {
     profile: ProfileSelect<false> | ProfileSelect<true>;
   };
-  locale: null;
+  locale: 'vi' | 'en';
   widgets: {
     collections: CollectionsWidget;
   };

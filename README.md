@@ -1,67 +1,76 @@
-# Payload Blank Template
+# 🎖️ Developer Portfolio - Technical Soldier
 
-This template comes configured with the bare minimum to get started on anything you need.
+Một dự án Portfolio cá nhân được thiết kế chuyên biệt theo phong cách **"Technical Soldier"** mạnh mẽ, kỷ luật và đậm chất kỹ thuật. Hệ thống sở hữu kiến trúc hiện đại, tích hợp sẵn Headless CMS để chủ nhân có thể quản lý, số hóa CV và danh mục dự án cá nhân một cách chuyên nghiệp nhất.
 
-## Quick start
+---
 
-This template can be deployed directly from our Cloud hosting and it will setup MongoDB and cloud S3 object storage for media.
+## 🚀 Công nghệ sử dụng
 
-## Quick Start - local setup
+- **Frontend Core:** Next.js 15 (App Router, React Server Components)
+- **Backend / CMS:** Payload CMS 3 (Tích hợp liền mạch vào Next.js)
+- **Styling:** Tailwind CSS v4 (Sử dụng CSS Variables Native)
+- **Database:** MongoDB
+- **Theming:** Hệ thống Theme (Light/Dark mode) tự xây dựng không phụ thuộc thư viện bên ngoài.
+- **Localization (i18n):** Hỗ trợ song ngữ Tiếng Việt & Tiếng Anh.
 
-To spin up this template locally, follow these steps:
+---
 
-### Clone
+## ✨ Tính năng nổi bật
 
-After you click the `Deploy` button above, you'll want to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+### 1. Cấu trúc Dữ liệu Chuẩn CV Giấy
+Hệ thống Payload CMS được tái cấu trúc để mô phỏng hoàn hảo các thành phần của một bản CV truyền thống:
+- `Profile` (Global): Tóm tắt mục tiêu nghề nghiệp.
+- `Education` (Collection): Quản lý bằng cấp, GPA, chuyên ngành.
+- `Skills` (Collection): Nhóm kỹ năng Chuyên môn, Ngoại ngữ và Khác.
+- `Experience` (Collection): Kinh nghiệm làm việc (hỗ trợ nested array để liệt kê chi tiết từng dự án đã đóng góp trong công ty).
+- `Projects` (Collection): Showcase dự án cá nhân với Tech Stack và Link Demo.
 
-### Development
+### 2. Giao diện Tactical UI/UX
+- Lấy cảm hứng từ giao diện HUD, Radar quân sự và Terminal.
+- Typography đặc trưng kết hợp giữa **Inter** (chuẩn mực) và **JetBrains Mono** (mã code).
+- Họa tiết **Digital Camo** bằng Inline SVG động: Tự động đổi tone màu chìm (Blend) một cách mượt mà theo giao diện Sáng/Tối mà không làm giảm độ tương phản của chữ.
 
-1. First [clone the repo](#clone) if you have not done so already
-2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
+### 3. Đa ngôn ngữ (Bilingual)
+- Routing Frontend linh hoạt nhận diện `/vi/` và `/en/`.
+- CMS cho phép nhập liệu hai bản dịch độc lập (VI/EN) cho cùng một bài viết hoặc kỹ năng.
 
-3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+---
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+## 🛠️ Hướng dẫn cài đặt & Khởi chạy
 
-#### Docker (Optional)
+### 1. Clone Source Code
+```bash
+git clone <repo-url>
+cd ixxmmivsdrgn-portfolio
+```
 
-If you prefer to use Docker for local development instead of a local MongoDB instance, the provided docker-compose.yml file can be used.
+### 2. Cài đặt thư viện
+```bash
+npm install
+```
 
-To do so, follow these steps:
+### 3. Cấu hình Biến môi trường
+Tạo file `.env` ở thư mục gốc của dự án và điền các thông số:
+```env
+# Chuỗi kết nối MongoDB (Local hoặc MongoDB Atlas)
+DATABASE_URI=mongodb://127.0.0.1/portfolio-db
 
-- Modify the `MONGODB_URL` in your `.env` file to `mongodb://127.0.0.1/<dbname>`
-- Modify the `docker-compose.yml` file's `MONGODB_URL` to match the above `<dbname>`
-- Run `docker-compose up` to start the database, optionally pass `-d` to run in the background.
+# Secret key cho Payload (chuỗi ngẫu nhiên bất kỳ)
+PAYLOAD_SECRET=your-secret-key
+```
 
-## How it works
+### 4. Khởi chạy Server
+```bash
+npm run dev
+```
+- Truy cập Frontend: `http://localhost:3000` (Hệ thống sẽ tự động chuyển về `/vi`).
+- Truy cập Admin Panel: `http://localhost:3000/admin`.
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+### 5. Cập nhật Typescript cho Payload (Nếu cần thiết)
+Mỗi khi bạn tự code thêm hoặc thay đổi Schema trong thư mục `src/collections`, hãy chạy lệnh sau để sinh lại Type Definition:
+```bash
+npm run generate:types
+```
 
-### Collections
-
-See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
-
-- #### Users (Authentication)
-
-  Users are auth-enabled collections that have access to the admin panel.
-
-  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/3.x/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
-
-- #### Media
-
-  This is the uploads enabled collection. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
-
-### Docker
-
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-## Questions
-
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+---
+**Designed & Developed with precision.**
