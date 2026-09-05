@@ -12,17 +12,18 @@ export function ProjectsSection({ projects, translations: t }: ProjectsSectionPr
         <h2 className="text-2xl font-bold font-sans">{t.personalProjectsLabel}</h2>
         <div className="h-[1px] flex-1 bg-border-default"></div>
       </div>
-      
+
       {projects.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project: any, idx) => (
-            <ProjectCard 
+            <ProjectCard
               key={project.slug || idx}
               title={project.title}
               slug={project.slug}
               status={project.status || 'COMPLETED'}
               summary={project.summary}
               index={idx + 1}
+              completionDate={project.completionDate}
             />
           ))}
         </div>
