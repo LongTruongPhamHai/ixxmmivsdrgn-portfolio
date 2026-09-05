@@ -36,7 +36,7 @@ export function Header({ locale }: HeaderProps) {
         {/* Title */}
         <Link
           href={`/${locale}`}
-          className="font-mono font-bold tracking-widest text-accent-amber hover:text-accent-lime transition-colors text-sm sm:text-base md:text-xl lg:text-base"
+          className="font-mono font-bold tracking-widest text-accent-amber hover:text-accent-lime transition-colors text-xl md:text-2xl"
         >
           IXXMMIVSDRGN PORTFOLIO
         </Link>
