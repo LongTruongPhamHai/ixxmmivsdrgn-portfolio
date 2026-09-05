@@ -24,6 +24,7 @@ export function ProjectsSection({ projects, translations: t }: ProjectsSectionPr
               summary={project.summary}
               index={idx + 1}
               completionDate={project.completionDate}
+              translations={t}
             />
           ))}
         </div>

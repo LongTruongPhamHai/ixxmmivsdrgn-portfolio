@@ -8,6 +8,10 @@ interface ProjectCardProps {
   summary: string
   index: number
   completionDate?: string
+  translations: {
+    statusLabel: string
+    statuses: Record<ProjectCardProps['status'], string>
+  }
 }
 
 export function ProjectCard({
@@ -17,6 +21,7 @@ export function ProjectCard({
   status,
   summary,
   index,
+  translations,
 }: ProjectCardProps) {
   const formattedIndex = String(index).padStart(2, '0')
 
@@ -52,7 +57,7 @@ export function ProjectCard({
           <span className="font-mono text-xs text-text-secondary whitespace-nowrap">
             {displayDate}
           </span>
-          <StatusPill status={status} />
+          <StatusPill status={status} translations={translations} />
         </div>
 
         {/* Hàng 2: Title */}

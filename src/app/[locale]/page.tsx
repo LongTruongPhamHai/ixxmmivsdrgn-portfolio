@@ -51,7 +51,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const t = getDictionary(locale)
 
   return (
-    <div className="space-y-32 relative z-10">
+    <div className="space-y-20 relative z-10">
       {/* Hero / Objective Section */}
       <HeroSection
         objective={objective}
@@ -70,7 +70,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
       {/* Education + Skills Section */}
       <section
         id="education"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-16 scroll-mt-20"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-10 scroll-mt-20"
       >
         <EducationSection educations={educations} translations={t} />
         <SkillsSection
