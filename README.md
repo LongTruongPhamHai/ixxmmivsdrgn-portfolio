@@ -1,76 +1,132 @@
 # 🎖️ Developer Portfolio - Technical Soldier
 
-Một dự án Portfolio cá nhân được thiết kế chuyên biệt theo phong cách **"Technical Soldier"** mạnh mẽ, kỷ luật và đậm chất kỹ thuật. Hệ thống sở hữu kiến trúc hiện đại, tích hợp sẵn Headless CMS để chủ nhân có thể quản lý, số hóa CV và danh mục dự án cá nhân một cách chuyên nghiệp nhất.
+Portfolio cá nhân theo phong cách **Technical Soldier**, xây dựng với Next.js và Payload CMS. Ứng dụng trình bày hồ sơ, kinh nghiệm, kỹ năng và dự án qua giao diện song ngữ Việt/Anh; nội dung được quản lý tập trung trong Payload Admin.
 
----
+## Công nghệ
 
-## 🚀 Công nghệ sử dụng
+- **Frontend:** Next.js 16, App Router, React Server Components, TypeScript
+- **CMS:** Payload CMS 3, tích hợp trực tiếp trong Next.js
+- **Database:** MongoDB thông qua Payload MongoDB adapter
+- **Styling:** Tailwind CSS 4 và CSS Variables
+- **UI:** Tactical UI với theme sáng/tối, Lucide React và responsive layout
+- **Localization:** Tiếng Việt (`/vi`) và Tiếng Anh (`/en`)
+- **Testing:** Vitest cho integration test, Playwright cho end-to-end test
 
-- **Frontend Core:** Next.js 15 (App Router, React Server Components)
-- **Backend / CMS:** Payload CMS 3 (Tích hợp liền mạch vào Next.js)
-- **Styling:** Tailwind CSS v4 (Sử dụng CSS Variables Native)
-- **Database:** MongoDB
-- **Theming:** Hệ thống Theme (Light/Dark mode) tự xây dựng không phụ thuộc thư viện bên ngoài.
-- **Localization (i18n):** Hỗ trợ song ngữ Tiếng Việt & Tiếng Anh.
+## Tính năng
 
----
+- Quản lý hồ sơ cá nhân qua `Profile` global.
+- Quản lý học vấn, kỹ năng, kinh nghiệm, bài viết, media và dự án qua Payload CMS.
+- Dự án hỗ trợ tech stack, ảnh cover và liên kết repository/demo.
+- Kinh nghiệm hỗ trợ danh sách dự án đã tham gia trong từng công ty.
+- Trang public dùng Local API của Payload để lấy dữ liệu theo locale.
+- Root path `/` tự chuyển đến locale mặc định `/vi`.
 
-## ✨ Tính năng nổi bật
+## Yêu cầu
 
-### 1. Cấu trúc Dữ liệu Chuẩn CV Giấy
-Hệ thống Payload CMS được tái cấu trúc để mô phỏng hoàn hảo các thành phần của một bản CV truyền thống:
-- `Profile` (Global): Tóm tắt mục tiêu nghề nghiệp.
-- `Education` (Collection): Quản lý bằng cấp, GPA, chuyên ngành.
-- `Skills` (Collection): Nhóm kỹ năng Chuyên môn, Ngoại ngữ và Khác.
-- `Experience` (Collection): Kinh nghiệm làm việc (hỗ trợ nested array để liệt kê chi tiết từng dự án đã đóng góp trong công ty).
-- `Projects` (Collection): Showcase dự án cá nhân với Tech Stack và Link Demo.
+- Node.js `18.20.2+` hoặc `20.9+`
+- pnpm `9+` (khuyến nghị) hoặc npm
+- MongoDB local hoặc MongoDB Atlas
 
-### 2. Giao diện Tactical UI/UX
-- Lấy cảm hứng từ giao diện HUD, Radar quân sự và Terminal.
-- Typography đặc trưng kết hợp giữa **Inter** (chuẩn mực) và **JetBrains Mono** (mã code).
-- Họa tiết **Digital Camo** bằng Inline SVG động: Tự động đổi tone màu chìm (Blend) một cách mượt mà theo giao diện Sáng/Tối mà không làm giảm độ tương phản của chữ.
+## Cài đặt local
 
-### 3. Đa ngôn ngữ (Bilingual)
-- Routing Frontend linh hoạt nhận diện `/vi/` và `/en/`.
-- CMS cho phép nhập liệu hai bản dịch độc lập (VI/EN) cho cùng một bài viết hoặc kỹ năng.
+### 1. Cài dependencies
 
----
-
-## 🛠️ Hướng dẫn cài đặt & Khởi chạy
-
-### 1. Clone Source Code
 ```bash
 git clone <repo-url>
 cd ixxmmivsdrgn-portfolio
+pnpm install
 ```
 
-### 2. Cài đặt thư viện
-```bash
-npm install
-```
+Có thể thay `pnpm` bằng `npm` trong các lệnh tương ứng nếu cần.
 
-### 3. Cấu hình Biến môi trường
-Tạo file `.env` ở thư mục gốc của dự án và điền các thông số:
+### 2. Cấu hình môi trường
+
+Tạo file `.env` ở thư mục gốc:
+
 ```env
-# Chuỗi kết nối MongoDB (Local hoặc MongoDB Atlas)
-DATABASE_URI=mongodb://127.0.0.1/portfolio-db
+# MongoDB local hoặc MongoDB Atlas
+DATABASE_URL=mongodb://127.0.0.1:27017/portfolio-db
 
-# Secret key cho Payload (chuỗi ngẫu nhiên bất kỳ)
-PAYLOAD_SECRET=your-secret-key
+# Secret ngẫu nhiên dùng để mã hóa session/token của Payload
+PAYLOAD_SECRET=replace-with-a-long-random-secret
 ```
 
-### 4. Khởi chạy Server
-```bash
-npm run dev
-```
-- Truy cập Frontend: `http://localhost:3000` (Hệ thống sẽ tự động chuyển về `/vi`).
-- Truy cập Admin Panel: `http://localhost:3000/admin`.
+Ứng dụng đọc biến `DATABASE_URL`; `DATABASE_URI` không được sử dụng.
 
-### 5. Cập nhật Typescript cho Payload (Nếu cần thiết)
-Mỗi khi bạn tự code thêm hoặc thay đổi Schema trong thư mục `src/collections`, hãy chạy lệnh sau để sinh lại Type Definition:
+### 3. Chạy development server
+
 ```bash
-npm run generate:types
+pnpm dev
+```
+
+- Website: <http://localhost:3000/vi>
+- Payload Admin: <http://localhost:3000/admin>
+
+Ở lần đầu truy cập Admin, tạo tài khoản người dùng quản trị theo form của Payload.
+
+## Chạy bằng Docker Compose
+
+Docker Compose khởi động cả MongoDB và development server:
+
+```bash
+docker compose up
+```
+
+Khi chạy trong Docker, dùng hostname `mongo` trong `.env`:
+
+```env
+DATABASE_URL=mongodb://mongo:27017/portfolio-db
+PAYLOAD_SECRET=replace-with-a-long-random-secret
+```
+
+Dừng và xóa container:
+
+```bash
+docker compose down
+```
+
+Dữ liệu MongoDB được lưu trong Docker volume `data`.
+
+## Các lệnh thường dùng
+
+| Lệnh | Mục đích |
+| --- | --- |
+| `pnpm dev` | Chạy development server |
+| `pnpm devsafe` | Xóa `.next` rồi chạy development server |
+| `pnpm build` | Build production |
+| `pnpm start` | Chạy bản production đã build |
+| `pnpm lint` | Kiểm tra ESLint |
+| `pnpm generate:types` | Sinh lại `src/payload-types.ts` |
+| `pnpm generate:importmap` | Sinh lại Payload import map |
+| `pnpm test:int` | Chạy integration tests bằng Vitest |
+| `pnpm test:e2e` | Chạy end-to-end tests bằng Playwright |
+| `pnpm test` | Chạy toàn bộ test |
+
+Sau khi thay đổi schema trong `src/collections` hoặc `src/globals`, chạy `pnpm generate:types`. Không chỉnh sửa thủ công file `src/payload-types.ts`.
+
+## Cấu trúc chính
+
+```text
+src/
+├── app/(payload)/       # Admin UI và API của Payload
+├── app/[locale]/        # Website public theo locale
+├── collections/         # Schema Projects, Skills, Experience, Posts...
+├── globals/             # Global Profile
+├── components/          # UI theo Atomic Design
+├── i18n/                # Dictionary vi/en
+├── styles/              # CSS variables và theme
+└── payload.config.ts    # Cấu hình Payload CMS
+```
+
+## Kiểm thử
+
+Integration tests cần MongoDB và các biến môi trường trong `.env`. E2E tests sử dụng Playwright theo cấu hình trong `playwright.config.ts`.
+
+```bash
+pnpm test:int
+pnpm test:e2e
 ```
 
 ---
+
 **Designed & Developed with precision.**
