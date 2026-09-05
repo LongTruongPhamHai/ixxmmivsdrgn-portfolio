@@ -33,28 +33,34 @@ export default async function RootLayout(props: {
           <BackgroundPattern />
           <Header locale={locale} />
 
-          <main className="flex-1 max-w-7xl mx-auto px-4 py-8 w-full z-10 relative">
+          <main className="flex-1 max-w-7xl mx-auto px-4 w-full z-10 relative">
             {props.children}
           </main>
 
           <Footer />
-          <ScrollToTopButton />
-          
-          {/* Floating Controls */}
-          <div className="fixed bottom-24 right-8 z-50 w-12 h-12 bg-bg-elevated border border-border-default hover:border-accent-lime transition-all duration-300 flex items-center justify-center group">
-            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-transparent group-hover:border-accent-lime transition-colors" />
-            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-transparent group-hover:border-accent-lime transition-colors" />
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-transparent group-hover:border-accent-lime transition-colors" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-transparent group-hover:border-accent-lime transition-colors" />
-            <LanguageSwitcher currentLocale={locale} />
-          </div>
-          
-          <div className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-bg-elevated border border-border-default hover:border-accent-lime transition-all duration-300 flex items-center justify-center group">
-            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-transparent group-hover:border-accent-lime transition-colors" />
-            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-transparent group-hover:border-accent-lime transition-colors" />
-            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-transparent group-hover:border-accent-lime transition-colors" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-transparent group-hover:border-accent-lime transition-colors" />
-            <ThemeToggle />
+
+          {/* Floating Action Controls Container */}
+          <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 lg:bottom-10 lg:right-10 xl:bottom-12 xl:right-12 z-50 flex flex-col gap-2 sm:gap-3 lg:gap-4 items-center">
+            {/* Nút 1: Scroll To Top (Tự động ẩn/hiện khi scroll) */}
+            <ScrollToTopButton />
+
+            {/* Nút 2: Switcher Ngôn ngữ */}
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-bg-elevated border border-border-default hover:border-accent-lime transition-all duration-300 flex items-center justify-center group relative">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-transparent group-hover:border-accent-lime transition-colors" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-transparent group-hover:border-accent-lime transition-colors" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-transparent group-hover:border-accent-lime transition-colors" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-transparent group-hover:border-accent-lime transition-colors" />
+              <LanguageSwitcher currentLocale={locale} />
+            </div>
+
+            {/* Nút 3: Toggle Dark/Light Theme */}
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-bg-elevated border border-border-default hover:border-accent-lime transition-all duration-300 flex items-center justify-center group relative">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-transparent group-hover:border-accent-lime transition-colors" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-transparent group-hover:border-accent-lime transition-colors" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-transparent group-hover:border-accent-lime transition-colors" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-transparent group-hover:border-accent-lime transition-colors" />
+              <ThemeToggle />
+            </div>
           </div>
         </ThemeProvider>
       </body>
