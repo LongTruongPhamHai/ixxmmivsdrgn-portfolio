@@ -21,6 +21,7 @@ export const Experience: CollectionConfig = {
       label: 'Vị trí công tác',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       type: 'row',
@@ -49,16 +50,19 @@ export const Experience: CollectionConfig = {
           label: 'Tên dự án',
           type: 'text',
           required: true,
+          localized: true,
         },
         {
           name: 'projectRole',
           label: 'Vị trí trong dự án',
           type: 'text',
+          localized: true,
         },
         {
           name: 'description',
           label: 'Mô tả đóng góp',
           type: 'textarea',
+          localized: true,
         },
       ],
     },

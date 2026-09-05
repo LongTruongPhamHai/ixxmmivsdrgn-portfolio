@@ -15,6 +15,7 @@ export const Skills: CollectionConfig = {
       label: 'Tên kỹ năng',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'category',

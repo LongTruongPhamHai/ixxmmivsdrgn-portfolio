@@ -551,6 +551,12 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Profile {
   id: string;
+  avatar?: (string | null) | Media;
+  fullName?: string | null;
+  dateOfBirth?: string | null;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
   objective: string;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -560,6 +566,12 @@ export interface Profile {
  * via the `definition` "profile_select".
  */
 export interface ProfileSelect<T extends boolean = true> {
+  avatar?: T;
+  fullName?: T;
+  dateOfBirth?: T;
+  address?: T;
+  phone?: T;
+  email?: T;
   objective?: T;
   updatedAt?: T;
   createdAt?: T;

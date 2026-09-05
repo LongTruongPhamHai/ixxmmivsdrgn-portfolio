@@ -8,6 +8,11 @@ const config: Config = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      'tablet': '426px',
+      'laptop': '769px',
+      'laptop-lg': '1025px',
+    },
     extend: {
       colors: {
         bg: {

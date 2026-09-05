@@ -19,6 +19,7 @@ export const Projects: CollectionConfig = {
       label: 'Tên dự án',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'slug',
@@ -36,11 +37,13 @@ export const Projects: CollectionConfig = {
       name: 'summary',
       label: 'Mô tả ngắn gọn',
       type: 'textarea',
+      localized: true,
     },
     {
       name: 'content',
       label: 'Mô tả chi tiết',
       type: 'richText',
+      localized: true,
     },
     {
       name: 'techStack',

@@ -15,12 +15,14 @@ export const Education: CollectionConfig = {
       label: 'Trường / Cơ sở đào tạo',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       name: 'major',
       label: 'Chuyên ngành',
       type: 'text',
       required: true,
+      localized: true,
     },
     {
       type: 'row',

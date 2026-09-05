@@ -31,7 +31,7 @@ export function ProjectCard({ title, slug, status, summary, index }: ProjectCard
         {title}
       </h3>
       
-      <p className="text-text-secondary text-sm line-clamp-3">
+      <p className="text-text-secondary text-sm line-clamp-3 text-justify">
         {summary}
       </p>
     </Link>
