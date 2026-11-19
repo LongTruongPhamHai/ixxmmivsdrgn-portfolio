@@ -18,6 +18,14 @@ export const Education: CollectionConfig = {
       localized: true,
     },
     {
+      name: 'schoolUrl',
+      label: 'Website Trường / Cơ sở đào tạo',
+      type: 'text',
+      admin: {
+        description: 'Đường dẫn đến trang chủ của trường (ví dụ: https://tlu.edu.vn)',
+      },
+    },
+    {
       name: 'major',
       label: 'Chuyên ngành',
       type: 'text',
@@ -31,13 +39,13 @@ export const Education: CollectionConfig = {
           name: 'startDate',
           label: 'Ngày bắt đầu',
           type: 'date',
-          admin: { date: { pickerAppearance: 'monthOnly' } }
+          admin: { date: { pickerAppearance: 'monthOnly' } },
         },
         {
           name: 'endDate',
           label: 'Ngày kết thúc',
           type: 'date',
-          admin: { date: { pickerAppearance: 'monthOnly' } }
+          admin: { date: { pickerAppearance: 'monthOnly' } },
         },
       ],
     },
@@ -51,10 +59,10 @@ export const Education: CollectionConfig = {
       label: 'Xếp loại tốt nghiệp',
       type: 'select',
       options: [
-        { label: 'Xuất sắc', value: 'Excellent' },
-        { label: 'Giỏi', value: 'Good' },
-        { label: 'Khá', value: 'Fair' },
-        { label: 'Trung bình', value: 'Average' },
+        { label: 'Xuất sắc (Excellent)', value: 'Excellent' },
+        { label: 'Giỏi (Very good)', value: 'Very good' },
+        { label: 'Khá (Good)', value: 'Good' },
+        { label: 'Trung bình (Average / Ordinary)', value: 'Average' },
       ],
     },
   ],

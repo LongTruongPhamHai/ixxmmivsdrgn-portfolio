@@ -18,7 +18,18 @@ export function ExperienceSection({ experiences, translations: t }: ExperienceSe
               <div className="absolute -left-10 mt-1.5 w-4 h-4 bg-bg-primary border-2 border-accent-amber rounded-full"></div>
               <h3 className="text-xl font-bold text-text-primary">{exp.role}</h3>
               <div className="font-mono text-sm text-text-secondary mt-1 mb-4">
-                <span className="text-accent-lime">{exp.company}</span> •{' '}
+                {exp.url ? (
+                  <a 
+                    href={exp.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-accent-lime hover:text-accent-amber transition-colors underline decoration-dotted"
+                  >
+                    {exp.company}
+                  </a>
+                ) : (
+                  <span className="text-accent-lime">{exp.company}</span>
+                )} •{' '}
                 {exp.startDate ? new Date(exp.startDate).getFullYear() : ''} -{' '}
                 {exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present'}
               </div>
@@ -31,7 +42,18 @@ export function ExperienceSection({ experiences, translations: t }: ExperienceSe
                   {exp.projects.map((proj: any, pIdx: number) => (
                     <div key={pIdx} className="border border-border-default bg-bg-secondary p-4">
                       <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-bold text-text-primary">{proj.projectName}</h4>
+                        {proj.url ? (
+                          <a 
+                            href={proj.url} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="font-bold text-text-primary hover:text-accent-amber transition-colors underline decoration-dotted"
+                          >
+                            {proj.projectName}
+                          </a>
+                        ) : (
+                          <h4 className="font-bold text-text-primary">{proj.projectName}</h4>
+                        )}
                         {/* <div className="font-mono text-xs text-text-secondary">
                           {proj.startDate
                             ? new Date(proj.startDate).toLocaleDateString('en-US', {

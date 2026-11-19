@@ -27,7 +27,19 @@ export function SkillsSection({
               <h4 className="font-mono text-xs text-text-secondary uppercase tracking-widest mb-3">{t.technical}</h4>
               <div className="flex flex-wrap gap-2">
                 {technicalSkills.map((skill: any, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono">{skill.name}</span>
+                  skill.docsUrl ? (
+                    <a 
+                      key={idx} 
+                      href={skill.docsUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono hover:border-accent-amber hover:text-accent-amber transition-colors"
+                    >
+                      {skill.name}
+                    </a>
+                  ) : (
+                    <span key={idx} className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono">{skill.name}</span>
+                  )
                 ))}
               </div>
             </div>
@@ -38,7 +50,19 @@ export function SkillsSection({
               <h4 className="font-mono text-xs text-text-secondary uppercase tracking-widest mb-3 mt-6">{t.language}</h4>
               <div className="flex flex-wrap gap-2">
                 {languageSkills.map((skill: any, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono text-accent-amber">{skill.name}</span>
+                  skill.docsUrl ? (
+                    <a 
+                      key={idx} 
+                      href={skill.docsUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono text-accent-amber hover:border-accent-amber hover:brightness-125 transition-all"
+                    >
+                      {skill.name}
+                    </a>
+                  ) : (
+                    <span key={idx} className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono text-accent-amber">{skill.name}</span>
+                  )
                 ))}
               </div>
             </div>
@@ -49,7 +73,19 @@ export function SkillsSection({
               <h4 className="font-mono text-xs text-text-secondary uppercase tracking-widest mb-3 mt-6">{t.other}</h4>
               <div className="flex flex-wrap gap-2">
                 {otherSkills.map((skill: any, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono">{skill.name}</span>
+                  skill.docsUrl ? (
+                    <a 
+                      key={idx} 
+                      href={skill.docsUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono hover:border-accent-amber hover:text-accent-amber transition-colors"
+                    >
+                      {skill.name}
+                    </a>
+                  ) : (
+                    <span key={idx} className="px-3 py-1 bg-bg-elevated border border-border-default text-sm font-mono">{skill.name}</span>
+                  )
                 ))}
               </div>
             </div>

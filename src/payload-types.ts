@@ -217,11 +217,16 @@ export interface Skill {
   id: string;
   name: string;
   category: 'Technical' | 'Language' | 'Other';
+  subCategory?:
+    ('Programming Language' | 'Framework / Library' | 'Database' | 'Tools & DevOps' | 'Cloud' | 'Other') | null;
+  /**
+   * Đường dẫn đến trang documentation chính thức (ví dụ: https://react.dev)
+   */
+  docsUrl?: string | null;
   /**
    * Tên icon (ví dụ: Code, Database, Globe)
    */
   icon?: string | null;
-  yearsOfUse?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -232,12 +237,14 @@ export interface Skill {
 export interface Experience {
   id: string;
   company: string;
+  url?: string | null;
   role: string;
   startDate?: string | null;
   endDate?: string | null;
   projects?:
     | {
         projectName: string;
+        url?: string | null;
         projectRole?: string | null;
         description?: string | null;
         id?: string | null;
@@ -282,11 +289,15 @@ export interface Post {
 export interface Education {
   id: string;
   school: string;
+  /**
+   * Đường dẫn đến trang chủ của trường (ví dụ: https://tlu.edu.vn)
+   */
+  schoolUrl?: string | null;
   major: string;
   startDate?: string | null;
   endDate?: string | null;
   gpa?: string | null;
-  graduationType?: ('Excellent' | 'Good' | 'Fair' | 'Average') | null;
+  graduationType?: ('Excellent' | 'Very good' | 'Good' | 'Average') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -452,8 +463,9 @@ export interface ProjectsSelect<T extends boolean = true> {
 export interface SkillsSelect<T extends boolean = true> {
   name?: T;
   category?: T;
+  subCategory?: T;
+  docsUrl?: T;
   icon?: T;
-  yearsOfUse?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -463,6 +475,7 @@ export interface SkillsSelect<T extends boolean = true> {
  */
 export interface ExperienceSelect<T extends boolean = true> {
   company?: T;
+  url?: T;
   role?: T;
   startDate?: T;
   endDate?: T;
@@ -470,6 +483,7 @@ export interface ExperienceSelect<T extends boolean = true> {
     | T
     | {
         projectName?: T;
+        url?: T;
         projectRole?: T;
         description?: T;
         id?: T;
@@ -497,6 +511,7 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface EducationSelect<T extends boolean = true> {
   school?: T;
+  schoolUrl?: T;
   major?: T;
   startDate?: T;
   endDate?: T;

@@ -1,3 +1,5 @@
+'use client'
+
 import { ProjectCard } from '@/components/molecules/ProjectCard'
 
 interface ProjectsSectionProps {
@@ -24,6 +26,7 @@ export function ProjectsSection({ projects, translations: t }: ProjectsSectionPr
               summary={project.summary}
               index={idx + 1}
               completionDate={project.completionDate}
+              demoUrl={project.links?.demo}
               translations={t}
             />
           ))}
