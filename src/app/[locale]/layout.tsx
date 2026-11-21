@@ -7,7 +7,9 @@ import { BackgroundPattern } from '@/components/organisms/BackgroundPattern'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
 import { notFound } from 'next/navigation'
-import { isLocale } from '@/i18n/dictionaries'
+import { getDictionary, isLocale } from '@/i18n/dictionaries'
+import { getPlaylists } from '@/lib/music'
+import { MusicPlayer } from '@/components/molecules/MusicPlayer'
 import '@/styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -24,6 +26,9 @@ export default async function RootLayout(props: {
 }) {
   const { locale } = await props.params
   if (!isLocale(locale)) notFound()
+
+  const t = getDictionary(locale)
+  const playlists = await getPlaylists()
 
   return (
     <html
@@ -67,6 +72,23 @@ export default async function RootLayout(props: {
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-transparent group-hover:border-accent-lime transition-colors" />
               <ThemeToggle />
             </div>
+
+            {/* Nút 4: Trình phát nhạc (chỉ hiện khi có file trong public/music) */}
+            {playlists.length > 0 && (
+              <MusicPlayer
+                playlists={playlists}
+                labels={{
+                  menu: t.musicMenu,
+                  play: t.musicPlay,
+                  pause: t.musicPause,
+                  next: t.musicNext,
+                  seek: t.musicSeek,
+                  modes: t.musicModes,
+                  popup: t.musicPopup,
+                  autoplayHint: t.musicHint,
+                }}
+              />
+            )}
           </div>
         </ThemeProvider>
       </body>
