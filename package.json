@@ -18,7 +18,10 @@
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run --config ./vitest.config.mts",
     "db:export": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/migrate-mongo-to-supabase.ts export",
     "db:import": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/migrate-mongo-to-supabase.ts import",
-    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate"
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "music": "node scripts/generate-music-manifest.mjs",
+    "predev": "node scripts/generate-music-manifest.mjs",
+    "prebuild": "node scripts/generate-music-manifest.mjs"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "3.88.0",
