@@ -9,7 +9,7 @@ type Dict = ReturnType<typeof getDictionary>
 export const getPages = (locale: string, t: Dict) => [
   { href: `/${locale}`, label: t.pageHome, ready: true },
   { href: `/${locale}/projects`, label: t.pageProjects, ready: false },
-  { href: `/${locale}/blog`, label: t.pageBlog, ready: false },
+  { href: `/${locale}/blog`, label: t.pageBlog, ready: true },
   { href: `/${locale}/cv`, label: t.pageCv, ready: false },
 ]
 
