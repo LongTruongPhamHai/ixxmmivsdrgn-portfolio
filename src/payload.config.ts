@@ -13,6 +13,8 @@ import { Projects } from './collections/Projects'
 import { Skills } from './collections/Skills'
 import { Experience } from './collections/Experience'
 import { Posts } from './collections/Posts'
+import { Categories } from './collections/Categories'
+import { Tags } from './collections/Tags'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { migrations } from './migrations'
@@ -33,6 +35,8 @@ const db = databaseUrl.startsWith('mongodb')
         // and release idle connections quickly.
         max: process.env.VERCEL ? 1 : 3,
         idleTimeoutMillis: 10_000,
+        // fail with a clear error instead of hanging forever when the pooler is full
+        connectionTimeoutMillis: 15_000,
         // Supabase requires SSL; disable for local Postgres with DATABASE_SSL=false
         ssl: process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false },
       },
@@ -71,7 +75,7 @@ export default buildConfig({
     },
   },
   globals: [Profile],
-  collections: [Users, Media, Projects, Skills, Experience, Posts, Education],
+  collections: [Users, Media, Projects, Skills, Experience, Education, Posts, Categories, Tags],
   localization: {
     locales: ['vi', 'en'],
     defaultLocale: 'vi',

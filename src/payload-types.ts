@@ -72,8 +72,10 @@ export interface Config {
     projects: Project;
     skills: Skill;
     experience: Experience;
-    posts: Post;
     education: Education;
+    posts: Post;
+    categories: Category;
+    tags: Tag;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -86,8 +88,10 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     skills: SkillsSelect<false> | SkillsSelect<true>;
     experience: ExperienceSelect<false> | ExperienceSelect<true>;
-    posts: PostsSelect<false> | PostsSelect<true>;
     education: EducationSelect<false> | EducationSelect<true>;
+    posts: PostsSelect<false> | PostsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -255,35 +259,6 @@ export interface Experience {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  slug: string;
-  excerpt?: string | null;
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  publishedAt?: string | null;
-  readingTime?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "education".
  */
 export interface Education {
@@ -298,6 +273,98 @@ export interface Education {
   endDate?: string | null;
   gpa?: string | null;
   graduationType?: ('Excellent' | 'Very good' | 'Good' | 'Average') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  /**
+   * Có thể để trống với câu ngắn (ca dao, châm ngôn): sẽ lấy dòng đầu của nội dung.
+   */
+  title?: string | null;
+  /**
+   * Thơ: mỗi khổ là một đoạn, xuống dòng trong khổ bằng Shift + Enter.
+   */
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Hiện trên thẻ bài ở trang danh sách (dành cho bài viết dài).
+   */
+  excerpt?: string | null;
+  /**
+   * Ví dụ: Hồ Xuân Hương, Ca dao, Khuyết danh…
+   */
+  author?: string | null;
+  /**
+   * Gom các bài cùng chuỗi, ví dụ: Học Git
+   */
+  series?: string | null;
+  /**
+   * Tuỳ chọn – hữu ích cho ca dao, tục ngữ.
+   */
+  meaning?: string | null;
+  coverImage?: (number | null) | Media;
+  category: number | Category;
+  tags?: (number | Tag)[] | null;
+  /**
+   * Để trống để tự tạo từ tiêu đề / tên.
+   */
+  slug?: string | null;
+  publishedAt?: string | null;
+  featured?: boolean | null;
+  readingTime?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  name: string;
+  /**
+   * Quyết định cách các bài trong chuyên mục này được trình bày.
+   */
+  displayType: 'article' | 'verse' | 'quote';
+  color?: ('amber' | 'lime' | 'neutral' | 'danger') | null;
+  description?: string | null;
+  /**
+   * Để trống để tự tạo từ tiêu đề / tên.
+   */
+  slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  name: string;
+  /**
+   * Để trống để tự tạo từ tiêu đề / tên.
+   */
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -346,12 +413,20 @@ export interface PayloadLockedDocument {
         value: number | Experience;
       } | null)
     | ({
+        relationTo: 'education';
+        value: number | Education;
+      } | null)
+    | ({
         relationTo: 'posts';
         value: number | Post;
       } | null)
     | ({
-        relationTo: 'education';
-        value: number | Education;
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -493,20 +568,6 @@ export interface ExperienceSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  content?: T;
-  publishedAt?: T;
-  readingTime?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "education_select".
  */
 export interface EducationSelect<T extends boolean = true> {
@@ -517,6 +578,51 @@ export interface EducationSelect<T extends boolean = true> {
   endDate?: T;
   gpa?: T;
   graduationType?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  excerpt?: T;
+  author?: T;
+  series?: T;
+  meaning?: T;
+  coverImage?: T;
+  category?: T;
+  tags?: T;
+  slug?: T;
+  publishedAt?: T;
+  featured?: T;
+  readingTime?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  displayType?: T;
+  color?: T;
+  description?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
