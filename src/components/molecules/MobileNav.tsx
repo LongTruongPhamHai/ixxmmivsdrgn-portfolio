@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect } from 'react'
+import Link from 'next/link'
 import { getDictionary } from '@/i18n/dictionaries'
+import { getPages } from '@/components/navigation/navigation'
 
 interface MobileNavProps {
   locale: string
@@ -24,12 +26,6 @@ export function MobileNav({ locale, isOpen, onClose }: MobileNavProps) {
     }
   }, [isOpen])
 
-  const handleScrollTo = (id: string) => {
-    onClose()
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-    }, 300)
-  }
 
   return (
     <>
@@ -50,56 +46,27 @@ export function MobileNav({ locale, isOpen, onClose }: MobileNavProps) {
         }`}
       >
         <nav className="flex flex-col font-mono text-sm">
-          <a
-            href="#about"
-            onClick={(e) => {
-              e.preventDefault()
-              handleScrollTo('about')
-            }}
-            className="px-4 py-4 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors border-b border-border-default cursor-pointer"
-          >
-            {t.navAbout}
-          </a>
-          <a
-            href="#experience"
-            onClick={(e) => {
-              e.preventDefault()
-              handleScrollTo('experience')
-            }}
-            className="px-4 py-4 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors border-b border-border-default cursor-pointer"
-          >
-            {t.navExperience}
-          </a>
-          <a
-            href="#projects"
-            onClick={(e) => {
-              e.preventDefault()
-              handleScrollTo('projects')
-            }}
-            className="px-4 py-4 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors border-b border-border-default cursor-pointer"
-          >
-            {t.navProjects}
-          </a>
-          <a
-            href="#education"
-            onClick={(e) => {
-              e.preventDefault()
-              handleScrollTo('education')
-            }}
-            className="px-4 py-4 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors border-b border-border-default cursor-pointer"
-          >
-            {t.navEducation}
-          </a>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault()
-              handleScrollTo('contact')
-            }}
-            className="px-4 py-4 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors cursor-pointer"
-          >
-            {t.navContact}
-          </a>
+          {getPages(locale, t).map(({ href, label, ready }) =>
+            ready ? (
+              <Link
+                key={href}
+                href={href}
+                onClick={onClose}
+                className="px-4 py-4 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors border-b border-border-default last:border-b-0"
+              >
+                {label}
+              </Link>
+            ) : (
+              <span
+                key={href}
+                aria-disabled="true"
+                className="px-4 py-4 text-text-secondary/40 border-b border-border-default last:border-b-0 flex items-center justify-between"
+              >
+                {label}
+                <span className="text-[10px] border border-border-default px-1 uppercase">{t.comingSoon}</span>
+              </span>
+            ),
+          )}
         </nav>
       </div>
     </>

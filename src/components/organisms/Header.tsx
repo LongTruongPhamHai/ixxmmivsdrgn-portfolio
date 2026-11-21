@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { NavLinks } from '@/components/molecules/NavLinks'
 import { MobileNav } from '@/components/molecules/MobileNav'
+import { SectionStrip } from '@/components/navigation/SectionNav'
 
 interface HeaderProps {
   locale: string
@@ -70,6 +71,9 @@ export function Header({ locale }: HeaderProps) {
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
       />
+
+      {/* Home page table of contents (only on the home page) */}
+      <SectionStrip locale={locale} />
 
       {/* Scanline Divider */}
       <div className="h-0.5 bg-gradient-to-r from-transparent via-accent-lime/20 to-transparent w-full"></div>
