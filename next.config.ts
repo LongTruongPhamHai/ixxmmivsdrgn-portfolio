@@ -7,7 +7,9 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
+  // Standalone output is for the Docker image only; Vercel packages the app itself
+  // (standalone breaks the Vercel build: missing next-server.js.nft.json)
+  output: process.env.VERCEL ? undefined : 'standalone',
   images: {
     localPatterns: [
       {
