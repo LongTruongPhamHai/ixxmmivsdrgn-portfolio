@@ -28,6 +28,11 @@ const db = databaseUrl.startsWith('mongodb')
   : postgresAdapter({
       pool: {
         connectionString: databaseUrl,
+        // Supabase's session pooler allows only 15 clients in total (free plan). Every serverless
+        // instance (Vercel) and every dev hot-reload opens its own pool, so keep each pool tiny
+        // and release idle connections quickly.
+        max: process.env.VERCEL ? 1 : 3,
+        idleTimeoutMillis: 10_000,
         // Supabase requires SSL; disable for local Postgres with DATABASE_SSL=false
         ssl: process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false },
       },
