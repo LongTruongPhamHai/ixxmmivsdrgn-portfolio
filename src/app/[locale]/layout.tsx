@@ -1,11 +1,13 @@
 import { Inter, JetBrains_Mono } from 'next/font/google'
-import { ThemeProvider } from '@/components/providers/ThemeProvider'
+import { ThemeProvider, themeInitScript } from '@/components/providers/ThemeProvider'
 import { ScrollToTopButton } from '@/components/atoms/ScrollToTopButton'
 import { LanguageSwitcher } from '@/components/molecules/LanguageSwitcher'
 import { ThemeToggle } from '@/components/molecules/ThemeToggle'
 import { BackgroundPattern } from '@/components/organisms/BackgroundPattern'
 import { Header } from '@/components/organisms/Header'
 import { Footer } from '@/components/organisms/Footer'
+import { notFound } from 'next/navigation'
+import { isLocale } from '@/i18n/dictionaries'
 import '@/styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -20,16 +22,20 @@ export default async function RootLayout(props: {
   children: React.ReactNode
   params: Promise<{ locale: string }>
 }) {
-  const params = await props.params
-  const { locale } = params
+  const { locale } = await props.params
+  if (!isLocale(locale)) notFound()
+
   return (
     <html
       lang={locale}
       className={`${inter.variable} ${jetbrainsMono.variable} scroll-smooth`}
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="bg-bg-primary text-text-primary antialiased min-h-screen flex flex-col relative">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+        <ThemeProvider defaultTheme="dark">
           <BackgroundPattern />
           <Header locale={locale} />
 

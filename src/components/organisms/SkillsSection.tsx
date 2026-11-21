@@ -92,7 +92,7 @@ export function SkillsSection({
           )}
         </div>
       ) : (
-        <div className="font-mono text-text-secondary">NONE</div>
+        <div className="font-mono text-text-secondary">{t.none}</div>
       )}
     </div>
   )

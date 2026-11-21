@@ -1,3 +1,5 @@
+import { formatYear } from '@/lib/date'
+
 interface ExperienceSectionProps {
   experiences: any[]
   translations: any
@@ -30,8 +32,7 @@ export function ExperienceSection({ experiences, translations: t }: ExperienceSe
                 ) : (
                   <span className="text-accent-lime">{exp.company}</span>
                 )} •{' '}
-                {exp.startDate ? new Date(exp.startDate).getFullYear() : ''} -{' '}
-                {exp.endDate ? new Date(exp.endDate).getFullYear() : 'Present'}
+                {formatYear(exp.startDate)} - {exp.endDate ? formatYear(exp.endDate) : t.present}
               </div>
 
               {exp.projects && exp.projects.length > 0 && (
@@ -93,7 +94,7 @@ export function ExperienceSection({ experiences, translations: t }: ExperienceSe
           ))}
         </div>
       ) : (
-        <div className="font-mono text-text-secondary">NONE</div>
+        <div className="font-mono text-text-secondary">{t.none}</div>
       )}
     </section>
   )

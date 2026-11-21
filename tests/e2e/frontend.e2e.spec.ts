@@ -1,20 +1,27 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test.describe('Frontend', () => {
-  let page: Page
-
-  test.beforeAll(async ({ browser }, testInfo) => {
-    const context = await browser.newContext()
-    page = await context.newPage()
+  test('redirects / to the default locale', async ({ page }) => {
+    await page.goto('http://localhost:3000')
+    await expect(page).toHaveURL(/\/vi$/)
   })
 
-  test('can go on homepage', async ({ page }) => {
-    await page.goto('http://localhost:3000')
+  test('renders the homepage sections', async ({ page }) => {
+    await page.goto('http://localhost:3000/vi')
+    await expect(page.locator('h1').first()).toContainText('IXXMMIVSDRGN')
+    for (const id of ['about', 'experience', 'projects', 'education', 'contact']) {
+      await expect(page.locator(`#${id}`)).toBeAttached()
+    }
+  })
 
-    await expect(page).toHaveTitle(/Payload Blank Template/)
+  test('switches language', async ({ page }) => {
+    await page.goto('http://localhost:3000/vi')
+    await page.getByRole('button', { name: 'Toggle Language' }).click()
+    await expect(page).toHaveURL(/\/en$/)
+  })
 
-    const heading = page.locator('h1').first()
-
-    await expect(heading).toHaveText('Welcome to your new project.')
+  test('returns 404 for an unknown locale', async ({ page }) => {
+    const res = await page.goto('http://localhost:3000/xx')
+    expect(res?.status()).toBe(404)
   })
 })

@@ -1,3 +1,5 @@
+import { formatYear } from '@/lib/date'
+
 interface EducationSectionProps {
   educations: any[]
   translations: any
@@ -29,14 +31,14 @@ export function EducationSection({ educations, translations: t }: EducationSecti
               )}
               <div className="font-mono text-sm text-accent-lime mb-3">{edu.major}</div>
               <div className="flex justify-between items-center text-sm text-text-secondary font-mono">
-                <span>{edu.startDate ? new Date(edu.startDate).getFullYear() : ''} - {edu.endDate ? new Date(edu.endDate).getFullYear() : ''}</span>
-                <span>GPA: {edu.gpa} {edu.graduationType ? `(${t.graduation[edu.graduationType as string] || edu.graduationType})` : ''}</span>
+                <span>{formatYear(edu.startDate)} - {edu.endDate ? formatYear(edu.endDate) : t.present}</span>
+                {edu.gpa && <span>GPA: {edu.gpa} {edu.graduationType ? `(${t.graduation[edu.graduationType as string] || edu.graduationType})` : ''}</span>}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="font-mono text-text-secondary">NONE</div>
+        <div className="font-mono text-text-secondary">{t.none}</div>
       )}
     </div>
   )

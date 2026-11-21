@@ -24,6 +24,9 @@ export const dictionaries = {
       ARCHIVED: 'Archived',
     },
     viewDemo: 'View Demo',
+    viewSource: 'View Source',
+    present: 'Present',
+    none: 'Nothing here yet.',
     ctaTitle: 'Ready to collaborate?',
     ctaDesc: 'I am always open to new career opportunities and freelance projects.',
     fullName: 'Full Name',
@@ -63,6 +66,9 @@ export const dictionaries = {
       ARCHIVED: 'Đã lưu trữ',
     },
     viewDemo: 'Xem Demo',
+    viewSource: 'Xem mã nguồn',
+    present: 'Hiện tại',
+    none: 'Chưa có nội dung.',
     ctaTitle: 'Sẵn sàng hợp tác?',
     ctaDesc: 'Mình luôn cởi mở với các cơ hội nghề nghiệp và dự án freelance mới.',
     fullName: 'Họ và tên',
@@ -78,6 +84,10 @@ export const dictionaries = {
     } as Record<string, string>,
   },
 }
+
+export const locales = ['vi', 'en'] as const
+export type Locale = (typeof locales)[number]
+export const isLocale = (value: string): value is Locale => (locales as readonly string[]).includes(value)
 
 export const getDictionary = (locale: string) => {
   return dictionaries[locale as keyof typeof dictionaries] || dictionaries.vi
