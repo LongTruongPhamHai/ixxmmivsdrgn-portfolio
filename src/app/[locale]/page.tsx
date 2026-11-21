@@ -31,6 +31,10 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   const address = profile.address || null
   const phone = profile.phone || null
   const email = profile.email || null
+  const avatar =
+    profile.avatar && typeof profile.avatar === 'object' && profile.avatar.url
+      ? { url: profile.avatar.url, alt: profile.avatar.alt || fullName || '' }
+      : null
   const educations = educationRes.docs
   const skills = skillsRes.docs
   const technicalSkills = skills.filter((s) => s.category === 'Technical')
@@ -47,6 +51,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
       <HeroSection
         objective={objective}
         fullName={fullName}
+        avatar={avatar}
         dateOfBirth={dateOfBirth}
         address={address}
         translations={t}

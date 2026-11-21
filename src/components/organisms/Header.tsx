@@ -30,20 +30,20 @@ export function Header({ locale }: HeaderProps) {
   return (
     <header className="border-b border-border-default sticky top-0 bg-bg-primary/90 backdrop-blur-md z-50 transition-all duration-300 relative">
       <div
-        className={`max-w-7xl mx-auto px-4 flex items-center justify-between transition-all duration-300 flex-row md:flex-col lg:flex-row md:justify-center lg:justify-between gap-0 md:gap-3 lg:gap-0 ${
-          isScrolled ? 'h-16 md:py-3 lg:h-16 lg:py-0' : 'h-24 md:py-6 lg:h-24 lg:py-0'
+        className={`max-w-7xl mx-auto px-4 flex flex-row items-center justify-between gap-4 transition-all duration-300 ${
+          isScrolled ? 'h-16' : 'h-20 sm:h-24'
         }`}
       >
         {/* Title */}
         <Link
           href={`/${locale}`}
-          className="font-mono font-bold tracking-widest text-accent-amber hover:text-accent-lime transition-colors text-xl md:text-2xl"
+          className="font-mono font-bold whitespace-nowrap tracking-wider sm:tracking-widest text-accent-amber hover:text-accent-lime transition-colors text-[15px] min-[360px]:text-base sm:text-lg md:text-xl lg:text-2xl"
         >
           IXXMMIVSDRGN PORTFOLIO
         </Link>
 
         {/* Tablet + Desktop Nav (>= 640px / sm) */}
-        <nav className="hidden sm:flex flex-wrap justify-center gap-4 lg:gap-6 font-mono text-sm items-center">
+        <nav className="hidden sm:flex flex-nowrap justify-end gap-3 md:gap-5 lg:gap-6 font-mono text-sm items-center">
           <NavLinks />
         </nav>
 

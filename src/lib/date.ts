@@ -26,9 +26,15 @@ export function formatMonthYear(value: string | null | undefined, locale: string
     : ''
 }
 
+/** dd/mm/yyyy in both languages (en-GB, not en-US which would give mm/dd/yyyy) */
 export function formatFullDate(value: string | null | undefined, locale: string): string {
   const date = toDate(value)
   return date
-    ? new Intl.DateTimeFormat(locale === 'vi' ? 'vi-VN' : 'en-US', { timeZone: TIME_ZONE }).format(date)
+    ? new Intl.DateTimeFormat(locale === 'vi' ? 'vi-VN' : 'en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        timeZone: TIME_ZONE,
+      }).format(date)
     : ''
 }
