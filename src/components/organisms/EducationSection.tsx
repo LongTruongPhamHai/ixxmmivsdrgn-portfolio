@@ -1,3 +1,5 @@
+import { formatYear } from '@/lib/date'
+
 interface EducationSectionProps {
   educations: any[]
   translations: any
@@ -15,17 +17,28 @@ export function EducationSection({ educations, translations: t }: EducationSecti
         <div className="space-y-6">
           {educations.map((edu: any, idx) => (
             <div key={idx} className="bg-bg-secondary border border-border-default p-6">
-              <h3 className="text-lg font-bold text-text-primary mb-1">{edu.school}</h3>
+              {edu.schoolUrl ? (
+                <a 
+                  href={edu.schoolUrl} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-lg font-bold text-text-primary mb-1 hover:text-accent-amber transition-colors underline decoration-dotted inline-block"
+                >
+                  {edu.school}
+                </a>
+              ) : (
+                <h3 className="text-lg font-bold text-text-primary mb-1">{edu.school}</h3>
+              )}
               <div className="font-mono text-sm text-accent-lime mb-3">{edu.major}</div>
               <div className="flex justify-between items-center text-sm text-text-secondary font-mono">
-                <span>{edu.startDate ? new Date(edu.startDate).getFullYear() : ''} - {edu.endDate ? new Date(edu.endDate).getFullYear() : ''}</span>
-                <span>GPA: {edu.gpa} {edu.graduationType ? `(${t.graduation[edu.graduationType as string] || edu.graduationType})` : ''}</span>
+                <span>{formatYear(edu.startDate)} - {edu.endDate ? formatYear(edu.endDate) : t.present}</span>
+                {edu.gpa && <span>GPA: {edu.gpa} {edu.graduationType ? `(${t.graduation[edu.graduationType as string] || edu.graduationType})` : ''}</span>}
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="font-mono text-text-secondary">NONE</div>
+        <div className="font-mono text-text-secondary">{t.none}</div>
       )}
     </div>
   )

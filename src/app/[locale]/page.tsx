@@ -4,39 +4,30 @@ import { ProjectsSection } from '@/components/organisms/ProjectsSection'
 import { EducationSection } from '@/components/organisms/EducationSection'
 import { SkillsSection } from '@/components/organisms/SkillsSection'
 import { ContactSection } from '@/components/organisms/ContactSection'
+import { notFound } from 'next/navigation'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
-import { getDictionary } from '@/i18n/dictionaries'
+import { getDictionary, isLocale } from '@/i18n/dictionaries'
+import { formatFullDate } from '@/lib/date'
 
 export default async function HomePage(props: { params: Promise<{ locale: string }> }) {
-  const params = await props.params
-  const { locale } = params
+  const { locale } = await props.params
+  if (!isLocale(locale)) notFound()
+
   const payload = await getPayload({ config: configPromise })
 
-  // Fetch real data from PayloadCMS with locale
-  const profile = await payload.findGlobal({ slug: 'profile', locale: locale as any })
-  const educationRes = await payload.find({
-    collection: 'education',
-    sort: '-endDate',
-    locale: locale as any,
-  })
-  const skillsRes = await payload.find({ collection: 'skills', locale: locale as any })
-  const experienceRes = await payload.find({
-    collection: 'experience',
-    sort: '-startDate',
-    locale: locale as any,
-  })
-  const projectsRes = await payload.find({
-    collection: 'projects',
-    sort: '-completionDate',
-    locale: locale as any,
-  })
+  // Fetch everything in parallel; pagination: false so nothing is cut off at the default limit of 10
+  const [profile, educationRes, skillsRes, experienceRes, projectsRes] = await Promise.all([
+    payload.findGlobal({ slug: 'profile', locale }),
+    payload.find({ collection: 'education', sort: '-endDate', locale, pagination: false }),
+    payload.find({ collection: 'skills', locale, pagination: false }),
+    payload.find({ collection: 'experience', sort: '-startDate', locale, pagination: false }),
+    payload.find({ collection: 'projects', sort: '-completionDate', locale, pagination: false }),
+  ])
 
-  const objective = profile.objective || 'NONE'
+  const objective = profile.objective || ''
   const fullName = profile.fullName || null
-  const dateOfBirth = profile.dateOfBirth
-    ? new Date(profile.dateOfBirth).toLocaleDateString(locale === 'vi' ? 'vi-VN' : 'en-US')
-    : null
+  const dateOfBirth = formatFullDate(profile.dateOfBirth, locale) || null
   const address = profile.address || null
   const phone = profile.phone || null
   const email = profile.email || null
@@ -65,7 +56,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
       <ExperienceSection experiences={experiences} translations={t} />
 
       {/* Projects Section */}
-      <ProjectsSection projects={personalProjects} translations={t} />
+      <ProjectsSection projects={personalProjects} locale={locale} translations={t} />
 
       {/* Education + Skills Section */}
       <section

@@ -2,7 +2,28 @@
 
 import * as React from 'react'
 
-type Theme = 'dark' | 'light' | 'system'
+type Theme = 'dark' | 'light'
+
+const STORAGE_KEY = 'theme'
+const listeners = new Set<() => void>()
+
+const readTheme = (fallback: Theme): Theme => {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    return saved === 'light' || saved === 'dark' ? saved : fallback
+  } catch {
+    return fallback
+  }
+}
+
+const applyTheme = (theme: Theme) => {
+  document.documentElement.classList.toggle('dark', theme === 'dark')
+}
+
+/**
+ * Runs before first paint (see layout) so a saved light theme doesn't flash dark.
+ */
+export const themeInitScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}');document.documentElement.classList.toggle('dark',t!=='light')}catch(e){document.documentElement.classList.add('dark')}})()`
 
 type ThemeContextType = {
   theme: Theme
@@ -20,40 +41,39 @@ export function ThemeProvider({
 }: {
   children: React.ReactNode
   defaultTheme?: Theme
-  attribute?: string
-  enableSystem?: boolean
 }) {
-  const [theme, setThemeState] = React.useState<Theme>(defaultTheme)
-
-  React.useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as Theme
-    if (savedTheme) {
-      setThemeState(savedTheme)
-      if (savedTheme === 'light') {
-        document.documentElement.classList.remove('dark')
-      } else {
-        document.documentElement.classList.add('dark')
-      }
-    } else {
-      document.documentElement.classList.add('dark') // Default
-    }
+  const subscribe = React.useCallback((cb: () => void) => {
+    listeners.add(cb)
+    return () => listeners.delete(cb)
   }, [])
 
-  const setTheme = (newTheme: Theme) => {
-    setThemeState(newTheme)
-    localStorage.setItem('theme', newTheme)
-    if (newTheme === 'light') {
-      document.documentElement.classList.remove('dark')
-    } else {
-      document.documentElement.classList.add('dark')
-    }
-  }
-
-  return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
+  const theme = React.useSyncExternalStore(
+    subscribe,
+    () => readTheme(defaultTheme),
+    () => defaultTheme,
   )
+
+  const setTheme = React.useCallback((next: Theme) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, next)
+    } catch {
+      // storage unavailable (private mode) – still switch for this page view
+    }
+    applyTheme(next)
+    listeners.forEach((cb) => cb())
+  }, [])
+
+  const value = React.useMemo(() => ({ theme, setTheme }), [theme, setTheme])
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }
 
 export const useTheme = () => React.useContext(ThemeContext)
+
+/** true only after hydration on the client */
+export const useMounted = () =>
+  React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  )

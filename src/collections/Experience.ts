@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import { CollectionConfig } from 'payload'
 
 export const Experience: CollectionConfig = {
   slug: 'experience',
@@ -17,6 +17,11 @@ export const Experience: CollectionConfig = {
       required: true,
     },
     {
+      name: 'url',
+      label: 'Website Công Ty',
+      type: 'text',
+    },
+    {
       name: 'role',
       label: 'Vị trí công tác',
       type: 'text',
@@ -30,13 +35,13 @@ export const Experience: CollectionConfig = {
           name: 'startDate',
           label: 'Ngày bắt đầu',
           type: 'date',
-          admin: { date: { pickerAppearance: 'monthOnly' } }
+          admin: { date: { pickerAppearance: 'monthOnly' } },
         },
         {
           name: 'endDate',
           label: 'Ngày kết thúc (Để trống nếu đang làm)',
           type: 'date',
-          admin: { date: { pickerAppearance: 'monthOnly' } }
+          admin: { date: { pickerAppearance: 'monthOnly' } },
         },
       ],
     },
@@ -51,6 +56,11 @@ export const Experience: CollectionConfig = {
           type: 'text',
           required: true,
           localized: true,
+        },
+        {
+          name: 'url',
+          label: 'Đường dẫn dự án (URL)',
+          type: 'text',
         },
         {
           name: 'projectRole',
