@@ -130,3 +130,24 @@ pnpm test:e2e
 ---
 
 **Designed & Developed with precision.**
+
+## Database: Supabase (Postgres)
+
+The adapter is picked from `DATABASE_URL`: `postgresql://…` → Postgres, `mongodb://…` → MongoDB.
+
+1. Create a project on [supabase.com](https://supabase.com) → **Connect** → copy the **Session pooler** string (port 5432) into `DATABASE_URL` in `.env`.
+2. Start the app (`npm run dev` or `docker compose up -d --build`). Tables are created by the migrations in `src/migrations` (run `npm run migrate`; production also runs them on startup).
+3. Optional – Supabase Storage for uploads: create a public bucket, generate S3 access keys (Storage → Settings), fill the `S3_*` variables. Leave `S3_BUCKET` empty to keep files in `public/media`.
+
+### Moving existing data from MongoDB
+
+```bash
+# .env: MONGO_URL=<old mongodb url>, MEDIA_SOURCE_URL=http://localhost:3000 if images aren't in public/media
+npm run db:export   # reads Mongo → scripts/.mongo-export/data.json
+# .env: DATABASE_URL=<supabase url>
+npm run db:import   # writes into Supabase
+```
+
+Users are not migrated — create a new admin at `/admin`.
+
+After changing collections while on Postgres: `npm run payload migrate:create` then `npm run migrate` (schema push is disabled).

@@ -8,16 +8,13 @@ services:
     restart: unless-stopped
     ports:
       - '3000:3000'
+    # DATABASE_URL is read from .env (MongoDB Atlas).
+    # To use the local mongo service instead, set
+    # DATABASE_URL=mongodb://mongo:27017/ixxmmivsdrgn-portfolio and run with --profile local-db
     env_file:
       - .env
-    environment:
-      # Point to the mongo service inside the compose network
-      DATABASE_URL: mongodb://mongo:27017/ixxmmivsdrgn-portfolio
     volumes:
       - media:/app/public/media
-    depends_on:
-      mongo:
-        condition: service_healthy
 
   # Development with hot reload: docker compose --profile dev up dev mongo
   dev:
@@ -30,17 +27,15 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: mongodb://mongo:27017/ixxmmivsdrgn-portfolio
       WATCHPACK_POLLING: 'true'
     volumes:
       - .:/app
       - dev_node_modules:/app/node_modules
       - dev_next:/app/.next
-    depends_on:
-      mongo:
-        condition: service_healthy
 
+  # Optional local MongoDB: docker compose --profile local-db up -d
   mongo:
+    profiles: ['local-db']
     image: mongo:7
     restart: unless-stopped
     ports:

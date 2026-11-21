@@ -94,7 +94,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('vi' | 'en') | ('vi' | 'en')[];
   globals: {
@@ -136,7 +136,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -161,7 +161,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -180,7 +180,7 @@ export interface Media {
  * via the `definition` "projects".
  */
 export interface Project {
-  id: string;
+  id: number;
   title: string;
   slug: string;
   completionDate?: string | null;
@@ -200,8 +200,8 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
-  techStack?: (string | Skill)[] | null;
-  coverImage?: (string | null) | Media;
+  techStack?: (number | Skill)[] | null;
+  coverImage?: (number | null) | Media;
   links?: {
     repo?: string | null;
     demo?: string | null;
@@ -214,7 +214,7 @@ export interface Project {
  * via the `definition` "skills".
  */
 export interface Skill {
-  id: string;
+  id: number;
   name: string;
   category: 'Technical' | 'Language' | 'Other';
   subCategory?:
@@ -235,7 +235,7 @@ export interface Skill {
  * via the `definition` "experience".
  */
 export interface Experience {
-  id: string;
+  id: number;
   company: string;
   url?: string | null;
   role: string;
@@ -258,7 +258,7 @@ export interface Experience {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: string;
+  id: number;
   title: string;
   slug: string;
   excerpt?: string | null;
@@ -287,7 +287,7 @@ export interface Post {
  * via the `definition` "education".
  */
 export interface Education {
-  id: string;
+  id: number;
   school: string;
   /**
    * Đường dẫn đến trang chủ của trường (ví dụ: https://tlu.edu.vn)
@@ -306,7 +306,7 @@ export interface Education {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -323,40 +323,40 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'projects';
-        value: string | Project;
+        value: number | Project;
       } | null)
     | ({
         relationTo: 'skills';
-        value: string | Skill;
+        value: number | Skill;
       } | null)
     | ({
         relationTo: 'experience';
-        value: string | Experience;
+        value: number | Experience;
       } | null)
     | ({
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       } | null)
     | ({
         relationTo: 'education';
-        value: string | Education;
+        value: number | Education;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -366,10 +366,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -389,7 +389,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -565,8 +565,8 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "profile".
  */
 export interface Profile {
-  id: string;
-  avatar?: (string | null) | Media;
+  id: number;
+  avatar?: (number | null) | Media;
   fullName?: string | null;
   dateOfBirth?: string | null;
   address?: string | null;
