@@ -4,11 +4,14 @@ import { slugField } from '../fields/slug'
 /** Tag = the *topic* of a post (gia đình, động lực, lập trình...). A post can have many. */
 export const Tags: CollectionConfig = {
   slug: 'tags',
-  labels: { singular: 'Thẻ', plural: 'Thẻ' },
+  labels: {
+    singular: { vi: 'Thẻ', en: 'Tag' },
+    plural: { vi: 'Thẻ', en: 'Tags' },
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'slug'],
-    group: 'Blog',
+    group: { vi: 'Blog', en: 'Blog' },
   },
   access: {
     read: () => true,
@@ -16,7 +19,7 @@ export const Tags: CollectionConfig = {
   fields: [
     {
       name: 'name',
-      label: 'Tên thẻ',
+      label: { vi: 'Tên thẻ', en: 'Tag name' },
       type: 'text',
       required: true,
     },

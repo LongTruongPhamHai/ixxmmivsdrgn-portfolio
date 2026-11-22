@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 export const Education: CollectionConfig = {
   slug: 'education',
+  labels: {
+    singular: { vi: 'Học vấn', en: 'Education' },
+    plural: { vi: 'Học vấn', en: 'Education' },
+  },
   admin: {
     useAsTitle: 'school',
     defaultColumns: ['school', 'major', 'startDate', 'endDate'],
@@ -12,22 +16,25 @@ export const Education: CollectionConfig = {
   fields: [
     {
       name: 'school',
-      label: 'Trường / Cơ sở đào tạo',
+      label: { vi: 'Trường / Cơ sở đào tạo', en: 'School / Institution' },
       type: 'text',
       required: true,
       localized: true,
     },
     {
       name: 'schoolUrl',
-      label: 'Website Trường / Cơ sở đào tạo',
+      label: { vi: 'Website trường', en: 'School website' },
       type: 'text',
       admin: {
-        description: 'Đường dẫn đến trang chủ của trường (ví dụ: https://tlu.edu.vn)',
+        description: {
+          vi: 'Đường dẫn đến trang chủ của trường (ví dụ: https://tlu.edu.vn)',
+          en: 'Link to the school homepage (e.g. https://tlu.edu.vn)',
+        },
       },
     },
     {
       name: 'major',
-      label: 'Chuyên ngành',
+      label: { vi: 'Chuyên ngành', en: 'Major' },
       type: 'text',
       required: true,
       localized: true,
@@ -37,13 +44,13 @@ export const Education: CollectionConfig = {
       fields: [
         {
           name: 'startDate',
-          label: 'Ngày bắt đầu',
+          label: { vi: 'Ngày bắt đầu', en: 'Start date' },
           type: 'date',
           admin: { date: { pickerAppearance: 'monthOnly' } },
         },
         {
           name: 'endDate',
-          label: 'Ngày kết thúc',
+          label: { vi: 'Ngày kết thúc', en: 'End date' },
           type: 'date',
           admin: { date: { pickerAppearance: 'monthOnly' } },
         },
@@ -51,18 +58,18 @@ export const Education: CollectionConfig = {
     },
     {
       name: 'gpa',
-      label: 'GPA (Điểm tổng kết)',
+      label: { vi: 'GPA (Điểm tổng kết)', en: 'GPA' },
       type: 'text',
     },
     {
       name: 'graduationType',
-      label: 'Xếp loại tốt nghiệp',
+      label: { vi: 'Xếp loại tốt nghiệp', en: 'Graduation rank' },
       type: 'select',
       options: [
-        { label: 'Xuất sắc (Excellent)', value: 'Excellent' },
-        { label: 'Giỏi (Very good)', value: 'Very good' },
-        { label: 'Khá (Good)', value: 'Good' },
-        { label: 'Trung bình (Average / Ordinary)', value: 'Average' },
+        { label: { vi: 'Xuất sắc', en: 'Excellent' }, value: 'Excellent' },
+        { label: { vi: 'Giỏi', en: 'Very good' }, value: 'Very good' },
+        { label: { vi: 'Khá', en: 'Good' }, value: 'Good' },
+        { label: { vi: 'Trung bình', en: 'Average' }, value: 'Average' },
       ],
     },
   ],

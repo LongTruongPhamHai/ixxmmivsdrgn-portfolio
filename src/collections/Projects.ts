@@ -3,8 +3,8 @@ import type { CollectionConfig } from 'payload'
 export const Projects: CollectionConfig = {
   slug: 'projects',
   labels: {
-    singular: 'Personal Project',
-    plural: 'Personal Projects',
+    singular: { vi: 'Dự án cá nhân', en: 'Personal project' },
+    plural: { vi: 'Dự án cá nhân', en: 'Personal projects' },
   },
   admin: {
     useAsTitle: 'title',
@@ -16,55 +16,56 @@ export const Projects: CollectionConfig = {
   fields: [
     {
       name: 'title',
-      label: 'Tên dự án',
+      label: { vi: 'Tên dự án', en: 'Project name' },
       type: 'text',
       required: true,
       localized: true,
     },
     {
       name: 'slug',
+      label: { vi: 'Đường dẫn (slug)', en: 'Slug' },
       type: 'text',
       required: true,
       unique: true,
     },
     {
       name: 'completionDate',
-      label: 'Thời gian hoàn thiện',
+      label: { vi: 'Thời gian hoàn thiện', en: 'Completed on' },
       type: 'date',
-      admin: { date: { pickerAppearance: 'monthOnly' } }
+      admin: { date: { pickerAppearance: 'monthOnly' } },
     },
     {
       name: 'summary',
-      label: 'Mô tả ngắn gọn',
+      label: { vi: 'Mô tả ngắn gọn', en: 'Summary' },
       type: 'textarea',
       localized: true,
     },
     {
       name: 'content',
-      label: 'Mô tả chi tiết',
+      label: { vi: 'Mô tả chi tiết', en: 'Details' },
       type: 'richText',
       localized: true,
     },
     {
       name: 'techStack',
-      label: 'Công nghệ sử dụng',
+      label: { vi: 'Công nghệ sử dụng', en: 'Tech stack' },
       type: 'relationship',
       relationTo: 'skills',
       hasMany: true,
     },
     {
       name: 'coverImage',
-      label: 'Ảnh bìa',
+      label: { vi: 'Ảnh bìa', en: 'Cover image' },
       type: 'upload',
       relationTo: 'media',
     },
     {
       name: 'links',
-      label: 'Liên kết',
+      label: { vi: 'Liên kết', en: 'Links' },
       type: 'group',
       fields: [
-        { name: 'repo', label: 'Source Code URL', type: 'text' },
-        { name: 'demo', label: 'Live Demo URL', type: 'text' },
+        { name: 'repo', label: { vi: 'Link mã nguồn', en: 'Source code URL' }, type: 'text' },
+        { name: 'demo', label: { vi: 'Link demo', en: 'Live demo URL' }, type: 'text' },
       ],
     },
   ],

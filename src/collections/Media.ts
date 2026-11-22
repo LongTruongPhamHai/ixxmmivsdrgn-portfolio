@@ -3,6 +3,10 @@ import path from 'path'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    singular: { vi: 'Tệp media', en: 'Media file' },
+    plural: { vi: 'Ảnh & tệp', en: 'Media' },
+  },
   access: {
     read: () => true,
   },
@@ -17,7 +21,7 @@ export const Media: CollectionConfig = {
       name: 'alt',
       type: 'text',
       required: true,
-      label: 'Alt Text',
+      label: { vi: 'Mô tả ảnh (alt)', en: 'Alt text' },
     },
   ],
 }

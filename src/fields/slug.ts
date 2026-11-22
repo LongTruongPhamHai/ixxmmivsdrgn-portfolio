@@ -24,12 +24,16 @@ const formatSlug =
 /** Unique, URL-safe slug generated from `fallbackField` (editable in the sidebar) */
 export const slugField = (fallbackField = 'title'): Field => ({
   name: 'slug',
+  label: { vi: 'Đường dẫn (slug)', en: 'Slug' },
   type: 'text',
   unique: true,
   index: true,
   admin: {
     position: 'sidebar',
-    description: 'Để trống để tự tạo từ tiêu đề / tên.',
+    description: {
+      vi: 'Để trống để tự tạo từ tiêu đề / tên.',
+      en: 'Leave empty to generate from the title / name.',
+    },
   },
   hooks: { beforeValidate: [formatSlug(fallbackField)] },
 })

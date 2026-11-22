@@ -6,6 +6,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { en } from '@payloadcms/translations/languages/en'
+import { vi } from '@payloadcms/translations/languages/vi'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -85,6 +87,11 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+  },
+  // Admin UI languages: each user picks one under Account; Vietnamese by default
+  i18n: {
+    supportedLanguages: { vi, en },
+    fallbackLanguage: 'vi',
   },
   globals: [Profile],
   collections: [Users, Media, Projects, Skills, Experience, Education, Posts, Categories, Tags],
