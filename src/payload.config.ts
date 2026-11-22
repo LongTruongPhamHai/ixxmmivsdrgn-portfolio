@@ -22,7 +22,17 @@ import { migrations } from './migrations'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const databaseUrl = process.env.DATABASE_URL || ''
+/**
+ * On Vercel (serverless) use Supabase's *transaction* pooler (port 6543) instead of the session
+ * pooler (5432): every function instance opens its own pool, and the session pooler is capped at
+ * 15 clients on the free plan (EMAXCONNSESSION). The transaction pooler shares real connections.
+ */
+const toServerlessUrl = (url: string) =>
+  process.env.VERCEL && /\.pooler\.supabase\.com:5432\//.test(url)
+    ? url.replace(/\.pooler\.supabase\.com:5432\//, '.pooler.supabase.com:6543/')
+    : url
+
+const databaseUrl = toServerlessUrl(process.env.DATABASE_URL || '')
 
 // mongodb:// or mongodb+srv:// -> MongoDB, anything else (postgresql://, Supabase) -> Postgres
 const db = databaseUrl.startsWith('mongodb')
