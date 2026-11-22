@@ -31,9 +31,11 @@ const db = databaseUrl.startsWith('mongodb')
       pool: {
         connectionString: databaseUrl,
         // Supabase's session pooler allows only 15 clients in total (free plan). Every serverless
-        // instance (Vercel) and every dev hot-reload opens its own pool, so keep each pool tiny
+        // instance (Vercel) and every dev hot-reload opens its own pool, so keep each pool small
         // and release idle connections quickly.
-        max: process.env.VERCEL ? 1 : 3,
+        // Must be >= 2: on startup Payload runs migrations inside a transaction (holding one
+        // client) and needs a second client meanwhile – with max: 1 it waits forever (timeout).
+        max: 3,
         idleTimeoutMillis: 10_000,
         // fail with a clear error instead of hanging forever when the pooler is full
         connectionTimeoutMillis: 15_000,
