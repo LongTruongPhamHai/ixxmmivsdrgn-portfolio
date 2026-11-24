@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { getDictionary } from '@/i18n/dictionaries'
-import { getPages } from '@/components/navigation/navigation'
+import { getMorePages, getPages } from '@/components/navigation/navigation'
 
 interface MobileNavProps {
   locale: string
@@ -25,7 +25,6 @@ export function MobileNav({ locale, isOpen, onClose }: MobileNavProps) {
       document.body.style.overflow = ''
     }
   }, [isOpen])
-
 
   return (
     <>
@@ -63,10 +62,25 @@ export function MobileNav({ locale, isOpen, onClose }: MobileNavProps) {
                 className="px-4 py-4 text-text-secondary/40 border-b border-border-default last:border-b-0 flex items-center justify-between"
               >
                 {label}
-                <span className="text-[10px] border border-border-default px-1 uppercase">{t.comingSoon}</span>
+                <span className="text-[10px] border border-border-default px-1 uppercase">
+                  {t.comingSoon}
+                </span>
               </span>
             ),
           )}
+          <div className="px-4 pt-4 pb-1 text-[10px] uppercase tracking-widest text-text-secondary/60 border-t border-border-default">
+            {t.pageMore}
+          </div>
+          {getMorePages(locale, t).map(({ href, label }) => (
+            <Link
+              key={href}
+              href={href}
+              onClick={onClose}
+              className="px-4 py-3 text-text-secondary hover:text-text-primary hover:bg-bg-secondary transition-colors"
+            >
+              {label}
+            </Link>
+          ))}
         </nav>
       </div>
     </>
