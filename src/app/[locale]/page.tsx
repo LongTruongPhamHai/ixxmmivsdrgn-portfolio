@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 import { getDictionary, isLocale } from '@/i18n/dictionaries'
 import { HomeIntro } from '@/components/organisms/HomeIntro'
 import { PostCard } from '@/components/blog/PostCard'
+import { visiblePosts } from '@/lib/blog'
 
 const POSTS_ON_HOME = 6
 const STACK_ON_HOME = 8
@@ -27,7 +28,7 @@ export default async function HomePage(props: { params: Promise<{ locale: string
     payload.find({
       collection: 'posts',
       locale,
-      where: { _status: { equals: 'published' } },
+      where: visiblePosts(),
       sort: ['-featured', '-publishedAt'],
       limit: POSTS_ON_HOME,
       depth: 1,

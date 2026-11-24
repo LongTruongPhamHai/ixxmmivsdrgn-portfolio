@@ -14,22 +14,37 @@ export const categoryOf = (post: Post): Category | null =>
 export const tagsOf = (post: Post): Tag[] =>
   (post.tags ?? []).filter((t): t is Tag => typeof t === 'object' && t !== null)
 
+/**
+ * What visitors may see (the Local API runs without access control, so every public query uses this):
+ * published, publish time reached, and the requested visibility.
+ */
+export const visiblePosts = (visibility: ('public' | 'archived')[] = ['public']): Where => ({
+  and: [
+    { _status: { equals: 'published' } },
+    { publishedAt: { less_than_equal: new Date().toISOString() } },
+    { visibility: { in: visibility } },
+  ],
+})
+
 export async function getBlogIndex({
   locale,
   category,
   tag,
   series,
+  archive = false,
   page = 1,
 }: {
   locale: Locale
   category?: string
   tag?: string
   series?: string
+  /** the "Archive" tab: archived posts instead of public ones */
+  archive?: boolean
   page?: number
 }) {
   const payload = await getPayload({ config: configPromise })
 
-  const and: Where[] = [{ _status: { equals: 'published' } }]
+  const and: Where[] = [visiblePosts([archive ? 'archived' : 'public'])]
   if (category) and.push({ 'category.slug': { equals: category } })
   if (tag) and.push({ 'tags.slug': { equals: tag } })
   if (series) and.push({ series: { equals: series } })
@@ -56,7 +71,8 @@ export async function getPostBySlug(slug: string, locale: Locale) {
   const res = await payload.find({
     collection: 'posts',
     locale,
-    where: { and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }] },
+    // detail pages: public and archived posts (hidden / scheduled ones 404)
+    where: { and: [{ slug: { equals: slug } }, visiblePosts(['public', 'archived'])] },
     limit: 1,
     depth: 1,
   })

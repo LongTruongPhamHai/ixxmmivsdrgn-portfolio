@@ -360,6 +360,13 @@ export interface Post {
    * Leave empty to generate from the title / name.
    */
   slug?: string | null;
+  /**
+   * Archived: off the main list, in the "Archive" tab, link still works. Hidden: invisible to visitors.
+   */
+  visibility: 'public' | 'archived' | 'hidden';
+  /**
+   * Schedule: pick a future time and Publish – visitors only see the post from then on.
+   */
   publishedAt?: string | null;
   featured?: boolean | null;
   readingTime?: number | null;
@@ -653,6 +660,7 @@ export interface PostsSelect<T extends boolean = true> {
   category?: T;
   tags?: T;
   slug?: T;
+  visibility?: T;
   publishedAt?: T;
   featured?: T;
   readingTime?: T;
