@@ -68,6 +68,41 @@ export function PostBody({
   return <RichText data={post.content} className={`post-body ${variant}`} />
 }
 
+/** True when a rich-text value has any text */
+export const hasRichText = (value: Post['meaning']): value is NonNullable<Post['meaning']> =>
+  Boolean(value?.root?.children?.some((n) => JSON.stringify(n).includes('"text":"')))
+
+/** Meaning / analysis (rich text, per language) */
+export function Meaning({
+  value,
+  size = 'full',
+}: {
+  value: Post['meaning']
+  size?: 'card' | 'full'
+}) {
+  if (!hasRichText(value)) return null
+  return (
+    <RichText
+      data={value}
+      className={`post-body post-article text-text-secondary ${size === 'card' ? 'text-sm' : ''}`}
+    />
+  )
+}
+
+/** Reference translation of a poem/saying – keeps line breaks */
+export function Translation({ text, centered }: { text?: string | null; centered?: boolean }) {
+  if (!text?.trim()) return null
+  return (
+    <div
+      className={`font-mono text-sm italic leading-7 text-text-secondary whitespace-pre-line ${
+        centered ? 'text-center' : ''
+      }`}
+    >
+      {text.trim()}
+    </div>
+  )
+}
+
 /** "— Author" line used by verse and quote posts */
 export function Attribution({ author }: { author?: string | null }) {
   if (!author) return null

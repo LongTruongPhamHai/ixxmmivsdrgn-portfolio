@@ -114,11 +114,24 @@ export const Posts: CollectionConfig = {
     {
       name: 'meaning',
       label: { vi: 'Ý nghĩa / Giải thích', en: 'Meaning / Explanation' },
+      type: 'richText',
+      // vi + en: switch "Locale" at the top of the editor to write each language
+      localized: true,
+      admin: {
+        description: {
+          vi: 'Tuỳ chọn – giải nghĩa, phân tích. Viết bản tiếng Việt ở Locale "vi" và bản tiếng Anh ở Locale "en" (bản tiếng Anh trống thì hiện bản tiếng Việt).',
+          en: 'Optional – meaning, analysis. Write Vietnamese under Locale "vi" and English under Locale "en" (empty English falls back to Vietnamese).',
+        },
+      },
+    },
+    {
+      name: 'translation',
+      label: { vi: 'Bản dịch tiếng Anh', en: 'English translation' },
       type: 'textarea',
       admin: {
         description: {
-          vi: 'Tuỳ chọn – hữu ích cho ca dao, tục ngữ.',
-          en: 'Optional – useful for proverbs and folk sayings.',
+          vi: 'Tuỳ chọn – bản dịch tham khảo của bài thơ/câu nói, giữ nguyên xuống dòng. Hiện bên dưới nguyên văn ở trang tiếng Anh.',
+          en: 'Optional – a reference translation of the poem/saying, line breaks kept. Shown below the original on the English site.',
         },
       },
     },
