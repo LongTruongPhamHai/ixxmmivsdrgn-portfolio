@@ -2,6 +2,10 @@ import { CollectionConfig } from 'payload'
 
 export const Experience: CollectionConfig = {
   slug: 'experience',
+  labels: {
+    singular: { vi: 'Kinh nghiệm', en: 'Experience' },
+    plural: { vi: 'Kinh nghiệm làm việc', en: 'Work experience' },
+  },
   admin: {
     useAsTitle: 'company',
     defaultColumns: ['company', 'role', 'startDate', 'endDate'],
@@ -12,18 +16,18 @@ export const Experience: CollectionConfig = {
   fields: [
     {
       name: 'company',
-      label: 'Tên công ty / Tổ chức',
+      label: { vi: 'Tên công ty / Tổ chức', en: 'Company / Organization' },
       type: 'text',
       required: true,
     },
     {
       name: 'url',
-      label: 'Website Công Ty',
+      label: { vi: 'Website công ty', en: 'Company website' },
       type: 'text',
     },
     {
       name: 'role',
-      label: 'Vị trí công tác',
+      label: { vi: 'Vị trí công tác', en: 'Role' },
       type: 'text',
       required: true,
       localized: true,
@@ -33,13 +37,16 @@ export const Experience: CollectionConfig = {
       fields: [
         {
           name: 'startDate',
-          label: 'Ngày bắt đầu',
+          label: { vi: 'Ngày bắt đầu', en: 'Start date' },
           type: 'date',
           admin: { date: { pickerAppearance: 'monthOnly' } },
         },
         {
           name: 'endDate',
-          label: 'Ngày kết thúc (Để trống nếu đang làm)',
+          label: {
+            vi: 'Ngày kết thúc (để trống nếu đang làm)',
+            en: 'End date (leave empty if current)',
+          },
           type: 'date',
           admin: { date: { pickerAppearance: 'monthOnly' } },
         },
@@ -47,30 +54,30 @@ export const Experience: CollectionConfig = {
     },
     {
       name: 'projects',
-      label: 'Các dự án đóng góp',
+      label: { vi: 'Các dự án đóng góp', en: 'Contributed projects' },
       type: 'array',
       fields: [
         {
           name: 'projectName',
-          label: 'Tên dự án',
+          label: { vi: 'Tên dự án', en: 'Project name' },
           type: 'text',
           required: true,
           localized: true,
         },
         {
           name: 'url',
-          label: 'Đường dẫn dự án (URL)',
+          label: { vi: 'Đường dẫn dự án', en: 'Project URL' },
           type: 'text',
         },
         {
           name: 'projectRole',
-          label: 'Vị trí trong dự án',
+          label: { vi: 'Vị trí trong dự án', en: 'Role in project' },
           type: 'text',
           localized: true,
         },
         {
           name: 'description',
-          label: 'Mô tả đóng góp',
+          label: { vi: 'Mô tả đóng góp', en: 'Contribution' },
           type: 'textarea',
           localized: true,
         },

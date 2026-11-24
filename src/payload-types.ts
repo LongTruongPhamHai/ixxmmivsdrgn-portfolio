@@ -76,6 +76,8 @@ export interface Config {
     posts: Post;
     categories: Category;
     tags: Tag;
+    tasks: Task;
+    'daily-logs': DailyLog;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +94,8 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    tasks: TasksSelect<false> | TasksSelect<true>;
+    'daily-logs': DailyLogsSelect<false> | DailyLogsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -143,6 +147,9 @@ export interface User {
   id: number;
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -224,11 +231,11 @@ export interface Skill {
   subCategory?:
     ('Programming Language' | 'Framework / Library' | 'Database' | 'Tools & DevOps' | 'Cloud' | 'Other') | null;
   /**
-   * Đường dẫn đến trang documentation chính thức (ví dụ: https://react.dev)
+   * Link to the official documentation (e.g. https://react.dev)
    */
   docsUrl?: string | null;
   /**
-   * Tên icon (ví dụ: Code, Database, Globe)
+   * Icon name (e.g. Code, Database, Globe)
    */
   icon?: string | null;
   updatedAt: string;
@@ -265,7 +272,7 @@ export interface Education {
   id: number;
   school: string;
   /**
-   * Đường dẫn đến trang chủ của trường (ví dụ: https://tlu.edu.vn)
+   * Link to the school homepage (e.g. https://tlu.edu.vn)
    */
   schoolUrl?: string | null;
   major: string;
@@ -283,11 +290,11 @@ export interface Education {
 export interface Post {
   id: number;
   /**
-   * Có thể để trống với câu ngắn (ca dao, châm ngôn): sẽ lấy dòng đầu của nội dung.
+   * May be left empty for short sayings: the first line of the content is used.
    */
   title?: string | null;
   /**
-   * Thơ: mỗi khổ là một đoạn, xuống dòng trong khổ bằng Shift + Enter.
+   * Poems: one paragraph per stanza, Shift + Enter for a line break.
    */
   content: {
     root: {
@@ -305,26 +312,26 @@ export interface Post {
     [k: string]: unknown;
   };
   /**
-   * Hiện trên thẻ bài ở trang danh sách (dành cho bài viết dài).
+   * Shown on the post card in the list (for long articles).
    */
   excerpt?: string | null;
   /**
-   * Ví dụ: Hồ Xuân Hương, Ca dao, Khuyết danh…
+   * E.g. Hồ Xuân Hương, Folk song, Anonymous…
    */
   author?: string | null;
   /**
-   * Gom các bài cùng chuỗi, ví dụ: Học Git
+   * Groups posts of the same series, e.g. Learning Git
    */
   series?: string | null;
   /**
-   * Tuỳ chọn – hữu ích cho ca dao, tục ngữ.
+   * Optional – useful for proverbs and folk sayings.
    */
   meaning?: string | null;
   coverImage?: (number | null) | Media;
   category: number | Category;
   tags?: (number | Tag)[] | null;
   /**
-   * Để trống để tự tạo từ tiêu đề / tên.
+   * Leave empty to generate from the title / name.
    */
   slug?: string | null;
   publishedAt?: string | null;
@@ -342,13 +349,13 @@ export interface Category {
   id: number;
   name: string;
   /**
-   * Quyết định cách các bài trong chuyên mục này được trình bày.
+   * Decides how posts in this category are displayed.
    */
   displayType: 'article' | 'verse' | 'quote';
   color?: ('amber' | 'lime' | 'neutral' | 'danger') | null;
   description?: string | null;
   /**
-   * Để trống để tự tạo từ tiêu đề / tên.
+   * Leave empty to generate from the title / name.
    */
   slug?: string | null;
   updatedAt: string;
@@ -362,9 +369,58 @@ export interface Tag {
   id: number;
   name: string;
   /**
-   * Để trống để tự tạo từ tiêu đề / tên.
+   * Leave empty to generate from the title / name.
    */
   slug?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks".
+ */
+export interface Task {
+  id: number;
+  title: string;
+  notes?: string | null;
+  status: 'todo' | 'doing' | 'done' | 'dropped';
+  priority?: ('low' | 'normal' | 'high') | null;
+  /**
+   * Unfinished tasks move to the next day automatically.
+   */
+  plannedFor?: string | null;
+  originalDate?: string | null;
+  carryCount?: number | null;
+  completedAt?: string | null;
+  order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-logs".
+ */
+export interface DailyLog {
+  id: number;
+  date: string;
+  entries?:
+    | {
+        time?: string | null;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  review?: {
+    wins?: string | null;
+    blockers?: string | null;
+    lessons?: string | null;
+    tomorrow?: string | null;
+    energy?: number | null;
+  };
+  /**
+   * Unfinished tasks from earlier days were moved to this day (runs once per day).
+   */
+  rolledOverAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -427,6 +483,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'tasks';
+        value: number | Task;
+      } | null)
+    | ({
+        relationTo: 'daily-logs';
+        value: number | DailyLog;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -477,6 +541,9 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -623,6 +690,49 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tasks_select".
+ */
+export interface TasksSelect<T extends boolean = true> {
+  title?: T;
+  notes?: T;
+  status?: T;
+  priority?: T;
+  plannedFor?: T;
+  originalDate?: T;
+  carryCount?: T;
+  completedAt?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-logs_select".
+ */
+export interface DailyLogsSelect<T extends boolean = true> {
+  date?: T;
+  entries?:
+    | T
+    | {
+        time?: T;
+        text?: T;
+        id?: T;
+      };
+  review?:
+    | T
+    | {
+        wins?: T;
+        blockers?: T;
+        lessons?: T;
+        tomorrow?: T;
+        energy?: T;
+      };
+  rolledOverAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

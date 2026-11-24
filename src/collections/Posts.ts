@@ -8,9 +8,7 @@ export const lexicalToText = (value: unknown): string => {
   const root = (value as { root?: LexicalNode } | null)?.root
   if (!root) return ''
   const walk = (node: LexicalNode): string =>
-    node.type === 'linebreak'
-      ? '\n'
-      : (node.text ?? '') + (node.children ?? []).map(walk).join('')
+    node.type === 'linebreak' ? '\n' : (node.text ?? '') + (node.children ?? []).map(walk).join('')
   return (root.children ?? []).map(walk).join('\n').trim()
 }
 
@@ -33,11 +31,14 @@ const deriveFields: CollectionBeforeChangeHook = ({ data }) => {
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
-  labels: { singular: 'Bài viết', plural: 'Bài viết' },
+  labels: {
+    singular: { vi: 'Bài viết', en: 'Post' },
+    plural: { vi: 'Bài viết', en: 'Posts' },
+  },
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'category', 'tags', 'publishedAt', '_status'],
-    group: 'Blog',
+    group: { vi: 'Blog', en: 'Blog' },
   },
   // Drafts: write now, publish when ready
   versions: { drafts: true },
@@ -51,27 +52,36 @@ export const Posts: CollectionConfig = {
   fields: [
     {
       name: 'title',
-      label: 'Tiêu đề',
+      label: { vi: 'Tiêu đề', en: 'Title' },
       type: 'text',
       admin: {
-        description: 'Có thể để trống với câu ngắn (ca dao, châm ngôn): sẽ lấy dòng đầu của nội dung.',
+        description: {
+          vi: 'Có thể để trống với câu ngắn (ca dao, châm ngôn): sẽ lấy dòng đầu của nội dung.',
+          en: 'May be left empty for short sayings: the first line of the content is used.',
+        },
       },
     },
     {
       name: 'content',
-      label: 'Nội dung',
+      label: { vi: 'Nội dung', en: 'Content' },
       type: 'richText',
       required: true,
       admin: {
-        description: 'Thơ: mỗi khổ là một đoạn, xuống dòng trong khổ bằng Shift + Enter.',
+        description: {
+          vi: 'Thơ: mỗi khổ là một đoạn, xuống dòng trong khổ bằng Shift + Enter.',
+          en: 'Poems: one paragraph per stanza, Shift + Enter for a line break.',
+        },
       },
     },
     {
       name: 'excerpt',
-      label: 'Tóm tắt',
+      label: { vi: 'Tóm tắt', en: 'Excerpt' },
       type: 'textarea',
       admin: {
-        description: 'Hiện trên thẻ bài ở trang danh sách (dành cho bài viết dài).',
+        description: {
+          vi: 'Hiện trên thẻ bài ở trang danh sách (dành cho bài viết dài).',
+          en: 'Shown on the post card in the list (for long articles).',
+        },
       },
     },
     {
@@ -79,27 +89,42 @@ export const Posts: CollectionConfig = {
       fields: [
         {
           name: 'author',
-          label: 'Tác giả / Nguồn',
+          label: { vi: 'Tác giả / Nguồn', en: 'Author / Source' },
           type: 'text',
-          admin: { description: 'Ví dụ: Hồ Xuân Hương, Ca dao, Khuyết danh…' },
+          admin: {
+            description: {
+              vi: 'Ví dụ: Hồ Xuân Hương, Ca dao, Khuyết danh…',
+              en: 'E.g. Hồ Xuân Hương, Folk song, Anonymous…',
+            },
+          },
         },
         {
           name: 'series',
-          label: 'Series',
+          label: { vi: 'Series', en: 'Series' },
           type: 'text',
-          admin: { description: 'Gom các bài cùng chuỗi, ví dụ: Học Git' },
+          admin: {
+            description: {
+              vi: 'Gom các bài cùng chuỗi, ví dụ: Học Git',
+              en: 'Groups posts of the same series, e.g. Learning Git',
+            },
+          },
         },
       ],
     },
     {
       name: 'meaning',
-      label: 'Ý nghĩa / Giải thích',
+      label: { vi: 'Ý nghĩa / Giải thích', en: 'Meaning / Explanation' },
       type: 'textarea',
-      admin: { description: 'Tuỳ chọn – hữu ích cho ca dao, tục ngữ.' },
+      admin: {
+        description: {
+          vi: 'Tuỳ chọn – hữu ích cho ca dao, tục ngữ.',
+          en: 'Optional – useful for proverbs and folk sayings.',
+        },
+      },
     },
     {
       name: 'coverImage',
-      label: 'Ảnh bìa',
+      label: { vi: 'Ảnh bìa', en: 'Cover image' },
       type: 'upload',
       relationTo: 'media',
     },
@@ -107,7 +132,7 @@ export const Posts: CollectionConfig = {
     // ----- Sidebar -----
     {
       name: 'category',
-      label: 'Chuyên mục',
+      label: { vi: 'Chuyên mục', en: 'Category' },
       type: 'relationship',
       relationTo: 'categories',
       required: true,
@@ -116,7 +141,7 @@ export const Posts: CollectionConfig = {
     },
     {
       name: 'tags',
-      label: 'Thẻ',
+      label: { vi: 'Thẻ', en: 'Tags' },
       type: 'relationship',
       relationTo: 'tags',
       hasMany: true,
@@ -125,21 +150,24 @@ export const Posts: CollectionConfig = {
     slugField('title'),
     {
       name: 'publishedAt',
-      label: 'Ngày đăng',
+      label: { vi: 'Ngày đăng', en: 'Published on' },
       type: 'date',
       defaultValue: () => new Date().toISOString(),
-      admin: { position: 'sidebar', date: { pickerAppearance: 'dayOnly', displayFormat: 'dd/MM/yyyy' } },
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayOnly', displayFormat: 'dd/MM/yyyy' },
+      },
     },
     {
       name: 'featured',
-      label: 'Nổi bật (ghim lên đầu)',
+      label: { vi: 'Nổi bật (ghim lên đầu)', en: 'Featured (pinned to top)' },
       type: 'checkbox',
       defaultValue: false,
       admin: { position: 'sidebar' },
     },
     {
       name: 'readingTime',
-      label: 'Thời gian đọc (phút)',
+      label: { vi: 'Thời gian đọc (phút)', en: 'Reading time (min)' },
       type: 'number',
       admin: { position: 'sidebar', readOnly: true },
     },

@@ -6,6 +6,8 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { en } from '@payloadcms/translations/languages/en'
+import { vi } from '@payloadcms/translations/languages/vi'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -15,6 +17,9 @@ import { Experience } from './collections/Experience'
 import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
+import { Tasks } from './collections/Tasks'
+import { DailyLogs } from './collections/DailyLogs'
+import { dailyLogEndpoints } from './endpoints/dailyLog'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { migrations } from './migrations'
@@ -86,8 +91,27 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  // Admin UI languages: each user picks one under Account; Vietnamese by default
+  i18n: {
+    supportedLanguages: { vi, en },
+    fallbackLanguage: 'vi',
+  },
+  // Private daily-log API: /api/log/today, /api/log/day/:date, /api/log/entries, /api/log/review
+  endpoints: dailyLogEndpoints,
   globals: [Profile],
-  collections: [Users, Media, Projects, Skills, Experience, Education, Posts, Categories, Tags],
+  collections: [
+    Users,
+    Media,
+    Projects,
+    Skills,
+    Experience,
+    Education,
+    Posts,
+    Categories,
+    Tags,
+    Tasks,
+    DailyLogs,
+  ],
   localization: {
     locales: ['vi', 'en'],
     defaultLocale: 'vi',
