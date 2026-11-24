@@ -76,6 +76,7 @@ export interface Config {
     posts: Post;
     categories: Category;
     tags: Tag;
+    'daily-visits': DailyVisit;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    'daily-visits': DailyVisitsSelect<false> | DailyVisitsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -103,9 +105,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('vi' | 'en') | ('vi' | 'en')[];
   globals: {
     profile: Profile;
+    'site-stats': SiteStat;
   };
   globalsSelect: {
     profile: ProfileSelect<false> | ProfileSelect<true>;
+    'site-stats': SiteStatsSelect<false> | SiteStatsSelect<true>;
   };
   locale: 'vi' | 'en';
   widgets: {
@@ -370,6 +374,17 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-visits".
+ */
+export interface DailyVisit {
+  id: number;
+  date: string;
+  visits?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -427,6 +442,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
+      } | null)
+    | ({
+        relationTo: 'daily-visits';
+        value: number | DailyVisit;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -628,6 +647,16 @@ export interface TagsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "daily-visits_select".
+ */
+export interface DailyVisitsSelect<T extends boolean = true> {
+  date?: T;
+  visits?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -684,6 +713,19 @@ export interface Profile {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-stats".
+ */
+export interface SiteStat {
+  id: number;
+  /**
+   * One per browser session (bots are not counted).
+   */
+  visits?: number | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "profile_select".
  */
 export interface ProfileSelect<T extends boolean = true> {
@@ -694,6 +736,16 @@ export interface ProfileSelect<T extends boolean = true> {
   phone?: T;
   email?: T;
   objective?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-stats_select".
+ */
+export interface SiteStatsSelect<T extends boolean = true> {
+  visits?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
