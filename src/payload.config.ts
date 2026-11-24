@@ -21,6 +21,7 @@ import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { SiteStats } from './globals/SiteStats'
 import { DailyVisits } from './collections/DailyVisits'
+import { HourlyVisits } from './collections/HourlyVisits'
 import { visitEndpoints } from './endpoints/visits'
 import { migrations } from './migrations'
 
@@ -110,6 +111,7 @@ export default buildConfig({
     Categories,
     Tags,
     DailyVisits,
+    HourlyVisits,
   ],
   localization: {
     locales: ['vi', 'en'],

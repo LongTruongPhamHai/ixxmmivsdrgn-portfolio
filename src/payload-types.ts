@@ -77,6 +77,7 @@ export interface Config {
     categories: Category;
     tags: Tag;
     'daily-visits': DailyVisit;
+    'hourly-visits': HourlyVisit;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
     'daily-visits': DailyVisitsSelect<false> | DailyVisitsSelect<true>;
+    'hourly-visits': HourlyVisitsSelect<false> | HourlyVisitsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -414,6 +416,17 @@ export interface DailyVisit {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hourly-visits".
+ */
+export interface HourlyVisit {
+  id: number;
+  hour: string;
+  visits?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -475,6 +488,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'daily-visits';
         value: number | DailyVisit;
+      } | null)
+    | ({
+        relationTo: 'hourly-visits';
+        value: number | HourlyVisit;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -689,6 +706,16 @@ export interface TagsSelect<T extends boolean = true> {
  */
 export interface DailyVisitsSelect<T extends boolean = true> {
   date?: T;
+  visits?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "hourly-visits_select".
+ */
+export interface HourlyVisitsSelect<T extends boolean = true> {
+  hour?: T;
   visits?: T;
   updatedAt?: T;
   createdAt?: T;

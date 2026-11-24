@@ -1,6 +1,6 @@
 import { sql } from '@payloadcms/db-postgres'
 import type { Endpoint, PayloadRequest } from 'payload'
-import { dayInVN } from '@/lib/date'
+import { dayInVN, hourInVN } from '@/lib/date'
 
 const BOT_RE =
   /bot|crawl|spider|slurp|preview|facebookexternalhit|headless|lighthouse|pingdom|uptime/i
@@ -26,6 +26,12 @@ async function incrementVisits(req: PayloadRequest): Promise<number> {
       sql`INSERT INTO "daily_visits" ("date", "visits", "updated_at", "created_at")
           VALUES (${dayInVN()}, 1, now(), now())
           ON CONFLICT ("date") DO UPDATE SET "visits" = COALESCE("daily_visits"."visits", 0) + 1, "updated_at" = now()`,
+    )
+    // per-hour counter
+    await db.drizzle.execute(
+      sql`INSERT INTO "hourly_visits" ("hour", "visits", "updated_at", "created_at")
+          VALUES (${hourInVN()}, 1, now(), now())
+          ON CONFLICT ("hour") DO UPDATE SET "visits" = COALESCE("hourly_visits"."visits", 0) + 1, "updated_at" = now()`,
     )
     const res = await db.drizzle.execute(
       sql`UPDATE "site_stats" SET "visits" = COALESCE("visits", 0) + 1, "updated_at" = now() RETURNING "visits"`,

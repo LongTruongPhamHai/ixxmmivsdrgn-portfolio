@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-export type DayPoint = { date: string; visits: number }
+/** One bar: `axis` = short x-axis label, `full` = tooltip / screen-reader label */
+export type ChartPoint = { key: string; axis: string; full: string; visits: number }
 
 /**
- * Daily visits – single-series bar chart (no legend: the heading names it).
+ * Visits per hour/day/month/year – single-series bar chart (no legend: the heading names it).
  * Thin bars with a 2px gap, rounded data-end, square on the baseline; recessive grid;
  * hover/focus tooltip per bar with a hit area taller than the bar.
  */
@@ -14,7 +15,7 @@ export function VisitsChart({
   locale,
   label,
 }: {
-  data: DayPoint[]
+  data: ChartPoint[]
   locale: string
   label: string
 }) {
@@ -32,7 +33,8 @@ export function VisitsChart({
     return () => ro.disconnect()
   }, [])
   const H = W < 500 ? 200 : 240
-  const labelEvery = W < 500 ? 7 : 5
+  // x labels: at most ~5 (phones) / ~8 (wider) so they never collide
+  const labelEvery = Math.max(1, Math.ceil(data.length / (W < 500 ? 5 : 8)))
   const PAD = { top: 12, right: 8, bottom: 26, left: 32 }
   const innerW = W - PAD.left - PAD.right
   const innerH = H - PAD.top - PAD.bottom
@@ -44,11 +46,6 @@ export function VisitsChart({
   const GAP = 2
   const barW = Math.max(2, slot - GAP)
   const y = (v: number) => PAD.top + innerH - (v / top) * innerH
-  const fmtDay = (d: string, opts: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat(locale === 'vi' ? 'vi-VN' : 'en-GB', {
-      ...opts,
-      timeZone: 'UTC',
-    }).format(new Date(`${d}T00:00:00Z`))
   const nf = new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US')
 
   const a = active != null ? data[active] : null
@@ -94,15 +91,17 @@ export function VisitsChart({
           const h = PAD.top + innerH - y(d.visits)
           const isActive = active === i
           return (
-            <g key={d.date}>
+            <g key={d.key}>
               {d.visits > 0 && (
                 <path
                   d={roundedTopBar(x, y(d.visits), barW, h, Math.min(4, barW / 2, h))}
                   className={isActive ? 'fill-accent-amber' : 'fill-accent-lime'}
                 />
               )}
-              {/* x labels: every 5th/7th day + the last one (skip one that would collide with it) */}
-              {((i % labelEvery === 0 && data.length - 1 - i >= 3) || i === data.length - 1) && (
+              {/* x labels: every Nth bar + the last one (skip one that would collide with it) */}
+              {((i % labelEvery === 0 &&
+                (data.length - 1 - i >= Math.ceil(labelEvery / 2) || labelEvery === 1)) ||
+                i === data.length - 1) && (
                 <text
                   x={x + barW / 2}
                   y={H - 8}
@@ -110,7 +109,7 @@ export function VisitsChart({
                   className="fill-text-secondary font-mono"
                   fontSize={10}
                 >
-                  {fmtDay(d.date, { day: '2-digit', month: '2-digit' })}
+                  {d.axis}
                 </text>
               )}
               {/* hit area: full column height, wider than the bar */}
@@ -121,7 +120,7 @@ export function VisitsChart({
                 height={innerH}
                 fill="transparent"
                 tabIndex={0}
-                aria-label={`${fmtDay(d.date, { day: '2-digit', month: '2-digit', year: 'numeric' })}: ${nf.format(d.visits)}`}
+                aria-label={`${d.full}: ${nf.format(d.visits)}`}
                 onMouseEnter={() => setActive(i)}
                 onFocus={() => setActive(i)}
                 onBlur={() => setActive(null)}
@@ -142,14 +141,7 @@ export function VisitsChart({
             marginTop: -8,
           }}
         >
-          <div className="text-text-secondary">
-            {fmtDay(a.date, {
-              weekday: 'short',
-              day: '2-digit',
-              month: '2-digit',
-              year: 'numeric',
-            })}
-          </div>
+          <div className="text-text-secondary">{a.full}</div>
           <div className="text-text-primary font-bold tabular-nums">{nf.format(a.visits)}</div>
         </div>
       )}
