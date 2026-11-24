@@ -63,6 +63,13 @@ export function ThemeProvider({
     listeners.forEach((cb) => cb())
   }, [])
 
+  // The root layout renders <html className="…fonts…">; when the layout re-renders on the client
+  // (e.g. switching /vi ↔ /en) React rewrites that attribute and drops the "dark" class added by
+  // themeInitScript. Re-apply the theme after every render, before the browser paints.
+  React.useLayoutEffect(() => {
+    applyTheme(theme)
+  })
+
   const value = React.useMemo(() => ({ theme, setTheme }), [theme, setTheme])
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
