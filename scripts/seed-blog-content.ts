@@ -453,6 +453,7 @@ async function main() {
         category,
         tags: await Promise.all(s.tags.map(ensureTag)),
         featured: s.featured ?? false,
+        visibility: 'public',
         publishedAt: published,
         content: s.content as never,
         _status: 'published',

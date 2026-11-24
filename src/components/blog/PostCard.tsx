@@ -3,6 +3,7 @@ import type { Post } from '@/payload-types'
 import { categoryOf, tagsOf } from '@/lib/blog'
 import { lexicalToText } from '@/collections/Posts'
 import { formatFullDate } from '@/lib/date'
+import { EditPostLink } from './EditPostLink'
 import { Attribution, CategoryBadge, hasRichText, Meaning, PostBody, TagList } from './PostParts'
 
 interface PostCardProps {
@@ -12,6 +13,8 @@ interface PostCardProps {
     blogReadingTime: string
     blogMeaning: string
     blogFeatured: string
+    blogArchived: string
+    blogEdit: string
     blogReadMore: string
   }
 }
@@ -39,7 +42,15 @@ export function PostCard({ post, locale, t }: PostCardProps) {
             </span>
           )}
         </div>
-        <time className="font-mono text-xs text-text-secondary whitespace-nowrap">{date}</time>
+        <div className="flex items-center gap-2">
+          {post.visibility === 'archived' && (
+            <span className="font-mono text-[10px] uppercase tracking-widest text-text-secondary border border-dashed border-border-default px-1.5 py-0.5">
+              {t.blogArchived}
+            </span>
+          )}
+          <time className="font-mono text-xs text-text-secondary whitespace-nowrap">{date}</time>
+          <EditPostLink id={post.id} label={t.blogEdit} />
+        </div>
       </header>
 
       {displayType === 'article' && (

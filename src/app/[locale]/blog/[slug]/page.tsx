@@ -15,6 +15,7 @@ import {
   Translation,
 } from '@/components/blog/PostParts'
 import { lexicalToText } from '@/collections/Posts'
+import { EditPostLink } from '@/components/blog/EditPostLink'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
@@ -43,12 +44,15 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article className="py-10 md:py-14 max-w-3xl mx-auto space-y-8">
-      <Link
-        href={`/${locale}/blog`}
-        className="font-mono text-sm text-text-secondary hover:text-accent-amber"
-      >
-        ← {t.blogBack}
-      </Link>
+      <div className="flex items-center justify-between gap-3">
+        <Link
+          href={`/${locale}/blog`}
+          className="font-mono text-sm text-text-secondary hover:text-accent-amber"
+        >
+          ← {t.blogBack}
+        </Link>
+        <EditPostLink id={post.id} label={t.blogEdit} variant="page" />
+      </div>
 
       {/* Meta */}
       <header className={`space-y-4 ${centered ? 'text-center' : ''}`}>
@@ -57,6 +61,11 @@ export default async function PostPage({ params }: Props) {
         >
           {category && <CategoryBadge category={category} locale={locale} />}
           <time>{formatFullDate(post.publishedAt, locale)}</time>
+          {post.visibility === 'archived' && (
+            <span className="uppercase tracking-widest border border-dashed border-border-default px-1.5 py-0.5">
+              {t.blogArchived}
+            </span>
+          )}
           {displayType === 'article' && (
             <span>
               · {post.readingTime} {t.blogReadingTime}

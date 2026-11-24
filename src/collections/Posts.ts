@@ -1,4 +1,4 @@
-import type { CollectionBeforeChangeHook, CollectionConfig } from 'payload'
+import type { Access, CollectionBeforeChangeHook, CollectionConfig, Where } from 'payload'
 import { slugField, slugify } from '../fields/slug'
 
 type LexicalNode = { text?: string; children?: LexicalNode[]; type?: string }
@@ -37,14 +37,25 @@ export const Posts: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'category', 'tags', 'publishedAt', '_status'],
+    defaultColumns: ['title', 'category', 'visibility', 'publishedAt', '_status'],
     group: { vi: 'Blog', en: 'Blog' },
   },
   // Drafts: write now, publish when ready
   versions: { drafts: true },
   access: {
     // Visitors only see published posts; logged-in editors see drafts too
-    read: ({ req: { user } }) => (user ? true : { _status: { equals: 'published' } }),
+    // Visitors: published, not hidden, and the publish time has come (scheduled posts stay invisible);
+    // archived posts stay readable. Logged-in editors see everything.
+    read: (({ req: { user } }) =>
+      user
+        ? true
+        : ({
+            and: [
+              { _status: { equals: 'published' } },
+              { visibility: { not_equals: 'hidden' } },
+              { publishedAt: { less_than_equal: new Date().toISOString() } },
+            ],
+          } as Where)) as Access,
   },
   hooks: {
     beforeChange: [deriveFields],
@@ -202,13 +213,38 @@ export const Posts: CollectionConfig = {
     },
     slugField('title'),
     {
-      name: 'publishedAt',
-      label: { vi: 'Ngày đăng', en: 'Published on' },
-      type: 'date',
-      defaultValue: () => new Date().toISOString(),
+      name: 'visibility',
+      label: { vi: 'Hiển thị', en: 'Visibility' },
+      type: 'select',
+      required: true,
+      defaultValue: 'public',
+      index: true,
+      options: [
+        { label: { vi: 'Công khai', en: 'Public' }, value: 'public' },
+        { label: { vi: 'Lưu trữ', en: 'Archived' }, value: 'archived' },
+        { label: { vi: 'Ẩn', en: 'Hidden' }, value: 'hidden' },
+      ],
       admin: {
         position: 'sidebar',
-        date: { pickerAppearance: 'dayOnly', displayFormat: 'dd/MM/yyyy' },
+        description: {
+          vi: 'Lưu trữ: không còn trong danh sách chính, nằm ở tab "Lưu trữ", link vẫn mở được. Ẩn: khách không thấy ở đâu cả.',
+          en: 'Archived: off the main list, in the "Archive" tab, link still works. Hidden: invisible to visitors.',
+        },
+      },
+    },
+    {
+      name: 'publishedAt',
+      label: { vi: 'Ngày giờ đăng', en: 'Publish date & time' },
+      type: 'date',
+      defaultValue: () => new Date().toISOString(),
+      index: true,
+      admin: {
+        position: 'sidebar',
+        date: { pickerAppearance: 'dayAndTime', displayFormat: 'dd/MM/yyyy HH:mm' },
+        description: {
+          vi: 'Hẹn giờ: chọn thời điểm trong tương lai rồi Publish – bài chỉ hiện với khách khi tới giờ.',
+          en: 'Schedule: pick a future time and Publish – visitors only see the post from then on.',
+        },
       },
     },
     {

@@ -7,7 +7,13 @@ import { PostCard } from '@/components/blog/PostCard'
 
 type Props = {
   params: Promise<{ locale: string }>
-  searchParams: Promise<{ category?: string; tag?: string; series?: string; page?: string }>
+  searchParams: Promise<{
+    category?: string
+    tag?: string
+    series?: string
+    page?: string
+    archive?: string
+  }>
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -19,20 +25,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function BlogPage({ params, searchParams }: Props) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
-  const { category, tag, series, page: pageParam } = await searchParams
+  const { category, tag, series, page: pageParam, archive: archiveParam } = await searchParams
+  const archive = archiveParam === '1'
   const page = Math.max(1, Number(pageParam) || 1)
   const t = getDictionary(locale)
 
-  const { posts, categories, tags } = await getBlogIndex({ locale, category, tag, series, page })
+  const { posts, categories, tags } = await getBlogIndex({
+    locale,
+    category,
+    tag,
+    series,
+    archive,
+    page,
+  })
 
   /** Build a list URL keeping the other filters */
-  const href = (next: { category?: string | null; tag?: string | null; page?: number }) => {
+  const href = (next: {
+    category?: string | null
+    tag?: string | null
+    page?: number
+    archive?: boolean
+  }) => {
     const q = new URLSearchParams()
     const c = next.category === undefined ? category : next.category
     const tg = next.tag === undefined ? tag : next.tag
     if (c) q.set('category', c)
     if (tg) q.set('tag', tg)
     if (series) q.set('series', series)
+    if (next.archive ?? archive) q.set('archive', '1')
     if (next.page && next.page > 1) q.set('page', String(next.page))
     const s = q.toString()
     return `/${locale}/blog${s ? `?${s}` : ''}`
@@ -40,7 +60,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
 
   const activeCategory = categories.find((c) => c.slug === category)
   const activeTag = tags.find((x) => x.slug === tag)
-  const hasFilters = Boolean(category || tag || series)
+  const hasFilters = Boolean(category || tag || series || archive)
 
   const chip = (active: boolean) =>
     `shrink-0 px-3 py-1.5 border font-mono text-xs transition-colors whitespace-nowrap ${
@@ -65,10 +85,22 @@ export default async function BlogPage({ params, searchParams }: Props) {
           {t.blogAll}
         </Link>
         {categories.map((c) => (
-          <Link key={c.id} href={href({ category: c.slug, page: 1 })} className={chip(c.slug === category)}>
+          <Link
+            key={c.id}
+            href={href({ category: c.slug, page: 1 })}
+            className={chip(c.slug === category)}
+          >
             {c.name}
           </Link>
         ))}
+        {/* archived posts: a separate list, combinable with the category/tag filters */}
+        <Link
+          href={href({ archive: !archive, page: 1 })}
+          aria-pressed={archive}
+          className={`${chip(archive)} ml-auto border-dashed`}
+        >
+          {t.blogArchive}
+        </Link>
       </nav>
 
       {/* Tags */}
@@ -79,7 +111,9 @@ export default async function BlogPage({ params, searchParams }: Props) {
             <Link
               key={x.id}
               href={href({ tag: x.slug === tag ? null : x.slug, page: 1 })}
-              className={x.slug === tag ? 'text-accent-lime' : 'text-text-secondary hover:text-accent-lime'}
+              className={
+                x.slug === tag ? 'text-accent-lime' : 'text-text-secondary hover:text-accent-lime'
+              }
             >
               #{x.name}
             </Link>
@@ -90,6 +124,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
       {/* Active filters */}
       {hasFilters && (
         <div className="flex flex-wrap items-center gap-3 font-mono text-xs text-text-secondary border-l-2 border-accent-amber pl-3">
+          {archive && <span>{t.blogArchive}</span>}
           {activeCategory && <span>{activeCategory.name}</span>}
           {activeTag && <span>#{activeTag.name}</span>}
           {series && (
