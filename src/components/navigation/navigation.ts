@@ -13,6 +13,11 @@ export const getPages = (locale: string, t: Dict) => [
   { href: `/${locale}/about`, label: t.pageAbout, ready: true },
 ]
 
+/** Secondary pages, grouped under "More ▾" in the navbar */
+export const getMorePages = (locale: string, t: Dict) => [
+  { href: `/${locale}/colophon`, label: t.pageColophon },
+]
+
 /** Sections of the About page (ids match the <section> elements) */
 export const getSections = (t: Dict) => [
   { id: 'about', label: t.navAbout },
