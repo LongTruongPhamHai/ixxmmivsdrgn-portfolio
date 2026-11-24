@@ -33,12 +33,29 @@ const ul = (...items: Inline[][]) => ({
   listType: 'bullet',
   tag: 'ul',
   start: 1,
-  children: items.map((parts, i) => ({ ...block, type: 'listitem', value: i + 1, children: parts.map(text) })),
+  children: items.map((parts, i) => ({
+    ...block,
+    type: 'listitem',
+    value: i + 1,
+    children: parts.map(text),
+  })),
 })
 const doc = (...children: object[]) => ({ root: { ...block, type: 'root', children } })
 /** a poem: stanzas separated by blank lines, lines by \n */
 const verse = (poem: string) =>
-  doc(...poem.trim().split(/\n\s*\n/).map((stanza) => p(...stanza.trim().split('\n').map((l) => line(l.trim())))))
+  doc(
+    ...poem
+      .trim()
+      .split(/\n\s*\n/)
+      .map((stanza) =>
+        p(
+          ...stanza
+            .trim()
+            .split('\n')
+            .map((l) => line(l.trim())),
+        ),
+      ),
+  )
 
 /* ---------- content ---------- */
 type Seed = {
@@ -187,7 +204,9 @@ const POSTS: Seed[] = [
     meaning: 'Người cùng một cộng đồng, một đất nước phải biết thương yêu, đùm bọc lẫn nhau.',
     tags: ['Đoàn kết'],
     daysAgo: 20,
-    content: doc(p(line('Bầu ơi thương lấy bí cùng'), line('Tuy rằng khác giống nhưng chung một giàn.'))),
+    content: doc(
+      p(line('Bầu ơi thương lấy bí cùng'), line('Tuy rằng khác giống nhưng chung một giàn.')),
+    ),
   },
 
   // ---- Châm ngôn ----
@@ -251,7 +270,9 @@ const POSTS: Seed[] = [
       ]),
       p(['Cách sửa: luôn định dạng theo múi giờ cố định thay vì múi giờ của server:']),
       p([
-        { code: "new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date())" },
+        {
+          code: "new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date())",
+        },
       ]),
       p([
         'Locale ',
@@ -279,14 +300,21 @@ const POSTS: Seed[] = [
         '. Session pooler của Supabase (cổng 5432) giới hạn 15 kết nối, mà trên Vercel mỗi instance serverless lại mở một nhóm kết nối riêng.',
       ]),
       ul(
-        [{ bold: 'Dùng Transaction pooler' }, ' (cổng ', { code: '6543' }, ') khi chạy trên Vercel: nhiều client dùng chung một số kết nối thật.'],
+        [
+          { bold: 'Dùng Transaction pooler' },
+          ' (cổng ',
+          { code: '6543' },
+          ') khi chạy trên Vercel: nhiều client dùng chung một số kết nối thật.',
+        ],
         ['Giữ nhóm kết nối nhỏ (', { code: 'max: 3' }, ') và đóng kết nối rảnh sau vài giây.'],
         [
           'Đừng đặt ',
           { code: 'max: 1' },
           ' nếu thư viện chạy migration trong transaction lúc khởi động – nó giữ kết nối duy nhất và chờ mãi kết nối thứ hai.',
         ],
-        ['Không dùng Direct connection trên Vercel: địa chỉ đó chỉ có IPv6, Vercel không kết nối được.'],
+        [
+          'Không dùng Direct connection trên Vercel: địa chỉ đó chỉ có IPv6, Vercel không kết nối được.',
+        ],
       ),
     ),
   },
@@ -325,9 +353,15 @@ const POSTS: Seed[] = [
         ', xoá các dấu kết hợp, rồi xử lý riêng chữ đ (không tách được theo cách trên):',
       ]),
       p([
-        { code: "s.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D')" },
+        {
+          code: "s.normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D')",
+        },
       ]),
-      p(['Sau đó đổi chữ thường và thay mọi ký tự không phải chữ/số bằng dấu gạch: "Bánh trôi nước" → ', { code: 'banh-troi-nuoc' }, '.']),
+      p([
+        'Sau đó đổi chữ thường và thay mọi ký tự không phải chữ/số bằng dấu gạch: "Bánh trôi nước" → ',
+        { code: 'banh-troi-nuoc' },
+        '.',
+      ]),
     ),
   },
 
@@ -388,21 +422,31 @@ async function main() {
   const tagId = new Map<string, number>()
   const ensureTag = async (name: string) => {
     if (tagId.has(name)) return tagId.get(name)!
-    const found = await payload.find({ collection: 'tags', where: { name: { equals: name } }, limit: 1 })
-    const id = found.docs[0]?.id ?? (await payload.create({ collection: 'tags', data: { name } })).id
+    const found = await payload.find({
+      collection: 'tags',
+      where: { name: { equals: name } },
+      limit: 1,
+    })
+    const id =
+      found.docs[0]?.id ?? (await payload.create({ collection: 'tags', data: { name } })).id
     tagId.set(name, id)
     return id
   }
 
   let created = 0
   for (const s of POSTS) {
-    const exists = await payload.find({ collection: 'posts', where: { slug: { equals: s.slug } }, limit: 1 })
+    const exists = await payload.find({
+      collection: 'posts',
+      where: { slug: { equals: s.slug } },
+      limit: 1,
+    })
     if (exists.docs.length) {
       console.log(`skip   ${s.slug}`)
       continue
     }
     const category = catId.get(s.category)
-    if (!category) throw new Error(`Missing category "${s.category}" – run scripts/seed-blog-categories.ts`)
+    if (!category)
+      throw new Error(`Missing category "${s.category}" – run scripts/seed-blog-categories.ts`)
     const published = new Date(Date.now() - s.daysAgo * 86_400_000).toISOString()
     await payload.create({
       collection: 'posts',
@@ -410,7 +454,7 @@ async function main() {
         title: s.title,
         slug: s.slug,
         author: s.author,
-        meaning: s.meaning,
+        meaning: s.meaning ? (doc(p(line(s.meaning))) as never) : undefined,
         excerpt: s.excerpt,
         category,
         tags: await Promise.all(s.tags.map(ensureTag)),

@@ -321,9 +321,27 @@ export interface Post {
    */
   series?: string | null;
   /**
-   * Optional – useful for proverbs and folk sayings.
+   * Optional – meaning, analysis. Write Vietnamese under Locale "vi" and English under Locale "en" (empty English falls back to Vietnamese).
    */
-  meaning?: string | null;
+  meaning?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Optional – a reference translation of the poem/saying, line breaks kept. Shown below the original on the English site.
+   */
+  translation?: string | null;
   coverImage?: (number | null) | Media;
   category: number | Category;
   tags?: (number | Tag)[] | null;
@@ -611,6 +629,7 @@ export interface PostsSelect<T extends boolean = true> {
   author?: T;
   series?: T;
   meaning?: T;
+  translation?: T;
   coverImage?: T;
   category?: T;
   tags?: T;

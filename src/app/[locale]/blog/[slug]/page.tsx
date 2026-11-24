@@ -4,7 +4,16 @@ import type { Metadata } from 'next'
 import { getDictionary, isLocale } from '@/i18n/dictionaries'
 import { categoryOf, getPostBySlug, tagsOf } from '@/lib/blog'
 import { formatFullDate } from '@/lib/date'
-import { Attribution, CategoryBadge, PostBody, TagList } from '@/components/blog/PostParts'
+import {
+  Attribution,
+  CategoryBadge,
+  hasRichText,
+  Meaning,
+  PostBody,
+  TagList,
+  Translation,
+} from '@/components/blog/PostParts'
+import { lexicalToText } from '@/collections/Posts'
 
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
@@ -15,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post) return {}
   return {
     title: `${post.title} · IXXMMIVSDRGN`,
-    description: post.excerpt || post.meaning || undefined,
+    description: post.excerpt || lexicalToText(post.meaning).slice(0, 200) || undefined,
   }
 }
 
@@ -33,13 +42,18 @@ export default async function PostPage({ params }: Props) {
 
   return (
     <article className="py-10 md:py-14 max-w-3xl mx-auto space-y-8">
-      <Link href={`/${locale}/blog`} className="font-mono text-sm text-text-secondary hover:text-accent-amber">
+      <Link
+        href={`/${locale}/blog`}
+        className="font-mono text-sm text-text-secondary hover:text-accent-amber"
+      >
         ← {t.blogBack}
       </Link>
 
       {/* Meta */}
       <header className={`space-y-4 ${centered ? 'text-center' : ''}`}>
-        <div className={`flex flex-wrap items-center gap-3 font-mono text-xs text-text-secondary ${centered ? 'justify-center' : ''}`}>
+        <div
+          className={`flex flex-wrap items-center gap-3 font-mono text-xs text-text-secondary ${centered ? 'justify-center' : ''}`}
+        >
           {category && <CategoryBadge category={category} locale={locale} />}
           <time>{formatFullDate(post.publishedAt, locale)}</time>
           {displayType === 'article' && (
@@ -63,7 +77,11 @@ export default async function PostPage({ params }: Props) {
 
       {cover?.url && (
         // eslint-disable-next-line @next/next/no-img-element -- CMS media URL
-        <img src={cover.url} alt={cover.alt ?? ''} className="w-full border border-border-default" />
+        <img
+          src={cover.url}
+          alt={cover.alt ?? ''}
+          className="w-full border border-border-default"
+        />
       )}
 
       {/* Body */}
@@ -78,10 +96,34 @@ export default async function PostPage({ params }: Props) {
       )}
       {!centered && post.author && <Attribution author={post.author} />}
 
-      {post.meaning && (
-        <section className="border-l-2 border-accent-amber bg-bg-secondary p-4 space-y-2">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-accent-amber">{t.blogMeaning}</h2>
-          <p className="text-text-secondary whitespace-pre-line">{post.meaning}</p>
+      {/* reference translation: shown on the English site, folded away on the Vietnamese one */}
+      {post.translation?.trim() &&
+        (locale === 'en' ? (
+          <section className="space-y-3 border-t border-border-default pt-6">
+            <h2
+              className={`font-mono text-xs uppercase tracking-widest text-accent-amber ${centered ? 'text-center' : ''}`}
+            >
+              {t.blogTranslation}
+            </h2>
+            <Translation text={post.translation} centered={centered} />
+          </section>
+        ) : (
+          <details className="border-t border-border-default pt-4">
+            <summary className="cursor-pointer font-mono text-xs uppercase tracking-widest text-accent-amber select-none">
+              {t.blogTranslation}
+            </summary>
+            <div className="mt-3">
+              <Translation text={post.translation} centered={centered} />
+            </div>
+          </details>
+        ))}
+
+      {hasRichText(post.meaning) && (
+        <section className="border-l-2 border-accent-amber bg-bg-secondary p-4 md:p-6 space-y-3">
+          <h2 className="font-mono text-xs uppercase tracking-widest text-accent-amber">
+            {t.blogMeaning}
+          </h2>
+          <Meaning value={post.meaning} />
         </section>
       )}
 

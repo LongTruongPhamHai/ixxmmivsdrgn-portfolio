@@ -3,7 +3,7 @@ import type { Post } from '@/payload-types'
 import { categoryOf, tagsOf } from '@/lib/blog'
 import { lexicalToText } from '@/collections/Posts'
 import { formatFullDate } from '@/lib/date'
-import { Attribution, CategoryBadge, PostBody, TagList } from './PostParts'
+import { Attribution, CategoryBadge, hasRichText, Meaning, PostBody, TagList } from './PostParts'
 
 interface PostCardProps {
   post: Post
@@ -55,7 +55,8 @@ export function PostCard({ post, locale, t }: PostCardProps) {
             </div>
           )}
           <div className="font-mono text-xs text-text-secondary">
-            {post.readingTime} {t.blogReadingTime} · <span className="text-accent-amber">{t.blogReadMore} →</span>
+            {post.readingTime} {t.blogReadingTime} ·{' '}
+            <span className="text-accent-amber">{t.blogReadMore} →</span>
           </div>
         </>
       )}
@@ -69,7 +70,9 @@ export function PostCard({ post, locale, t }: PostCardProps) {
           )}
           <div
             className={
-              longVerse ? 'max-h-80 overflow-hidden [mask-image:linear-gradient(to_bottom,black_75%,transparent)]' : ''
+              longVerse
+                ? 'max-h-80 overflow-hidden [mask-image:linear-gradient(to_bottom,black_75%,transparent)]'
+                : ''
             }
           >
             <PostBody post={post} displayType="verse" size="card" />
@@ -84,10 +87,14 @@ export function PostCard({ post, locale, t }: PostCardProps) {
         <>
           <PostBody post={post} displayType="quote" size="card" />
           <Attribution author={post.author} />
-          {post.meaning && (
-            <details className="relative z-10 font-mono text-sm">
-              <summary className="cursor-pointer text-accent-amber select-none">{t.blogMeaning}</summary>
-              <p className="mt-2 text-text-secondary whitespace-pre-line">{post.meaning}</p>
+          {hasRichText(post.meaning) && (
+            <details className="relative z-10 text-sm">
+              <summary className="cursor-pointer font-mono text-accent-amber select-none">
+                {t.blogMeaning}
+              </summary>
+              <div className="mt-2">
+                <Meaning value={post.meaning} size="card" />
+              </div>
             </details>
           )}
         </>
