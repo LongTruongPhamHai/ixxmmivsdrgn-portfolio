@@ -195,13 +195,12 @@ export function LogApp({ initial, lang }: { initial: DayView; lang: LogLang }) {
                       () => actions.moveTaskToTomorrow(view.date, task.id),
                     )
                   }
-                  onDelete={() => {
-                    if (window.confirm(t.confirmDelete))
-                      run(
-                        (v) => ({ ...v, tasks: v.tasks.filter((x) => x.id !== task.id) }),
-                        () => actions.deleteTask(view.date, task.id),
-                      )
-                  }}
+                  onDelete={() =>
+                    run(
+                      (v) => ({ ...v, tasks: v.tasks.filter((x) => x.id !== task.id) }),
+                      () => actions.deleteTask(view.date, task.id),
+                    )
+                  }
                 />
               ))}
             </ul>
@@ -328,6 +327,12 @@ function TaskRow({
 }) {
   const [editing, setEditing] = useState(false)
   const [menu, setMenu] = useState(false)
+  // Delete asks for a second click inside the menu (window.confirm is blocked in some browsers/webviews)
+  const [confirmDelete, setConfirmDelete] = useState(false)
+  const closeMenu = () => {
+    setMenu(false)
+    setConfirmDelete(false)
+  }
   const done = task.status === 'done'
   const dropped = task.status === 'dropped'
   const open = !done && !dropped
@@ -403,7 +408,7 @@ function TaskRow({
           </button>
           {menu && (
             <>
-              <div className="fixed inset-0 z-10" onClick={() => setMenu(false)} />
+              <div className="fixed inset-0 z-10" onClick={closeMenu} />
               <div className="absolute right-0 top-full z-20 w-52 bg-bg-elevated border border-border-default shadow-lg py-1 font-mono text-xs">
                 {(
                   [
@@ -424,19 +429,23 @@ function TaskRow({
                     open && [t.moveTomorrow, onTomorrow],
                     open && [t.drop, () => onPatch({ status: 'dropped' })],
                     dropped && [t.restore, () => onPatch({ status: 'todo' })],
-                    [t.delete, onDelete],
+                    [confirmDelete ? t.confirmDelete : t.delete, onDelete],
                   ].filter(Boolean) as [string, () => void][]
                 ).map(([label, fn]) => (
                   <button
                     key={label}
                     type="button"
                     onClick={() => {
-                      setMenu(false)
+                      if (fn === onDelete && !confirmDelete) {
+                        setConfirmDelete(true) // first click: ask again
+                        return
+                      }
+                      closeMenu()
                       fn()
                     }}
                     className={`block w-full text-left px-3 py-1.5 hover:bg-bg-secondary ${
-                      label === t.delete ? 'text-accent-danger' : ''
-                    }`}
+                      fn === onDelete ? 'text-accent-danger' : ''
+                    } ${fn === onDelete && confirmDelete ? 'bg-accent-danger/10 font-bold' : ''}`}
                   >
                     {label}
                   </button>
