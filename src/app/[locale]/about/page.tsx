@@ -11,6 +11,9 @@ import { getDictionary, isLocale } from '@/i18n/dictionaries'
 import { formatFullDate } from '@/lib/date'
 import type { Metadata } from 'next'
 
+/** cached (ISR); admin edits refresh it immediately via revalidatePath */
+export const revalidate = 300
+
 export async function generateMetadata(props: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {

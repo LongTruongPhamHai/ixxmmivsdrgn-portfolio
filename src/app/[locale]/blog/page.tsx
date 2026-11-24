@@ -16,6 +16,9 @@ type Props = {
   }>
 }
 
+/** filters live in the query string → render per request (not cached like the other pages) */
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const t = getDictionary(locale)

@@ -24,6 +24,7 @@ import { DailyVisits } from './collections/DailyVisits'
 import { HourlyVisits } from './collections/HourlyVisits'
 import { visitEndpoints } from './endpoints/visits'
 import { migrations } from './migrations'
+import { withRevalidate, withRevalidateGlobal } from './lib/revalidate'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -99,17 +100,13 @@ export default buildConfig({
   },
   // Public visit counter: GET/POST /api/visits
   endpoints: visitEndpoints,
-  globals: [Profile, SiteStats],
+  globals: [withRevalidateGlobal(Profile), SiteStats],
   collections: [
     Users,
-    Media,
-    Projects,
-    Skills,
-    Experience,
-    Education,
-    Posts,
-    Categories,
-    Tags,
+    // content collections: editing them refreshes the cached public pages
+    ...[Media, Projects, Skills, Experience, Education, Posts, Categories, Tags].map(
+      withRevalidate,
+    ),
     DailyVisits,
     HourlyVisits,
   ],

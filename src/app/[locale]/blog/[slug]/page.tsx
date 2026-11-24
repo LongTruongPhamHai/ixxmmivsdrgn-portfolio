@@ -17,6 +17,14 @@ import {
 import { lexicalToText } from '@/collections/Posts'
 import { EditPostLink } from '@/components/blog/EditPostLink'
 
+/** cached (ISR); admin edits refresh it immediately via revalidatePath */
+export const revalidate = 300
+
+/** posts render on first request, then cache */
+export function generateStaticParams() {
+  return []
+}
+
 type Props = { params: Promise<{ locale: string; slug: string }> }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

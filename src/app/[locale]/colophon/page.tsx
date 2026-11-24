@@ -2,6 +2,9 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { isLocale, type Locale } from '@/i18n/dictionaries'
 
+/** cached (ISR); admin edits refresh it immediately via revalidatePath */
+export const revalidate = 300
+
 const REPO = 'https://github.com/LongTruongPhamHai/ixxmmivsdrgn-portfolio'
 
 /** Static content of the colophon ("how this site is made"), vi + en */
