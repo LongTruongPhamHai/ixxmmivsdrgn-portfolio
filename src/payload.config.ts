@@ -17,6 +17,8 @@ import { Experience } from './collections/Experience'
 import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
+import { Tasks } from './collections/Tasks'
+import { DailyLogs } from './collections/DailyLogs'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { migrations } from './migrations'
@@ -94,7 +96,19 @@ export default buildConfig({
     fallbackLanguage: 'vi',
   },
   globals: [Profile],
-  collections: [Users, Media, Projects, Skills, Experience, Education, Posts, Categories, Tags],
+  collections: [
+    Users,
+    Media,
+    Projects,
+    Skills,
+    Experience,
+    Education,
+    Posts,
+    Categories,
+    Tags,
+    Tasks,
+    DailyLogs,
+  ],
   localization: {
     locales: ['vi', 'en'],
     defaultLocale: 'vi',
