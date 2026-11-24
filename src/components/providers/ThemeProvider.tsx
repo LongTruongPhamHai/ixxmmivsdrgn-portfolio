@@ -84,3 +84,18 @@ export const useMounted = () =>
     () => true,
     () => false,
   )
+
+/**
+ * Inline theme-init script. Executable only in the server HTML; on client re-renders of the root
+ * layout (e.g. /vi ↔ /en) it becomes an inert text/plain block, so React doesn't warn about
+ * rendering a <script> on the client (the theme is re-applied by ThemeProvider anyway).
+ */
+export function ThemeInitScript() {
+  return (
+    <script
+      suppressHydrationWarning
+      type={typeof window === 'undefined' ? 'text/javascript' : 'text/plain'}
+      dangerouslySetInnerHTML={{ __html: themeInitScript }}
+    />
+  )
+}

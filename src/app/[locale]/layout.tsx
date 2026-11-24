@@ -1,5 +1,5 @@
 import { Inter, JetBrains_Mono } from 'next/font/google'
-import { ThemeProvider, themeInitScript } from '@/components/providers/ThemeProvider'
+import { ThemeInitScript, ThemeProvider } from '@/components/providers/ThemeProvider'
 import { ScrollToTopButton } from '@/components/atoms/ScrollToTopButton'
 import { LanguageSwitcher } from '@/components/molecules/LanguageSwitcher'
 import { ThemeToggle } from '@/components/molecules/ThemeToggle'
@@ -38,7 +38,7 @@ export default async function RootLayout(props: {
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <ThemeInitScript />
       </head>
       <body className="bg-bg-primary text-text-primary antialiased min-h-screen flex flex-col relative">
         <ThemeProvider defaultTheme="dark">
