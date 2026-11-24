@@ -103,6 +103,35 @@ export function Translation({ text, centered }: { text?: string | null; centered
   )
 }
 
+/** "Sources" list at the end of a post */
+export function Sources({ sources, title }: { sources: Post['sources']; title: string }) {
+  if (!sources?.length) return null
+  return (
+    <section className="space-y-3">
+      <h2 className="font-mono text-xs uppercase tracking-widest text-accent-amber">{title}</h2>
+      <ol className="space-y-2 text-sm list-decimal pl-5 marker:text-text-secondary marker:font-mono">
+        {sources.map((s, i) => (
+          <li key={s.id ?? i} className="text-text-secondary">
+            {s.url ? (
+              <a
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-text-primary underline decoration-dotted hover:text-accent-amber"
+              >
+                {s.label}
+              </a>
+            ) : (
+              <span className="text-text-primary">{s.label}</span>
+            )}
+            {s.note && <span> – {s.note}</span>}
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
 /** "— Author" line used by verse and quote posts */
 export function Attribution({ author }: { author?: string | null }) {
   if (!author) return null

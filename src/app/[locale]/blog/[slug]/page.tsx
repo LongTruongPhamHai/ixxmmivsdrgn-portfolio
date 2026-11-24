@@ -10,6 +10,7 @@ import {
   hasRichText,
   Meaning,
   PostBody,
+  Sources,
   TagList,
   Translation,
 } from '@/components/blog/PostParts'
@@ -126,6 +127,8 @@ export default async function PostPage({ params }: Props) {
           <Meaning value={post.meaning} />
         </section>
       )}
+
+      <Sources sources={post.sources} title={t.blogSources} />
 
       <footer className="border-t border-border-default pt-6">
         <TagList tags={tagsOf(post)} locale={locale} />

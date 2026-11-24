@@ -136,6 +136,46 @@ export const Posts: CollectionConfig = {
       },
     },
     {
+      name: 'sources',
+      label: { vi: 'Nguồn tham khảo', en: 'Sources' },
+      type: 'array',
+      labels: {
+        singular: { vi: 'Nguồn', en: 'Source' },
+        plural: { vi: 'Nguồn', en: 'Sources' },
+      },
+      admin: {
+        description: {
+          vi: 'Văn bản gốc, tài liệu đã dùng, và phần nào là tự viết. Hiện ở cuối bài.',
+          en: 'Original texts, references used, and which parts are your own writing. Shown at the end of the post.',
+        },
+      },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            {
+              name: 'label',
+              label: { vi: 'Tên nguồn', en: 'Name' },
+              type: 'text',
+              required: true,
+              admin: { width: '50%' },
+            },
+            {
+              name: 'url',
+              label: { vi: 'Đường dẫn (tuỳ chọn)', en: 'URL (optional)' },
+              type: 'text',
+              admin: { width: '50%' },
+            },
+          ],
+        },
+        {
+          name: 'note',
+          label: { vi: 'Ghi chú', en: 'Note' },
+          type: 'text',
+        },
+      ],
+    },
+    {
       name: 'coverImage',
       label: { vi: 'Ảnh bìa', en: 'Cover image' },
       type: 'upload',
