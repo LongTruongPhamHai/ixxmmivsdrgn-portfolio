@@ -54,3 +54,6 @@ node_modules/
 
 # Mongo export used by migrate-mongo-to-supabase
 scripts/.mongo-export
+
+# local data backups
+backups/

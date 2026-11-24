@@ -76,8 +76,6 @@ export interface Config {
     posts: Post;
     categories: Category;
     tags: Tag;
-    tasks: Task;
-    'daily-logs': DailyLog;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,8 +92,6 @@ export interface Config {
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
-    tasks: TasksSelect<false> | TasksSelect<true>;
-    'daily-logs': DailyLogsSelect<false> | DailyLogsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -147,9 +143,6 @@ export interface User {
   id: number;
   updatedAt: string;
   createdAt: string;
-  enableAPIKey?: boolean | null;
-  apiKey?: string | null;
-  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -377,55 +370,6 @@ export interface Tag {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tasks".
- */
-export interface Task {
-  id: number;
-  title: string;
-  notes?: string | null;
-  status: 'todo' | 'doing' | 'done' | 'dropped';
-  priority?: ('low' | 'normal' | 'high') | null;
-  /**
-   * Unfinished tasks move to the next day automatically.
-   */
-  plannedFor?: string | null;
-  originalDate?: string | null;
-  carryCount?: number | null;
-  completedAt?: string | null;
-  order?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "daily-logs".
- */
-export interface DailyLog {
-  id: number;
-  date: string;
-  entries?:
-    | {
-        time?: string | null;
-        text: string;
-        id?: string | null;
-      }[]
-    | null;
-  review?: {
-    wins?: string | null;
-    blockers?: string | null;
-    lessons?: string | null;
-    tomorrow?: string | null;
-    energy?: number | null;
-  };
-  /**
-   * Unfinished tasks from earlier days were moved to this day (runs once per day).
-   */
-  rolledOverAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -483,14 +427,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: number | Tag;
-      } | null)
-    | ({
-        relationTo: 'tasks';
-        value: number | Task;
-      } | null)
-    | ({
-        relationTo: 'daily-logs';
-        value: number | DailyLog;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -541,9 +477,6 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
-  enableAPIKey?: T;
-  apiKey?: T;
-  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -690,49 +623,6 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface TagsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tasks_select".
- */
-export interface TasksSelect<T extends boolean = true> {
-  title?: T;
-  notes?: T;
-  status?: T;
-  priority?: T;
-  plannedFor?: T;
-  originalDate?: T;
-  carryCount?: T;
-  completedAt?: T;
-  order?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "daily-logs_select".
- */
-export interface DailyLogsSelect<T extends boolean = true> {
-  date?: T;
-  entries?:
-    | T
-    | {
-        time?: T;
-        text?: T;
-        id?: T;
-      };
-  review?:
-    | T
-    | {
-        wins?: T;
-        blockers?: T;
-        lessons?: T;
-        tomorrow?: T;
-        energy?: T;
-      };
-  rolledOverAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

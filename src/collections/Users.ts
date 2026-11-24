@@ -9,8 +9,7 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: 'email',
   },
-  // useAPIKey: generate a key under Users → your account, for the Android app
-  auth: { useAPIKey: true },
+  auth: true,
   fields: [
     // Email added by default
     // Add more fields as needed
