@@ -12,23 +12,43 @@ interface HeroSectionProps {
 }
 
 /** Amber corner brackets around a frame */
-function Corners({ size }: { size: 'sm' | 'lg' }) {
+export function Corners({ size }: { size: 'sm' | 'lg' }) {
   const s = size === 'sm' ? 'w-2.5 h-2.5' : 'w-6 h-6'
   return (
     <>
-      <div className={`absolute top-0 left-0 ${s} border-t-2 border-l-2 border-accent-amber z-10`} />
-      <div className={`absolute top-0 right-0 ${s} border-t-2 border-r-2 border-accent-amber z-10`} />
-      <div className={`absolute bottom-0 left-0 ${s} border-b-2 border-l-2 border-accent-amber z-10`} />
-      <div className={`absolute bottom-0 right-0 ${s} border-b-2 border-r-2 border-accent-amber z-10`} />
+      <div
+        className={`absolute top-0 left-0 ${s} border-t-2 border-l-2 border-accent-amber z-10`}
+      />
+      <div
+        className={`absolute top-0 right-0 ${s} border-t-2 border-r-2 border-accent-amber z-10`}
+      />
+      <div
+        className={`absolute bottom-0 left-0 ${s} border-b-2 border-l-2 border-accent-amber z-10`}
+      />
+      <div
+        className={`absolute bottom-0 right-0 ${s} border-b-2 border-r-2 border-accent-amber z-10`}
+      />
     </>
   )
 }
 
 /** Profile photo from the CMS, or a placeholder when none is uploaded */
-function Photo({ avatar, placeholder }: { avatar: HeroSectionProps['avatar']; placeholder: string }) {
+export function Photo({
+  avatar,
+  placeholder,
+}: {
+  avatar: HeroSectionProps['avatar']
+  placeholder: string
+}) {
   if (avatar) {
-    // eslint-disable-next-line @next/next/no-img-element -- CMS media URL, size varies
-    return <img src={avatar.url} alt={avatar.alt} className="absolute inset-0 w-full h-full object-cover" />
+    return (
+      // eslint-disable-next-line @next/next/no-img-element -- CMS media URL, size varies
+      <img
+        src={avatar.url}
+        alt={avatar.alt}
+        className="absolute inset-0 w-full h-full object-cover"
+      />
+    )
   }
   return (
     <span className="font-mono text-text-secondary text-[10px] sm:text-sm group-hover:text-text-primary transition-colors z-10">
@@ -88,13 +108,17 @@ export function HeroSection({
             <div className="flex-1 min-w-0 flex flex-col justify-center gap-3 font-mono text-sm border-l border-border-default pl-4">
               {fullName && (
                 <div>
-                  <div className="text-accent-amber text-[11px] uppercase tracking-wider">{t.fullName}</div>
+                  <div className="text-accent-amber text-[11px] uppercase tracking-wider">
+                    {t.fullName}
+                  </div>
                   <div className="text-text-primary font-bold leading-snug">{fullName}</div>
                 </div>
               )}
               {infoRows.map((r) => (
                 <div key={r.label}>
-                  <div className="text-accent-amber text-[11px] uppercase tracking-wider">{r.label}</div>
+                  <div className="text-accent-amber text-[11px] uppercase tracking-wider">
+                    {r.label}
+                  </div>
                   <div className="text-text-primary leading-snug">{r.value}</div>
                 </div>
               ))}
@@ -134,9 +158,6 @@ export function HeroSection({
               <Button onClick={handleScrollToContact} className="w-full sm:w-auto">
                 {t.contact}
               </Button>
-              <Button className="w-full sm:w-auto bg-transparent border-border-default text-text-secondary hover:text-text-primary hover:border-text-primary">
-                {t.resume}
-              </Button>
             </div>
           </div>
 
@@ -149,7 +170,8 @@ export function HeroSection({
                   <div
                     className="absolute inset-0 opacity-5"
                     style={{
-                      backgroundImage: 'radial-gradient(var(--color-text-secondary) 1px, transparent 1px)',
+                      backgroundImage:
+                        'radial-gradient(var(--color-text-secondary) 1px, transparent 1px)',
                       backgroundSize: '16px 16px',
                     }}
                   ></div>

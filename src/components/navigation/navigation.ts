@@ -10,10 +10,10 @@ export const getPages = (locale: string, t: Dict) => [
   { href: `/${locale}`, label: t.pageHome, ready: true },
   { href: `/${locale}/projects`, label: t.pageProjects, ready: false },
   { href: `/${locale}/blog`, label: t.pageBlog, ready: true },
-  { href: `/${locale}/cv`, label: t.pageCv, ready: false },
+  { href: `/${locale}/about`, label: t.pageAbout, ready: true },
 ]
 
-/** Sections of the home page (ids match the <section> elements) */
+/** Sections of the About page (ids match the <section> elements) */
 export const getSections = (t: Dict) => [
   { id: 'about', label: t.navAbout },
   { id: 'experience', label: t.navExperience },
@@ -23,6 +23,9 @@ export const getSections = (t: Dict) => [
 ]
 
 export const isHomePath = (pathname: string) => /^\/[a-z]{2}\/?$/.test(pathname)
+
+/** The About page (/vi/about, /en/about) – shows the section table of contents */
+export const isAboutPath = (pathname: string) => /^\/[a-z]{2}\/about\/?$/.test(pathname)
 
 export const scrollToSection = (id: string) =>
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })

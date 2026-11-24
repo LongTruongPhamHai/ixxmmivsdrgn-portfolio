@@ -8,10 +8,18 @@ export const dictionaries = {
     navProjects: 'Projects',
     navEducation: 'Education',
     navContact: 'Contact',
+    homeViewAbout: 'More about me',
+    homeReadBlog: 'Read the blog',
+    homeCurrently: 'Currently',
+    homeLocation: 'Based in',
+    homeStack: 'Main stack',
+    homeLatestPosts: 'From the blog',
+    homeAllPosts: 'All posts',
+    homeAt: 'at',
     pageHome: 'Home',
     pageProjects: 'Projects',
     pageBlog: 'Blog',
-    pageCv: 'CV',
+    pageAbout: 'About me',
     comingSoon: 'Coming soon',
     sectionsLabel: 'On this page',
     blogTitle: 'Blog',
@@ -78,10 +86,18 @@ export const dictionaries = {
     navProjects: 'Dự án',
     navEducation: 'Học vấn',
     navContact: 'Liên hệ',
+    homeViewAbout: 'Xem thêm về tôi',
+    homeReadBlog: 'Đọc blog',
+    homeCurrently: 'Hiện tại',
+    homeLocation: 'Nơi sống',
+    homeStack: 'Công nghệ chính',
+    homeLatestPosts: 'Từ blog',
+    homeAllPosts: 'Tất cả bài viết',
+    homeAt: 'tại',
     pageHome: 'Trang chủ',
     pageProjects: 'Dự án',
     pageBlog: 'Blog',
-    pageCv: 'CV',
+    pageAbout: 'Về tôi',
     comingSoon: 'Sắp ra mắt',
     sectionsLabel: 'Mục lục',
     blogTitle: 'Blog',
@@ -143,7 +159,8 @@ export const dictionaries = {
 
 export const locales = ['vi', 'en'] as const
 export type Locale = (typeof locales)[number]
-export const isLocale = (value: string): value is Locale => (locales as readonly string[]).includes(value)
+export const isLocale = (value: string): value is Locale =>
+  (locales as readonly string[]).includes(value)
 
 export const getDictionary = (locale: string) => {
   return dictionaries[locale as keyof typeof dictionaries] || dictionaries.vi
