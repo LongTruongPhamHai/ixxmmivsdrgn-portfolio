@@ -21,6 +21,11 @@ export const metadata = {
   description: 'A modern developer portfolio',
 }
 
+/** No build-time prerender (DB not needed at build): pages render on first request, then cache */
+export function generateStaticParams() {
+  return []
+}
+
 export default async function RootLayout(props: {
   children: React.ReactNode
   params: Promise<{ locale: string }>

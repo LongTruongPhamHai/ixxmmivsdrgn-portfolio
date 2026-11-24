@@ -7,6 +7,9 @@ import { HomeIntro } from '@/components/organisms/HomeIntro'
 import { PostCard } from '@/components/blog/PostCard'
 import { visiblePosts } from '@/lib/blog'
 
+/** cached (ISR); admin edits refresh it immediately via revalidatePath */
+export const revalidate = 300
+
 const POSTS_ON_HOME = 6
 const STACK_ON_HOME = 8
 
