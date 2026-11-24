@@ -1,26 +1,25 @@
 import { MigrateUpArgs, MigrateDownArgs, sql } from '@payloadcms/db-postgres'
 
+// DROP TABLE ... CASCADE already removes the foreign keys pointing at these tables,
+// so the follow-up drops must be IF EXISTS (the generated order failed in production).
 export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.execute(sql`
-   ALTER TABLE "tasks" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "daily_logs_entries" DISABLE ROW LEVEL SECURITY;
-  ALTER TABLE "daily_logs" DISABLE ROW LEVEL SECURITY;
-  DROP TABLE "tasks" CASCADE;
-  DROP TABLE "daily_logs_entries" CASCADE;
-  DROP TABLE "daily_logs" CASCADE;
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_tasks_fk";
+   DROP TABLE IF EXISTS "tasks" CASCADE;
+  DROP TABLE IF EXISTS "daily_logs_entries" CASCADE;
+  DROP TABLE IF EXISTS "daily_logs" CASCADE;
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_tasks_fk";
   
-  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT "payload_locked_documents_rels_daily_logs_fk";
+  ALTER TABLE "payload_locked_documents_rels" DROP CONSTRAINT IF EXISTS "payload_locked_documents_rels_daily_logs_fk";
   
-  DROP INDEX "payload_locked_documents_rels_tasks_id_idx";
-  DROP INDEX "payload_locked_documents_rels_daily_logs_id_idx";
-  ALTER TABLE "users" DROP COLUMN "enable_a_p_i_key";
-  ALTER TABLE "users" DROP COLUMN "api_key";
-  ALTER TABLE "users" DROP COLUMN "api_key_index";
-  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN "tasks_id";
-  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN "daily_logs_id";
-  DROP TYPE "public"."enum_tasks_status";
-  DROP TYPE "public"."enum_tasks_priority";`)
+  DROP INDEX IF EXISTS "payload_locked_documents_rels_tasks_id_idx";
+  DROP INDEX IF EXISTS "payload_locked_documents_rels_daily_logs_id_idx";
+  ALTER TABLE "users" DROP COLUMN IF EXISTS "enable_a_p_i_key";
+  ALTER TABLE "users" DROP COLUMN IF EXISTS "api_key";
+  ALTER TABLE "users" DROP COLUMN IF EXISTS "api_key_index";
+  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "tasks_id";
+  ALTER TABLE "payload_locked_documents_rels" DROP COLUMN IF EXISTS "daily_logs_id";
+  DROP TYPE IF EXISTS "public"."enum_tasks_status";
+  DROP TYPE IF EXISTS "public"."enum_tasks_priority";`)
 }
 
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
