@@ -1,5 +1,6 @@
 /**
  * Seeds real starter content for the blog (poems, folk sayings, quotes, tips, an article).
+ * Meanings/explanations are NOT written here – they come only from sources, see seed-blog-references.ts.
  * Idempotent: posts whose slug already exists are skipped. Tags are created when missing.
  * Run: npx tsx scripts/seed-blog-content.ts
  */
@@ -166,7 +167,6 @@ const POSTS: Seed[] = [
     slug: 'co-cong-mai-sat-co-ngay-nen-kim',
     category: 'ca-dao-tuc-ngu',
     author: 'Tục ngữ',
-    meaning: 'Kiên trì, bền bỉ thì việc khó đến đâu rồi cũng làm được.',
     tags: ['Kiên trì'],
     daysAgo: 2,
     content: doc(p(line('Có công mài sắt, có ngày nên kim.'))),
@@ -175,8 +175,6 @@ const POSTS: Seed[] = [
     slug: 'cong-cha-nhu-nui-thai-son',
     category: 'ca-dao-tuc-ngu',
     author: 'Ca dao',
-    meaning:
-      'Công ơn cha mẹ to lớn như núi cao, bền bỉ như nước nguồn không bao giờ cạn; làm con phải hiếu thảo, kính yêu cha mẹ.',
     tags: ['Gia đình'],
     daysAgo: 8,
     content: doc(
@@ -192,7 +190,6 @@ const POSTS: Seed[] = [
     slug: 'uong-nuoc-nho-nguon',
     category: 'ca-dao-tuc-ngu',
     author: 'Tục ngữ',
-    meaning: 'Khi được hưởng thành quả phải nhớ ơn những người đã tạo ra nó.',
     tags: ['Biết ơn'],
     daysAgo: 15,
     content: doc(p(line('Uống nước nhớ nguồn.'))),
@@ -201,7 +198,6 @@ const POSTS: Seed[] = [
     slug: 'bau-oi-thuong-lay-bi-cung',
     category: 'ca-dao-tuc-ngu',
     author: 'Ca dao',
-    meaning: 'Người cùng một cộng đồng, một đất nước phải biết thương yêu, đùm bọc lẫn nhau.',
     tags: ['Đoàn kết'],
     daysAgo: 20,
     content: doc(
@@ -230,7 +226,6 @@ const POSTS: Seed[] = [
     slug: 'simplicity-is-prerequisite-for-reliability',
     category: 'cham-ngon',
     author: 'Edsger W. Dijkstra',
-    meaning: 'Hệ thống càng đơn giản thì càng dễ đáng tin cậy.',
     tags: ['Lập trình'],
     daysAgo: 9,
     content: doc(p(line('Simplicity is prerequisite for reliability.'))),
@@ -239,7 +234,6 @@ const POSTS: Seed[] = [
     slug: 'make-it-work-make-it-right-make-it-fast',
     category: 'cham-ngon',
     author: 'Kent Beck',
-    meaning: 'Làm cho chạy được trước, rồi làm cho đúng và sạch, cuối cùng mới tối ưu tốc độ.',
     tags: ['Lập trình'],
     daysAgo: 16,
     content: doc(p(line('Make it work, make it right, make it fast.'))),

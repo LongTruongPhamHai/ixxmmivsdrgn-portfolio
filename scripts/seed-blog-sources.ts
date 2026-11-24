@@ -1,5 +1,6 @@
 /**
  * Adds the "Sources" list to the seeded blog posts (overwrites the list of the posts below only).
+ * Posts with source-based explanations are handled by seed-blog-references.ts instead.
  * Every URL was checked to resolve before being added.
  * Run: npx tsx scripts/seed-blog-sources.ts
  */
@@ -31,64 +32,11 @@ const SOURCES: Record<string, Source[]> = {
     { label: 'Nguyễn Khuyến – Wikipedia tiếng Việt', url: WP('Nguy%E1%BB%85n_Khuy%E1%BA%BFn') },
     { label: 'Sách giáo khoa Ngữ văn 11 (chương trình cũ)', note: TEXT_NOTE },
   ],
-  'chi-em-thuy-kieu': [
-    { label: 'Truyện Kiều – Wikipedia tiếng Việt', url: WP('Truy%E1%BB%87n_Ki%E1%BB%81u') },
-    {
-      label: 'The Tale of Kieu – Wikipedia (English)',
-      url: 'https://en.wikipedia.org/wiki/The_Tale_of_Kieu',
-    },
-    { label: 'Nguyễn Du – Wikipedia tiếng Việt', url: WP('Nguy%E1%BB%85n_Du') },
-    {
-      label: 'Sách giáo khoa Ngữ văn 9, tập 1 (chương trình cũ)',
-      note: 'Đoạn trích câu 15–38 của Truyện Kiều. ' + TEXT_NOTE,
-    },
-    {
-      label: `Phân tích (tiếng Việt, tiếng Anh) và bản dịch tiếng Anh: ${SELF}`,
-      note: 'Tự viết, không trích từ tài liệu đã xuất bản.',
-    },
-  ],
-  'co-cong-mai-sat-co-ngay-nen-kim': [
-    { label: 'Tục ngữ – Wikipedia tiếng Việt', url: WP('T%E1%BB%A5c_ng%E1%BB%AF') },
-    { label: `Phần giải nghĩa: ${SELF}` },
-  ],
-  'uong-nuoc-nho-nguon': [
-    { label: 'Tục ngữ – Wikipedia tiếng Việt', url: WP('T%E1%BB%A5c_ng%E1%BB%AF') },
-    { label: `Phần giải nghĩa: ${SELF}` },
-  ],
-  'cong-cha-nhu-nui-thai-son': [
-    { label: 'Ca dao – Wikipedia tiếng Việt', url: WP('Ca_dao') },
-    { label: `Phần giải nghĩa: ${SELF}`, note: 'Ca dao có nhiều dị bản.' },
-  ],
-  'bau-oi-thuong-lay-bi-cung': [
-    { label: 'Ca dao – Wikipedia tiếng Việt', url: WP('Ca_dao') },
-    { label: `Phần giải nghĩa: ${SELF}` },
-  ],
   'khong-co-viec-gi-kho': [
     {
       label: 'Hồ Chí Minh, thơ tặng thanh niên xung phong (1951)',
       note: 'Văn bản chép theo bản phổ biến.',
     },
-  ],
-  'simplicity-is-prerequisite-for-reliability': [
-    {
-      label: 'Edsger W. Dijkstra – Wikiquote',
-      url: 'https://en.wikiquote.org/wiki/Edsger_W._Dijkstra',
-      note: 'Wikiquote xếp câu này vào mục "How do we tell truths that might hurt?" (EWD498, 1975).',
-    },
-    {
-      label: 'EWD498 – E.W. Dijkstra Archive',
-      url: 'https://www.cs.utexas.edu/~EWD/transcriptions/EWD04xx/EWD498.html',
-      note: 'Chưa tìm thấy nguyên văn câu này trong bản chép EWD498 của trang lưu trữ – nguồn gốc chính xác chưa xác minh được.',
-    },
-    { label: `Phần giải nghĩa: ${SELF}` },
-  ],
-  'make-it-work-make-it-right-make-it-fast': [
-    {
-      label: 'MakeItWorkMakeItRightMakeItFast – c2 wiki',
-      url: 'https://wiki.c2.com/?MakeItWorkMakeItRightMakeItFast',
-      note: 'Cách diễn đạt này được gán cho Kent Beck; ý tưởng đã có trước đó (B. Lampson 1983; S. C. Johnson & B. Kernighan, Byte 1983).',
-    },
-    { label: `Phần giải nghĩa: ${SELF}` },
   ],
   'hoc-hoc-nua-hoc-mai': [
     {
