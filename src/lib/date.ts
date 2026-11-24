@@ -58,3 +58,20 @@ export const addDays = (day: string, n: number): string => {
   d.setUTCDate(d.getUTCDate() + n)
   return d.toISOString().slice(0, 10)
 }
+
+/** The hour of `at` in Vietnam, as "YYYY-MM-DDTHH" (e.g. 2026-11-24T09) */
+export const hourInVN = (at: Date = new Date()): string => {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-CA', {
+      timeZone: TIME_ZONE,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      hourCycle: 'h23',
+    })
+      .formatToParts(at)
+      .map((p) => [p.type, p.value]),
+  )
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}`
+}

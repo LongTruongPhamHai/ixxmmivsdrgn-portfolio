@@ -17,7 +17,8 @@ export function LanguageSwitcher({ currentLocale }: { currentLocale: string }) {
       segments.splice(1, 0, nextLocale)
     }
     const newPath = segments.join('/') || '/'
-    router.push(newPath)
+    // keep the query string and hash (e.g. /stats?range=hour, /blog?category=tho)
+    router.push(newPath + window.location.search + window.location.hash)
   }
 
   return (
