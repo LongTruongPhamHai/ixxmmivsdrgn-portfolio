@@ -108,7 +108,9 @@ export function Sources({ sources, title }: { sources: Post['sources']; title: s
   if (!sources?.length) return null
   return (
     <section className="space-y-3">
-      <h2 className="font-mono text-xs uppercase tracking-widest text-accent-amber">{title}</h2>
+      {title && (
+        <h2 className="font-mono text-xs uppercase tracking-widest text-accent-amber">{title}</h2>
+      )}
       <ol className="space-y-2 text-sm list-decimal pl-5 marker:text-text-secondary marker:font-mono">
         {sources.map((s, i) => (
           <li key={s.id ?? i} className="text-text-secondary">

@@ -30,6 +30,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
+const label = 'font-mono text-xs uppercase tracking-widest text-accent-amber'
+
+/**
+ * Post page: magazine-style header (cover image as background when present), then the body and
+ * the extras (meaning / translation / sources) side by side 50/50 on large screens, stacked below.
+ */
 export default async function PostPage({ params }: Props) {
   const { locale, slug } = await params
   if (!isLocale(locale)) notFound()
@@ -38,110 +44,114 @@ export default async function PostPage({ params }: Props) {
 
   const t = getDictionary(locale)
   const category = categoryOf(post)
+  const tags = tagsOf(post)
   const displayType = category?.displayType ?? 'article'
   const centered = displayType !== 'article'
   const cover = post.coverImage && typeof post.coverImage === 'object' ? post.coverImage : null
+  const hasTranslation = Boolean(post.translation?.trim())
+  const hasMeaning = hasRichText(post.meaning)
+  const hasSources = Boolean(post.sources?.length)
+  const hasExtras = hasTranslation || hasMeaning || hasSources
 
-  return (
-    <article className="py-10 md:py-14 max-w-3xl mx-auto space-y-8">
-      <div className="flex items-center justify-between gap-3">
-        <Link
-          href={`/${locale}/blog`}
-          className="font-mono text-sm text-text-secondary hover:text-accent-amber"
-        >
-          ← {t.blogBack}
-        </Link>
-        <EditPostLink id={post.id} label={t.blogEdit} variant="page" />
-      </div>
-
-      {/* Meta */}
-      <header className={`space-y-4 ${centered ? 'text-center' : ''}`}>
-        <div
-          className={`flex flex-wrap items-center gap-3 font-mono text-xs text-text-secondary ${centered ? 'justify-center' : ''}`}
-        >
-          {category && <CategoryBadge category={category} locale={locale} />}
-          <time>{formatFullDate(post.publishedAt, locale)}</time>
-          {post.visibility === 'archived' && (
-            <span className="uppercase tracking-widest border border-dashed border-border-default px-1.5 py-0.5">
-              {t.blogArchived}
-            </span>
-          )}
-          {displayType === 'article' && (
-            <span>
-              · {post.readingTime} {t.blogReadingTime}
-            </span>
-          )}
-          {post.series && (
-            <Link
-              href={`/${locale}/blog?series=${encodeURIComponent(post.series)}`}
-              className="text-accent-amber hover:underline"
-            >
-              · {t.blogSeries}: {post.series}
-            </Link>
-          )}
-        </div>
-        {displayType !== 'quote' && (
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight">{post.title}</h1>
-        )}
-      </header>
-
-      {cover?.url && (
-        // eslint-disable-next-line @next/next/no-img-element -- CMS media URL
-        <img
-          src={cover.url}
-          alt={cover.alt ?? ''}
-          className="w-full border border-border-default"
-        />
-      )}
-
-      {/* Body */}
-      <div className={centered ? 'text-center' : ''}>
-        <PostBody post={post} displayType={displayType} />
-      </div>
-
-      {centered && (
-        <div className="text-center">
+  const body = (
+    <div className={centered ? 'text-center lg:px-6' : ''}>
+      <PostBody post={post} displayType={displayType} />
+      {post.author && (
+        <div className="mt-5">
           <Attribution author={post.author} />
         </div>
       )}
-      {!centered && post.author && <Attribution author={post.author} />}
+    </div>
+  )
 
-      {/* reference translation: shown on the English site, folded away on the Vietnamese one */}
-      {post.translation?.trim() &&
-        (locale === 'en' ? (
-          <section className="space-y-3 border-t border-border-default pt-6">
-            <h2
-              className={`font-mono text-xs uppercase tracking-widest text-accent-amber ${centered ? 'text-center' : ''}`}
+  return (
+    <article className="pb-8 space-y-8">
+      <header
+        className="relative -mx-4 overflow-hidden border-b border-border-default bg-bg-secondary"
+        style={
+          cover?.url
+            ? {
+                backgroundImage: `url(${cover.url})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }
+            : undefined
+        }
+      >
+        {cover?.url && <div className="absolute inset-0 bg-bg-primary/75" />}
+        <div className="relative px-4 py-6 md:py-10 space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <Link
+              href={`/${locale}/blog`}
+              className="font-mono text-sm text-text-secondary hover:text-accent-amber"
             >
-              {t.blogTranslation}
-            </h2>
-            <Translation text={post.translation} centered={centered} />
-          </section>
-        ) : (
-          <details className="border-t border-border-default pt-4">
-            <summary className="cursor-pointer font-mono text-xs uppercase tracking-widest text-accent-amber select-none">
-              {t.blogTranslation}
-            </summary>
-            <div className="mt-3">
-              <Translation text={post.translation} centered={centered} />
+              ← {t.blogBack}
+            </Link>
+            <EditPostLink id={post.id} label={t.blogEdit} variant="page" />
+          </div>
+          <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tighter uppercase leading-[0.95] break-words">
+              {post.title}
+            </h1>
+            <div className="flex flex-wrap lg:flex-col lg:items-end gap-x-3 gap-y-1.5 font-mono text-xs text-text-secondary">
+              {category && <CategoryBadge category={category} locale={locale} />}
+              <time>{formatFullDate(post.publishedAt, locale)}</time>
+              {post.author && <span>{post.author}</span>}
+              {displayType === 'article' && (
+                <span>
+                  {post.readingTime} {t.blogReadingTime}
+                </span>
+              )}
+              {post.series && (
+                <Link
+                  href={`/${locale}/blog?series=${encodeURIComponent(post.series)}`}
+                  className="text-accent-amber hover:underline"
+                >
+                  {t.blogSeries}: {post.series}
+                </Link>
+              )}
+              {post.visibility === 'archived' && (
+                <span className="uppercase tracking-widest border border-dashed border-border-default px-1.5 py-0.5">
+                  {t.blogArchived}
+                </span>
+              )}
             </div>
-          </details>
-        ))}
+          </div>
+        </div>
+      </header>
 
-      {hasRichText(post.meaning) && (
-        <section className="border-l-2 border-accent-amber bg-bg-secondary p-4 md:p-6 space-y-3">
-          <h2 className="font-mono text-xs uppercase tracking-widest text-accent-amber">
-            {t.blogMeaning}
-          </h2>
-          <Meaning value={post.meaning} />
-        </section>
+      {hasExtras ? (
+        <div className="grid gap-8 lg:gap-10 items-start lg:grid-cols-2">
+          <div className="min-w-0">{body}</div>
+          <div className="space-y-6 min-w-0 lg:border-l lg:border-border-default lg:pl-10">
+            {hasMeaning && (
+              <section className="border-l-2 border-accent-amber bg-bg-secondary p-4 md:p-5 space-y-3">
+                <h2 className={label}>{t.blogMeaning}</h2>
+                <Meaning value={post.meaning} />
+              </section>
+            )}
+            {hasTranslation && (
+              <details open={locale === 'en'}>
+                <summary className={`${label} cursor-pointer select-none`}>
+                  {t.blogTranslation}
+                </summary>
+                <div className="mt-3">
+                  <Translation text={post.translation} />
+                </div>
+              </details>
+            )}
+            <Sources sources={post.sources} title={t.blogSources} />
+          </div>
+        </div>
+      ) : (
+        <div className="max-w-3xl mx-auto">{body}</div>
       )}
 
-      <Sources sources={post.sources} title={t.blogSources} />
-
-      <footer className="border-t border-border-default pt-6">
-        <TagList tags={tagsOf(post)} locale={locale} />
-      </footer>
+      {tags.length > 0 && (
+        <footer className="border-t border-border-default pt-5">
+          <TagList tags={tags} locale={locale} />
+        </footer>
+      )}
     </article>
   )
 }
