@@ -4,26 +4,26 @@ import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { ChevronDown } from 'lucide-react'
 import { getDictionary } from '@/i18n/dictionaries'
-import { getSections, isHomePath, scrollToSection, useActiveSection } from './navigation'
+import { getSections, isAboutPath, scrollToSection, useActiveSection } from './navigation'
 
 const num = (i: number) => String(i + 1).padStart(2, '0')
 
 /**
- * Home page table of contents, at the bottom of the sticky header (home page only).
+ * About page table of contents, at the bottom of the sticky header (About page only).
  * - >= 640px: centered horizontal strip, the section in view is highlighted
  * - <  640px: compact bar showing the current section + progress; tap to open the full list
  */
 export function SectionStrip({ locale }: { locale: string }) {
   const pathname = usePathname()
-  const isHome = isHomePath(pathname)
+  const isAbout = isAboutPath(pathname)
   const t = getDictionary(locale)
   const sections = getSections(t)
   const active = useActiveSection(
     sections.map((s) => s.id),
-    isHome,
+    isAbout,
   )
 
-  if (!isHome) return null
+  if (!isAbout) return null
 
   const activeIndex = Math.max(
     0,
