@@ -78,8 +78,8 @@ const saveState = (state: SavedState) => {
   }
 }
 
-/** Only the home page (/vi, /en) autoplays */
-const isHomePath = (pathname: string) => /^\/[a-z]{2}\/?$/.test(pathname)
+/** Only the About page (/vi/about, /en/about) autoplays */
+const isAutoplayPath = (pathname: string) => /^\/[a-z]{2}\/about\/?$/.test(pathname)
 
 const formatTime = (s: number) => {
   if (!Number.isFinite(s) || s < 0) return '0:00'
@@ -116,7 +116,7 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
   const [duration, setDuration] = useState(0)
   const lastSaved = useRef(0)
   const pathname = usePathname()
-  const isHome = isHomePath(pathname)
+  const autoplayHere = isAutoplayPath(pathname)
   /** Position to jump to once the (restored) track has loaded */
   const pendingSeek = useRef<{ url: string; time: number } | null>(null)
   /** Latest mode/index for callbacks created in long-lived effects */
@@ -204,7 +204,7 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
   // Autoplay ~5s after load. Browsers block sound until the visitor interacts with the page,
   // so if that attempt is refused, start on their first click/tap/key press instead.
   useEffect(() => {
-    if (!isHome || isOptedOut()) return
+    if (!autoplayHere || isOptedOut()) return
     let started = false
     const events = ['pointerdown', 'keydown'] as const
 
@@ -239,10 +239,10 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
     return () => {
       window.clearTimeout(timer)
       cleanup()
-      setAutoplayBlocked(false) // left the home page: no autoplay, no hint
+      setAutoplayBlocked(false) // left the About page: no autoplay, no hint
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHome])
+  }, [autoplayHere])
 
   if (!track) return null
 
