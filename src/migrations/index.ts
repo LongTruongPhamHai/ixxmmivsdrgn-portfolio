@@ -4,6 +4,7 @@ import * as migration_20261121_142106_blog_categories_tags from './20261121_1421
 import * as migration_20261124_013448_daily_log from './20261124_013448_daily_log';
 import * as migration_20261124_024154_remove_daily_log from './20261124_024154_remove_daily_log';
 import * as migration_20261124_033306_site_stats from './20261124_033306_site_stats';
+import * as migration_20261124_033724_daily_visits from './20261124_033724_daily_visits';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20261124_033306_site_stats.up,
     down: migration_20261124_033306_site_stats.down,
-    name: '20261124_033306_site_stats'
+    name: '20261124_033306_site_stats',
+  },
+  {
+    up: migration_20261124_033724_daily_visits.up,
+    down: migration_20261124_033724_daily_visits.down,
+    name: '20261124_033724_daily_visits'
   },
 ];

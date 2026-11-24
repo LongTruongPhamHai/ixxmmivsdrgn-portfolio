@@ -4,6 +4,7 @@ import type { GlobalConfig } from 'payload'
 export const SiteStats: GlobalConfig = {
   slug: 'site-stats',
   label: { vi: 'Thống kê trang', en: 'Site stats' },
+  admin: { group: { vi: 'Thống kê', en: 'Stats' } },
   access: {
     read: () => true,
     // only admins can edit by hand (e.g. reset); visitors go through the endpoint

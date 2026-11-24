@@ -1,5 +1,6 @@
 import { sql } from '@payloadcms/db-postgres'
 import type { Endpoint, PayloadRequest } from 'payload'
+import { dayInVN } from '@/lib/date'
 
 const BOT_RE =
   /bot|crawl|spider|slurp|preview|facebookexternalhit|headless|lighthouse|pingdom|uptime/i
@@ -20,6 +21,12 @@ async function incrementVisits(req: PayloadRequest): Promise<number> {
     drizzle?: { execute: (q: unknown) => Promise<{ rows: { visits: number }[] }> }
   }
   if (db.drizzle) {
+    // per-day counter (insert today's row on the first visit of the day)
+    await db.drizzle.execute(
+      sql`INSERT INTO "daily_visits" ("date", "visits", "updated_at", "created_at")
+          VALUES (${dayInVN()}, 1, now(), now())
+          ON CONFLICT ("date") DO UPDATE SET "visits" = COALESCE("daily_visits"."visits", 0) + 1, "updated_at" = now()`,
+    )
     const res = await db.drizzle.execute(
       sql`UPDATE "site_stats" SET "visits" = COALESCE("visits", 0) + 1, "updated_at" = now() RETURNING "visits"`,
     )

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 const SESSION_KEY = 'visit-counted'
 
@@ -35,13 +36,14 @@ export function VisitCounter({ label, locale }: { label: string; locale: string 
   const formatted = new Intl.NumberFormat(locale === 'vi' ? 'vi-VN' : 'en-US').format(visits)
 
   return (
-    <div
-      className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-center gap-2 bg-bg-elevated/90 backdrop-blur border border-border-default px-2.5 py-1.5 font-mono text-[11px] text-text-secondary pointer-events-none select-none"
+    <Link
+      href={`/${locale}/stats`}
+      className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 flex items-center gap-2 bg-bg-elevated/90 backdrop-blur border border-border-default hover:border-accent-lime px-2.5 py-1.5 font-mono text-[11px] text-text-secondary hover:text-text-primary transition-colors select-none"
       title={label}
     >
       <span className="w-1.5 h-1.5 rounded-full bg-accent-lime animate-pulse" />
       <span className="text-text-primary tabular-nums">{formatted}</span>
       <span className="hidden sm:inline">{label}</span>
-    </div>
+    </Link>
   )
 }

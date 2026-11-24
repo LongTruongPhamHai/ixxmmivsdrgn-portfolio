@@ -20,6 +20,7 @@ import { Tags } from './collections/Tags'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { SiteStats } from './globals/SiteStats'
+import { DailyVisits } from './collections/DailyVisits'
 import { visitEndpoints } from './endpoints/visits'
 import { migrations } from './migrations'
 
@@ -108,6 +109,7 @@ export default buildConfig({
     Posts,
     Categories,
     Tags,
+    DailyVisits,
   ],
   localization: {
     locales: ['vi', 'en'],

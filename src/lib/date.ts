@@ -40,3 +40,21 @@ export function formatFullDate(value: string | null | undefined, locale: string)
       }).format(date)
     : ''
 }
+
+/* ---------- Calendar days (YYYY-MM-DD) in Vietnam time ---------- */
+
+/** The calendar day of `at` in Vietnam, as YYYY-MM-DD (Vercel runs in UTC) */
+export const dayInVN = (at: Date = new Date()): string =>
+  new Intl.DateTimeFormat('en-CA', {
+    timeZone: TIME_ZONE,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(at)
+
+/** YYYY-MM-DD + n days (pure calendar arithmetic) */
+export const addDays = (day: string, n: number): string => {
+  const d = new Date(`${day}T00:00:00Z`)
+  d.setUTCDate(d.getUTCDate() + n)
+  return d.toISOString().slice(0, 10)
+}
