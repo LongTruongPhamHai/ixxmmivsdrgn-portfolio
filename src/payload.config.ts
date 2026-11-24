@@ -17,9 +17,6 @@ import { Experience } from './collections/Experience'
 import { Posts } from './collections/Posts'
 import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
-import { Tasks } from './collections/Tasks'
-import { DailyLogs } from './collections/DailyLogs'
-import { dailyLogEndpoints } from './endpoints/dailyLog'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { migrations } from './migrations'
@@ -96,8 +93,6 @@ export default buildConfig({
     supportedLanguages: { vi, en },
     fallbackLanguage: 'vi',
   },
-  // Private daily-log API: /api/log/today, /api/log/day/:date, /api/log/entries, /api/log/review
-  endpoints: dailyLogEndpoints,
   globals: [Profile],
   collections: [
     Users,
@@ -109,8 +104,6 @@ export default buildConfig({
     Posts,
     Categories,
     Tags,
-    Tasks,
-    DailyLogs,
   ],
   localization: {
     locales: ['vi', 'en'],
