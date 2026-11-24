@@ -342,6 +342,17 @@ export interface Post {
    * Optional – a reference translation of the poem/saying, line breaks kept. Shown below the original on the English site.
    */
   translation?: string | null;
+  /**
+   * Original texts, references used, and which parts are your own writing. Shown at the end of the post.
+   */
+  sources?:
+    | {
+        label: string;
+        url?: string | null;
+        note?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   coverImage?: (number | null) | Media;
   category: number | Category;
   tags?: (number | Tag)[] | null;
@@ -630,6 +641,14 @@ export interface PostsSelect<T extends boolean = true> {
   series?: T;
   meaning?: T;
   translation?: T;
+  sources?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        note?: T;
+        id?: T;
+      };
   coverImage?: T;
   category?: T;
   tags?: T;
