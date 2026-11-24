@@ -21,19 +21,20 @@
 
 @layer base {
   :root {
-    /* LIGHT MODE VARIABLES */
-    --color-bg-primary: #839e78;
-    --color-bg-secondary: #95b388;
-    --color-bg-elevated: #a8c799;
+    /* LIGHT MODE VARIABLES (sage green, lightened for contrast).
+       Every text/accent colour is >= 4.5:1 (WCAG AA) on all three backgrounds. */
+    --color-bg-primary: #C9D8BE;
+    --color-bg-secondary: #B9CBAC;
+    --color-bg-elevated: #DAE5D1;
 
-    --color-text-primary: #121710;
-    --color-text-secondary: #2b3b28;
+    --color-text-primary: #0E160B;
+    --color-text-secondary: #33452E;
 
-    --color-accent-amber: #b05e00;
-    --color-accent-lime: #164010;
-    --color-accent-danger: #990000;
+    --color-accent-amber: #7F4100;
+    --color-accent-lime: #1D4A10;
+    --color-accent-danger: #9B1C10;
 
-    --color-border-default: #6b8261;
+    --color-border-default: #8FA684;
     --color-border-active: var(--color-accent-amber);
   }
 
