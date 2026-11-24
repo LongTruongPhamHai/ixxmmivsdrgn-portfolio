@@ -103,9 +103,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('vi' | 'en') | ('vi' | 'en')[];
   globals: {
     profile: Profile;
+    'site-stats': SiteStat;
   };
   globalsSelect: {
     profile: ProfileSelect<false> | ProfileSelect<true>;
+    'site-stats': SiteStatsSelect<false> | SiteStatsSelect<true>;
   };
   locale: 'vi' | 'en';
   widgets: {
@@ -684,6 +686,19 @@ export interface Profile {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-stats".
+ */
+export interface SiteStat {
+  id: number;
+  /**
+   * One per browser session (bots are not counted).
+   */
+  visits?: number | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "profile_select".
  */
 export interface ProfileSelect<T extends boolean = true> {
@@ -694,6 +709,16 @@ export interface ProfileSelect<T extends boolean = true> {
   phone?: T;
   email?: T;
   objective?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-stats_select".
+ */
+export interface SiteStatsSelect<T extends boolean = true> {
+  visits?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

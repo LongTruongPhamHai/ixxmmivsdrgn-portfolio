@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation'
 import { getDictionary, isLocale } from '@/i18n/dictionaries'
 import { getPlaylists } from '@/lib/music'
 import { MusicPlayer } from '@/components/molecules/MusicPlayer'
+import { VisitCounter } from '@/components/atoms/VisitCounter'
 import '@/styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -49,6 +50,9 @@ export default async function RootLayout(props: {
           </main>
 
           <Footer />
+
+          {/* Visit counter (bottom-left) */}
+          <VisitCounter label={t.visits} locale={locale} />
 
           {/* Floating Action Controls Container */}
           <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 md:bottom-8 md:right-8 lg:bottom-10 lg:right-10 xl:bottom-12 xl:right-12 z-50 flex flex-col gap-2 sm:gap-3 lg:gap-4 items-center">

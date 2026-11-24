@@ -19,6 +19,8 @@ import { Categories } from './collections/Categories'
 import { Tags } from './collections/Tags'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
+import { SiteStats } from './globals/SiteStats'
+import { visitEndpoints } from './endpoints/visits'
 import { migrations } from './migrations'
 
 const filename = fileURLToPath(import.meta.url)
@@ -93,7 +95,9 @@ export default buildConfig({
     supportedLanguages: { vi, en },
     fallbackLanguage: 'vi',
   },
-  globals: [Profile],
+  // Public visit counter: GET/POST /api/visits
+  endpoints: visitEndpoints,
+  globals: [Profile, SiteStats],
   collections: [
     Users,
     Media,
