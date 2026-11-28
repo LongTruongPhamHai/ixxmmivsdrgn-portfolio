@@ -75,6 +75,39 @@ type Seed = {
 const POSTS: Seed[] = [
   // ---- Thơ ----
   {
+    slug: 'vong-nguyet',
+    category: 'tho',
+    title: 'Vọng nguyệt (Ngắm trăng)',
+    author: 'Hồ Chí Minh (Nhật ký trong tù)',
+    tags: ['Nhật ký trong tù', 'Thơ chữ Hán', 'Trăng'],
+    daysAgo: 0,
+    content: verse(`
+      望月
+      獄中無酒亦無花，
+      對此良宵奈若何。
+      人向窗前看明月，
+      月從窗隙看詩家。
+
+      Phiên âm:
+      Ngục trung vô tửu diệc vô hoa,
+      Đối thử lương tiêu nại nhược hà?
+      Nhân hướng song tiền khán minh nguyệt,
+      Nguyệt tòng song khích khán thi gia.
+
+      Dịch nghĩa:
+      Trong tù không rượu cũng không hoa,
+      Trước cảnh đẹp đêm nay biết làm thế nào?
+      Người hướng ra trước song ngắm trăng sáng,
+      Từ ngoài khe cửa, trăng ngắm nhà thơ.
+
+      Dịch thơ (Nam Trân):
+      Trong tù không rượu cũng không hoa,
+      Cảnh đẹp đêm nay khó hững hờ;
+      Người ngắm trăng soi ngoài cửa sổ,
+      Trăng nhòm khe cửa ngắm nhà thơ.`),
+  },
+
+  {
     slug: 'banh-troi-nuoc',
     category: 'tho',
     title: 'Bánh trôi nước',

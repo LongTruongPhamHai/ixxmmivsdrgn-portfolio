@@ -67,6 +67,60 @@ type Entry = {
 }
 
 const ENTRIES: Record<string, Entry> = {
+  'vong-nguyet': {
+    sources: [
+      {
+        label: 'Vọng nguyệt – 望月 (Hồ Chí Minh) – Thi Viện',
+        url: 'https://www.thivien.net/H%E1%BB%93-Ch%C3%AD-Minh/V%E1%BB%8Dng-nguy%E1%BB%87t/poem-5rhhpzHYKx4bI46F3xhIQA',
+        note: 'Nguyên văn chữ Hán, phiên âm, dịch nghĩa; bản dịch thơ của Nam Trân',
+      },
+      {
+        label: 'Vọng nguyệt (Hồ Chí Minh) – Wikipedia tiếng Việt',
+        url: WP('V%E1%BB%8Dng_nguy%E1%BB%87t_(H%E1%BB%93_Ch%C3%AD_Minh)'),
+      },
+      {
+        label: 'Nhật ký trong tù – Wikipedia tiếng Việt',
+        url: WP('Nh%E1%BA%ADt_k%C3%BD_trong_t%C3%B9'),
+      },
+      {
+        label: 'Ngắm trăng (Tác giả Tác phẩm) – VietJack',
+        url: 'https://vietjack.com/ngu-van-8/ngam-trang.jsp',
+      },
+    ],
+    meaningVi: doc(
+      ul(
+        [
+          'Vọng nguyệt (望月, Ngắm trăng) là bài thơ chữ Hán thể thất ngôn tứ tuyệt, viết trong khoảng 1942–1943 khi Hồ Chí Minh bị giam ở Quảng Tây, Trung Quốc; bài thuộc tập Nhật ký trong tù [2][3].',
+        ],
+        [
+          'Hai câu đầu nói cảnh ngộ trong tù không rượu, không hoa – vốn là thú tao nhã của thi nhân xưa – nhưng nhà thơ vẫn không thể hững hờ trước cảnh trăng đẹp [1][4].',
+        ],
+        [
+          'Hai câu cuối đối nhau quanh hình ảnh song cửa nhà tù: người ngắm trăng, trăng được nhân hoá "nhòm khe cửa" ngắm nhà thơ – như mối giao cảm tri âm giữa người và trăng [1][4].',
+        ],
+        [
+          'Bài thơ thể hiện tình yêu thiên nhiên và phong thái ung dung, tâm hồn tự do của người chiến sĩ dù thân ở trong tù [1][4].',
+        ],
+        [
+          'Đây được xem là một trong những bài thơ nổi tiếng nhất của tập Nhật ký trong tù và có trong chương trình Ngữ văn trung học cơ sở [2].',
+        ],
+      ),
+    ),
+    meaningEn: doc(
+      ul(
+        [
+          'Vọng nguyệt (望月, "Gazing at the Moon") is a seven-character quatrain in Classical Chinese, written in 1942–1943 while Hồ Chí Minh was detained in Guangxi, China; it belongs to the collection Prison Diary (Nhật ký trong tù) [2][3].',
+        ],
+        [
+          'The first two lines set the scene: no wine and no flowers in prison, yet the poet cannot stay indifferent to the beautiful moonlit night [1][4].',
+        ],
+        [
+          'The last two lines mirror each other across the prison window: the man looks at the moon, and the personified moon peers through the gap to look at the poet [1][4].',
+        ],
+        ['The poem conveys a love of nature and a calm, free spirit despite imprisonment [1][4].'],
+      ),
+    ),
+  },
   'chi-em-thuy-kieu': {
     sources: [
       { label: 'Truyện Kiều – Wikipedia tiếng Việt', url: WP('Truy%E1%BB%87n_Ki%E1%BB%81u') },
