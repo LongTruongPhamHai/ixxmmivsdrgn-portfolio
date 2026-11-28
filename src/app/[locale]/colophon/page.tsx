@@ -38,7 +38,7 @@ const content = {
     features: [
       'Song ngữ Việt – Anh, cả trang web lẫn trang quản trị.',
       'Theme sáng/tối, ghi nhớ lựa chọn và không nháy khi tải trang.',
-      'Trình phát nhạc: nhạc nghi lễ QĐNDVN (trống hành khúc trước mỗi bài) và bài hát; tự phát ở trang Về tôi, nghe tiếp từ chỗ đã dừng.',
+      'Trình phát nhạc: nhạc nghi lễ QĐNDVN và bài hát; tự phát ở trang Về tôi, nghe tiếp từ chỗ đã dừng.',
       'Blog với chuyên mục và thẻ; thơ giữ xuống dòng, ca dao – châm ngôn hiển thị dạng trích dẫn.',
       'Đếm lượt truy cập (mỗi phiên trình duyệt một lượt) và trang thống kê theo ngày.',
       'Mục lục bám theo vị trí cuộn ở trang Về tôi.',
@@ -86,7 +86,7 @@ const content = {
     features: [
       'Vietnamese and English, for both the site and the admin panel.',
       'Light/dark theme, remembered and without a flash on load.',
-      'Music player: Vietnam People’s Army ceremonial music (a drum roll before each piece) and songs; autoplays on the About page and resumes where you stopped.',
+      'Music player: Vietnam People’s Army ceremonial music and songs; autoplays on the About page and resumes where you stopped.',
       'Blog with categories and tags; poems keep their line breaks, sayings and quotes render as large quotes.',
       'Visit counter (one per browser session) and a daily stats page.',
       'A scroll-spy table of contents on the About page.',

@@ -338,6 +338,8 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
       <audio
         ref={audioRef}
         src={track.url}
+        // a playlist with a single file (nhạc nghi lễ is one merged mp3) just repeats it
+        loop={tracks.length === 1}
         preload="metadata"
         onEnded={onEnded}
         onTimeUpdate={onTimeUpdate}
