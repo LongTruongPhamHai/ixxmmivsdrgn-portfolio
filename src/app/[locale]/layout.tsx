@@ -51,7 +51,52 @@ export default async function RootLayout(props: {
         body: musicInfoDoc.body ?? '',
         image,
         // one picture per paragraph, shipped with the site (public/pic)
-        paragraphImages: ['/pic/nghi-le-1.jpg', '/pic/nghi-le-2.jpg', '/pic/nghi-le-3.jpg'],
+        paragraphImages:
+          locale === 'en'
+            ? [
+                {
+                  src: '/pic/nghi-le-1.jpg',
+                  caption:
+                    'Military band at an official welcome ceremony chaired by the State President, 10/9/2023',
+                  credit: 'Người Lao Động',
+                  creditUrl: 'https://nld.com.vn',
+                },
+                {
+                  src: '/pic/nghi-le-2.jpg',
+                  caption:
+                    'Flag-bearing honour guard leading the parade at Ba Đình Square, 80th National Day, 2/9/2025',
+                  credit: 'Báo Điện tử Chính phủ',
+                  creditUrl: 'https://baochinhphu.vn',
+                },
+                {
+                  src: '/pic/nghi-le-3.jpg',
+                  caption: 'Vietnam People’s Army block marching at Ba Đình Square, 2/9/2025',
+                  credit: 'Báo Điện tử Chính phủ',
+                  creditUrl: 'https://baochinhphu.vn',
+                },
+              ]
+            : [
+                {
+                  src: '/pic/nghi-le-1.jpg',
+                  caption:
+                    'Khối quân nhạc tại lễ đón chính thức do Chủ tịch nước chủ trì, 10/9/2023',
+                  credit: 'Báo Người Lao Động',
+                  creditUrl: 'https://nld.com.vn',
+                },
+                {
+                  src: '/pic/nghi-le-2.jpg',
+                  caption:
+                    'Khối tiêu binh mang Quốc kỳ dẫn đầu diễu binh tại Quảng trường Ba Đình, Lễ kỷ niệm 80 năm Quốc khánh 2/9/2025',
+                  credit: 'Báo Điện tử Chính phủ',
+                  creditUrl: 'https://baochinhphu.vn',
+                },
+                {
+                  src: '/pic/nghi-le-3.jpg',
+                  caption: 'Khối nam sĩ quan Lục quân diễu binh tại Quảng trường Ba Đình, 2/9/2025',
+                  credit: 'Báo Điện tử Chính phủ',
+                  creditUrl: 'https://baochinhphu.vn',
+                },
+              ],
         sources: (musicInfoDoc.sources ?? []).map((s) => ({ label: s.label, url: s.url ?? null })),
       }
     : null
@@ -117,6 +162,7 @@ export default async function RootLayout(props: {
                   autoplayHint: t.musicHint,
                   info: t.musicInfo,
                   infoLink: t.musicInfoLink,
+                  photo: t.musicInfoPhoto,
                   close: t.musicInfoClose,
                   sources: t.blogSources,
                 }}
