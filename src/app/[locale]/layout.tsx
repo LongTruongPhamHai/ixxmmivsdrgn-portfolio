@@ -44,13 +44,14 @@ export default async function RootLayout(props: {
   const image =
     musicInfoDoc?.image && typeof musicInfoDoc.image === 'object' && musicInfoDoc.image.url
       ? { url: musicInfoDoc.image.url, alt: musicInfoDoc.image.alt || musicInfoDoc.title || '' }
-      : // default picture shipped with the site (public/pic) until one is uploaded in the admin
-        { url: '/pic/khoi-quan-nhac-doan-nghi-le-quan-doi.jpg', alt: musicInfoDoc?.title || '' }
+      : null
   const musicInfo = musicInfoDoc?.title
     ? {
         title: musicInfoDoc.title,
         body: musicInfoDoc.body ?? '',
         image,
+        // one picture per paragraph, shipped with the site (public/pic)
+        paragraphImages: ['/pic/nghi-le-1.jpg', '/pic/nghi-le-2.jpg', '/pic/nghi-le-3.jpg'],
         sources: (musicInfoDoc.sources ?? []).map((s) => ({ label: s.label, url: s.url ?? null })),
       }
     : null
