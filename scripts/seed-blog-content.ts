@@ -439,7 +439,7 @@ const POSTS: Seed[] = [
   },
 ]
 
-// sayings from the HDBank wall calendars
+// collected sayings (scripts/calendar-quotes.ts)
 POSTS.push(
   ...CALENDAR_QUOTES.map((q, i) => ({
     slug: q.slug,
