@@ -34,6 +34,7 @@ interface MusicPlayerProps {
     info: string
     /** Small link under the now-playing popup, e.g. "Xem thông tin" */
     infoLink: string
+    photo: string
     close: string
     sources: string
   }
@@ -43,7 +44,7 @@ interface MusicPlayerProps {
     body: string
     image: { url: string; alt: string } | null
     /** Picture shown beside each paragraph (by index) */
-    paragraphImages?: string[]
+    paragraphImages?: { src: string; caption: string; credit: string; creditUrl?: string }[]
     sources: { label: string; url: string | null }[]
   } | null
 }
@@ -570,20 +571,43 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
                 .filter((line) => line.trim())
                 .map((line, i) => {
                   const img = info.paragraphImages?.[i]
-                  const text = <p className="text-sm text-text-secondary leading-relaxed">{line}</p>
+                  const text = (
+                    <p className="text-sm text-text-secondary leading-relaxed text-justify hyphens-auto">
+                      {line}
+                    </p>
+                  )
                   if (!img) return <div key={i}>{text}</div>
                   // picture beside its paragraph, alternating sides; stacked on phones
                   return (
                     <div key={i} className="grid gap-3 sm:grid-cols-2 sm:gap-5 sm:items-center">
-                      {/* eslint-disable-next-line @next/next/no-img-element -- static picture */}
-                      <img
-                        src={img}
-                        alt=""
-                        loading="lazy"
-                        className={`w-full aspect-[3/2] object-cover border border-border-default ${
-                          i % 2 ? 'sm:order-2' : ''
-                        }`}
-                      />
+                      <figure className={`space-y-1.5 ${i % 2 ? 'sm:order-2' : ''}`}>
+                        {/* eslint-disable-next-line @next/next/no-img-element -- static picture */}
+                        <img
+                          src={img.src}
+                          alt={img.caption}
+                          loading="lazy"
+                          className="w-full aspect-[3/2] object-cover border border-border-default"
+                        />
+                        <figcaption className="text-[11px] leading-snug text-text-secondary italic">
+                          {img.caption}
+                          <span className="not-italic">
+                            {' — '}
+                            {labels.photo}:{' '}
+                            {img.creditUrl ? (
+                              <a
+                                href={img.creditUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-accent-amber hover:underline"
+                              >
+                                {img.credit}
+                              </a>
+                            ) : (
+                              img.credit
+                            )}
+                          </span>
+                        </figcaption>
+                      </figure>
                       {text}
                     </div>
                   )
