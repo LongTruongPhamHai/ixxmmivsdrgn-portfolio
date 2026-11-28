@@ -5,6 +5,7 @@
  * Run: npx tsx scripts/seed-blog-content.ts
  */
 import 'dotenv/config'
+import { CALENDAR_QUOTES } from './calendar-quotes'
 
 /* ---------- tiny Lexical builders ---------- */
 type Inline = string | { code: string } | { bold: string }
@@ -437,6 +438,18 @@ const POSTS: Seed[] = [
     ),
   },
 ]
+
+// sayings from the HDBank wall calendars
+POSTS.push(
+  ...CALENDAR_QUOTES.map((q, i) => ({
+    slug: q.slug,
+    category: 'cham-ngon',
+    author: q.author,
+    tags: q.tags,
+    daysAgo: i * 0.01, // keeps calendar order, newest last
+    content: doc(p(...q.lines.map(line))),
+  })),
+)
 
 async function main() {
   const { getPayload } = await import('payload')

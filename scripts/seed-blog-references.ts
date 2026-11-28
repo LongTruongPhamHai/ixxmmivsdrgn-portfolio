@@ -9,6 +9,7 @@
  * Run: npx tsx scripts/seed-blog-references.ts
  */
 import 'dotenv/config'
+import { CALENDAR_QUOTES } from './calendar-quotes'
 
 type Source = { label: string; url?: string; note?: string }
 type Inline = string | { bold: string } | { italic: string }
@@ -469,6 +470,19 @@ const ENTRIES: Record<string, Entry> = {
       ),
     ),
   },
+}
+
+// sayings copied from the HDBank wall calendars: the calendar is the only source, no explanation
+for (const q of CALENDAR_QUOTES) {
+  ENTRIES[q.slug] = {
+    sources: [
+      {
+        label: 'Lịch treo tường HDBank',
+        note: `Câu nói in trên ${q.sheet}, ghi tác giả: ${q.author}.`,
+      },
+    ],
+    meaningVi: null,
+  }
 }
 
 async function main() {
