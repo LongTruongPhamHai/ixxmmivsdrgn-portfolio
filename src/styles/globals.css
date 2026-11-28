@@ -171,3 +171,39 @@ body {
   content: ' ❞';
   color: var(--color-accent-amber);
 }
+
+/* ── Interaction feedback for every link / button ──────────────────────────
+   Unlayered on purpose so it wins over Tailwind utilities.
+   - hover: elements without their own hover: style fade slightly
+   - active (click / tap): press-in + dim
+   - keyboard focus: amber outline
+   - touch: tinted tap highlight */
+:where(a, button, [role='button'], summary) {
+  /* tap colour only; transitions below skip elements that set their own */
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--color-accent-amber) 25%, transparent);
+}
+:where(a, button, [role='button'], summary):not([class*='transition']) {
+  transition-property: color, background-color, border-color, text-decoration-color, opacity, transform;
+  transition-duration: 150ms;
+}
+:where(a, button, [role='button'], summary):not([class*='hover:']):not(:disabled):hover {
+  opacity: 0.75;
+}
+:where(a, button, [role='button'], summary):not(:disabled):active {
+  transform: scale(0.97);
+  opacity: 0.7;
+}
+:where(a, button, [role='button'], summary, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-accent-amber);
+  outline-offset: 2px;
+}
+/* links inside rich text (post body / meaning) */
+.post-body a:not([class]) {
+  color: var(--color-accent-amber);
+  text-decoration: underline dotted;
+  text-underline-offset: 3px;
+}
+.post-body a:not([class]):hover {
+  text-decoration-style: solid;
+  opacity: 1;
+}
