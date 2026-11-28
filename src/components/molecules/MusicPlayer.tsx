@@ -42,6 +42,8 @@ interface MusicPlayerProps {
     title: string
     body: string
     image: { url: string; alt: string } | null
+    /** Picture shown beside each paragraph (by index) */
+    paragraphImages?: string[]
     sources: { label: string; url: string | null }[]
   } | null
 }
@@ -539,7 +541,7 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="music-info-title"
-            className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-bg-elevated border border-border-default shadow-2xl"
+            className="relative w-full max-w-lg sm:max-w-3xl max-h-[85vh] overflow-y-auto bg-bg-elevated border border-border-default shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -551,7 +553,7 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
             >
               <X size={16} />
             </button>
-            {info.image && (
+            {info.image && !info.paragraphImages?.length && (
               // eslint-disable-next-line @next/next/no-img-element -- CMS media URL
               <img
                 src={info.image.url}
@@ -559,18 +561,33 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
                 className="w-full max-h-72 object-cover border-b border-border-default"
               />
             )}
-            <div className="p-5 space-y-3">
+            <div className="p-5 space-y-5">
               <h2 id="music-info-title" className="text-xl font-bold pr-8">
                 {info.title}
               </h2>
               {info.body
                 .split(/\n+/)
                 .filter((line) => line.trim())
-                .map((line, i) => (
-                  <p key={i} className="text-sm text-text-secondary leading-relaxed">
-                    {line}
-                  </p>
-                ))}
+                .map((line, i) => {
+                  const img = info.paragraphImages?.[i]
+                  const text = <p className="text-sm text-text-secondary leading-relaxed">{line}</p>
+                  if (!img) return <div key={i}>{text}</div>
+                  // picture beside its paragraph, alternating sides; stacked on phones
+                  return (
+                    <div key={i} className="grid gap-3 sm:grid-cols-2 sm:gap-5 sm:items-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element -- static picture */}
+                      <img
+                        src={img}
+                        alt=""
+                        loading="lazy"
+                        className={`w-full aspect-[3/2] object-cover border border-border-default ${
+                          i % 2 ? 'sm:order-2' : ''
+                        }`}
+                      />
+                      {text}
+                    </div>
+                  )
+                })}
               {info.sources.length > 0 && (
                 <div className="pt-2 border-t border-border-default space-y-1">
                   <p className="font-mono text-[11px] uppercase tracking-widest text-accent-amber">
