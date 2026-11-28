@@ -472,17 +472,9 @@ const ENTRIES: Record<string, Entry> = {
   },
 }
 
-// sayings copied from the HDBank wall calendars: the calendar is the only source, no explanation
+// collected sayings: only sources found online (none → no entry; the post is hidden by sync-collected-quotes.ts)
 for (const q of CALENDAR_QUOTES) {
-  ENTRIES[q.slug] = {
-    sources: [
-      {
-        label: 'Lịch treo tường HDBank',
-        note: `Câu nói in trên ${q.sheet}, ghi tác giả: ${q.author}.`,
-      },
-    ],
-    meaningVi: null,
-  }
+  if (q.sources.length) ENTRIES[q.slug] = { sources: q.sources, meaningVi: null }
 }
 
 async function main() {
