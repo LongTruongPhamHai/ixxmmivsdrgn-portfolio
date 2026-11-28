@@ -1,6 +1,6 @@
 export const dictionaries = {
   en: {
-    available: 'Available for Work',
+    available: 'Currently employed',
     contact: 'Contact Me',
     resume: 'View Resume',
     navAbout: 'About',
@@ -108,7 +108,7 @@ export const dictionaries = {
     } as Record<string, string>,
   },
   vi: {
-    available: 'Sẵn sàng làm việc',
+    available: 'Đang làm việc',
     contact: 'Liên hệ ngay',
     resume: 'Xem CV',
     navAbout: 'Giới thiệu',
