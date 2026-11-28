@@ -47,6 +47,11 @@ interface MusicPlayerProps {
     paragraphImages?: { src: string; caption: string; credit: string; creditUrl?: string }[]
     sources: { label: string; url: string | null }[]
   } | null
+  /** Info popup per song, keyed by track title */
+  songInfo?: Record<
+    string,
+    { title: string; body: string; sources: { label: string; url: string | null }[] }
+  >
 }
 
 /** Playlist that gets the "i" info button */
@@ -124,7 +129,7 @@ function fadeIn(audio: HTMLAudioElement) {
 const corner =
   'absolute w-2 h-2 border-transparent group-hover:border-accent-lime transition-colors'
 
-export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
+export function MusicPlayer({ playlists, labels, info: musicInfo, songInfo }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
@@ -365,7 +370,14 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
   }
 
   const nowPlaying = track.artist ? `${track.title} — ${track.artist}` : track.title
-  const showInfoButton = Boolean(info) && isPlaying && playlists[mode]?.id === INFO_PLAYLIST
+  // ceremonial playlist → its own info; songs → info of the current track
+  const info =
+    playlists[mode]?.id === INFO_PLAYLIST
+      ? musicInfo
+      : track && songInfo?.[track.title]
+        ? { ...songInfo[track.title], image: null }
+        : null
+  const showInfoButton = Boolean(info) && isPlaying
 
   return (
     <div ref={rootRef} className="relative">
