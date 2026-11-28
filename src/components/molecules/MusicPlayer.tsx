@@ -32,6 +32,8 @@ interface MusicPlayerProps {
     /** Shown when the browser blocks autoplay, until the visitor clicks */
     autoplayHint: string
     info: string
+    /** Small link under the now-playing popup, e.g. "Xem thông tin" */
+    infoLink: string
     close: string
     sources: string
   }
@@ -396,8 +398,22 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
           </>
         ) : (
           <>
-            <Music size={12} className="shrink-0 text-accent-lime" />
-            <span className="font-mono text-xs text-text-primary truncate">{toast?.text}</span>
+            <Music size={12} className="shrink-0 text-accent-lime self-start mt-0.5" />
+            <span className="min-w-0 flex flex-col">
+              <span className="font-mono text-xs text-text-primary truncate">{toast?.text}</span>
+              {/* ceremonial music: a small link to the info popup */}
+              {showInfoButton && (
+                <button
+                  type="button"
+                  onClick={() => setInfoOpen(true)}
+                  className={`self-start font-mono text-[11px] text-accent-amber hover:underline ${
+                    toast?.visible && !open ? 'pointer-events-auto' : ''
+                  }`}
+                >
+                  {labels.infoLink} →
+                </button>
+              )}
+            </span>
           </>
         )}
       </div>
