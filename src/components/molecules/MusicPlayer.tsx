@@ -505,12 +505,12 @@ export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
         <button
           type="button"
           onClick={() => setInfoOpen(true)}
-          className="absolute -top-2 -left-2 z-10 w-5 h-5 rounded-full bg-accent-amber text-bg-primary flex items-center justify-center shadow-md hover:scale-110 transition-transform"
+          className="absolute -top-3 -left-3 z-10 w-7 h-7 border-2 border-bg-primary rounded-full bg-accent-amber text-bg-primary flex items-center justify-center shadow-md hover:scale-110 transition-transform"
           aria-label={labels.info}
           title={labels.info}
         >
           <span className="absolute inset-0 rounded-full bg-accent-amber animate-ping opacity-40" />
-          <Info size={12} strokeWidth={3} className="relative" />
+          <Info size={16} strokeWidth={3} className="relative" />
         </button>
       )}
 
