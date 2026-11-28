@@ -1,15 +1,16 @@
-import * as migration_20261121_003827_initial from './20261121_003827_initial';
-import * as migration_20261121_142053_posts_drop_localization from './20261121_142053_posts_drop_localization';
-import * as migration_20261121_142106_blog_categories_tags from './20261121_142106_blog_categories_tags';
-import * as migration_20261124_013448_daily_log from './20261124_013448_daily_log';
-import * as migration_20261124_024154_remove_daily_log from './20261124_024154_remove_daily_log';
-import * as migration_20261124_033306_site_stats from './20261124_033306_site_stats';
-import * as migration_20261124_033724_daily_visits from './20261124_033724_daily_visits';
-import * as migration_20261124_041608_post_translation from './20261124_041608_post_translation';
-import * as migration_20261124_041618_bilingual_meaning from './20261124_041618_bilingual_meaning';
-import * as migration_20261124_042923_post_sources from './20261124_042923_post_sources';
-import * as migration_20261124_044418_post_visibility from './20261124_044418_post_visibility';
-import * as migration_20261124_132433_hourly_visits from './20261124_132433_hourly_visits';
+import * as migration_20261121_003827_initial from './20261121_003827_initial'
+import * as migration_20261121_142053_posts_drop_localization from './20261121_142053_posts_drop_localization'
+import * as migration_20261121_142106_blog_categories_tags from './20261121_142106_blog_categories_tags'
+import * as migration_20261124_013448_daily_log from './20261124_013448_daily_log'
+import * as migration_20261124_024154_remove_daily_log from './20261124_024154_remove_daily_log'
+import * as migration_20261124_033306_site_stats from './20261124_033306_site_stats'
+import * as migration_20261124_033724_daily_visits from './20261124_033724_daily_visits'
+import * as migration_20261124_041608_post_translation from './20261124_041608_post_translation'
+import * as migration_20261124_041618_bilingual_meaning from './20261124_041618_bilingual_meaning'
+import * as migration_20261124_042923_post_sources from './20261124_042923_post_sources'
+import * as migration_20261124_044418_post_visibility from './20261124_044418_post_visibility'
+import * as migration_20261124_132433_hourly_visits from './20261124_132433_hourly_visits'
+import * as migration_20261128_040144_music_info from './20261128_040144_music_info'
 
 export const migrations = [
   {
@@ -70,6 +71,11 @@ export const migrations = [
   {
     up: migration_20261124_132433_hourly_visits.up,
     down: migration_20261124_132433_hourly_visits.down,
-    name: '20261124_132433_hourly_visits'
+    name: '20261124_132433_hourly_visits',
   },
-];
+  {
+    up: migration_20261128_040144_music_info.up,
+    down: migration_20261128_040144_music_info.down,
+    name: '20261128_040144_music_info',
+  },
+]

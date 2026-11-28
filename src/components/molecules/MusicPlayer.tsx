@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Music, Pause, Play, SkipForward, VolumeX } from 'lucide-react'
+import { Info, Music, Pause, Play, SkipForward, VolumeX, X } from 'lucide-react'
 
 export interface Track {
   title: string
@@ -31,8 +31,21 @@ interface MusicPlayerProps {
     popup?: Record<string, string>
     /** Shown when the browser blocks autoplay, until the visitor clicks */
     autoplayHint: string
+    info: string
+    close: string
+    sources: string
   }
+  /** "i" popup about the ceremonial music (edited in the admin); null = no button */
+  info?: {
+    title: string
+    body: string
+    image: { url: string; alt: string } | null
+    sources: { label: string; url: string | null }[]
+  } | null
 }
+
+/** Playlist that gets the "i" info button */
+const INFO_PLAYLIST = 'nghi-le'
 
 const VOLUME = 0.4
 const AUTOPLAY_DELAY_MS = 5000
@@ -103,12 +116,21 @@ function fadeIn(audio: HTMLAudioElement) {
     if (progress >= 1) window.clearInterval(fadeTimer)
   }, 25)
 }
-const corner = 'absolute w-2 h-2 border-transparent group-hover:border-accent-lime transition-colors'
+const corner =
+  'absolute w-2 h-2 border-transparent group-hover:border-accent-lime transition-colors'
 
-export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
+export function MusicPlayer({ playlists, labels, info }: MusicPlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const [open, setOpen] = useState(false)
+  const [infoOpen, setInfoOpen] = useState(false)
+  // Esc closes the info popup
+  useEffect(() => {
+    if (!infoOpen) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setInfoOpen(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [infoOpen])
   const [mode, setMode] = useState(0) // first playlist (nhạc nghi lễ) is the default
   const [index, setIndex] = useState(0)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -152,7 +174,8 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
   const labelFor = (m: number, i: number) => {
     const list = playlists[m]
     if (!list) return ''
-    if (list.tracks.some((t) => t.isIntro)) return labels.popup?.[list.id] ?? labels.modes[list.id] ?? list.id
+    if (list.tracks.some((t) => t.isIntro))
+      return labels.popup?.[list.id] ?? labels.modes[list.id] ?? list.id
     const t = list.tracks[i]
     return t ? (t.artist ? `${t.title} — ${t.artist}` : t.title) : ''
   }
@@ -170,7 +193,10 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
   }
   useEffect(() => {
     if (!toast?.visible) return
-    const timer = window.setTimeout(() => setToast((t) => (t ? { ...t, visible: false } : t)), TOAST_MS)
+    const timer = window.setTimeout(
+      () => setToast((t) => (t ? { ...t, visible: false } : t)),
+      TOAST_MS,
+    )
     return () => window.clearTimeout(timer)
   }, [toast?.id, toast?.visible])
 
@@ -298,7 +324,8 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
     announce(labelFor(mode, j % tracks.length))
   }
 
-  const persist = (t: number) => saveState({ playlist: playlists[mode].id, url: track.url, time: t })
+  const persist = (t: number) =>
+    saveState({ playlist: playlists[mode].id, url: track.url, time: t })
 
   const onTimeUpdate = () => {
     const audio = audioRef.current
@@ -325,13 +352,15 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
   const seek = (t: number) => {
     const audio = audioRef.current
     if (!audio) return
-    if (audio.readyState === 0) pendingSeek.current = { url: track.url, time: t } // apply once loaded
+    if (audio.readyState === 0)
+      pendingSeek.current = { url: track.url, time: t } // apply once loaded
     else audio.currentTime = t
     setTime(t)
     persist(t)
   }
 
   const nowPlaying = track.artist ? `${track.title} — ${track.artist}` : track.title
+  const showInfoButton = Boolean(info) && isPlaying && playlists[mode]?.id === INFO_PLAYLIST
 
   return (
     <div ref={rootRef} className="relative">
@@ -351,7 +380,9 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
       {/* Now-playing popup (hidden while the panel is open) */}
       <div
         className={`absolute right-full top-1/2 -translate-y-1/2 mr-2 flex items-center gap-2 bg-bg-elevated border border-accent-lime/40 px-3 py-2 max-w-[60vw] sm:max-w-xs shadow-lg pointer-events-none transition-all duration-300 ${
-          (toast?.visible || autoplayBlocked) && !open ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-2'
+          (toast?.visible || autoplayBlocked) && !open
+            ? 'opacity-100 translate-x-0'
+            : 'opacity-0 translate-x-2'
         }`}
         role="status"
         aria-live="polite"
@@ -359,7 +390,9 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
         {autoplayBlocked ? (
           <>
             <VolumeX size={12} className="shrink-0 text-accent-amber" />
-            <span className="font-mono text-xs text-text-primary truncate">{labels.autoplayHint}</span>
+            <span className="font-mono text-xs text-text-primary truncate">
+              {labels.autoplayHint}
+            </span>
           </>
         ) : (
           <>
@@ -403,7 +436,10 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
           <span
             className={`w-1.5 h-1.5 shrink-0 rounded-full ${isPlaying ? 'bg-accent-lime animate-pulse' : 'bg-text-secondary'}`}
           />
-          <span className="flex-1 font-mono text-xs text-text-secondary truncate" title={nowPlaying}>
+          <span
+            className="flex-1 font-mono text-xs text-text-secondary truncate"
+            title={nowPlaying}
+          >
             {nowPlaying}
           </span>
           <button
@@ -449,7 +485,9 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
         type="button"
         onClick={() => setOpen((o) => !o)}
         className={`w-10 h-10 sm:w-12 sm:h-12 bg-bg-elevated border hover:border-accent-lime transition-all duration-300 flex items-center justify-center group relative ${
-          isPlaying ? 'border-accent-lime text-accent-lime' : 'border-border-default text-text-secondary hover:text-text-primary'
+          isPlaying
+            ? 'border-accent-lime text-accent-lime'
+            : 'border-border-default text-text-secondary hover:text-text-primary'
         }`}
         aria-label={labels.menu}
         aria-expanded={open}
@@ -461,6 +499,91 @@ export function MusicPlayer({ playlists, labels }: MusicPlayerProps) {
         <div className={`${corner} bottom-0 right-0 border-b border-r`} />
         <Music size={18} className={isPlaying ? 'animate-pulse' : ''} />
       </button>
+
+      {/* "i" badge: info about the ceremonial music, shown while it plays */}
+      {showInfoButton && (
+        <button
+          type="button"
+          onClick={() => setInfoOpen(true)}
+          className="absolute -top-2 -left-2 z-10 w-5 h-5 rounded-full bg-accent-amber text-bg-primary flex items-center justify-center shadow-md hover:scale-110 transition-transform"
+          aria-label={labels.info}
+          title={labels.info}
+        >
+          <span className="absolute inset-0 rounded-full bg-accent-amber animate-ping opacity-40" />
+          <Info size={12} strokeWidth={3} className="relative" />
+        </button>
+      )}
+
+      {infoOpen && info && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 p-4"
+          onClick={() => setInfoOpen(false)}
+        >
+          <div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="music-info-title"
+            className="relative w-full max-w-lg max-h-[85vh] overflow-y-auto bg-bg-elevated border border-border-default shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setInfoOpen(false)}
+              className="absolute top-2 right-2 z-10 p-1.5 bg-bg-elevated/80 border border-border-default text-text-secondary hover:text-accent-amber"
+              aria-label={labels.close}
+              title={labels.close}
+            >
+              <X size={16} />
+            </button>
+            {info.image && (
+              // eslint-disable-next-line @next/next/no-img-element -- CMS media URL
+              <img
+                src={info.image.url}
+                alt={info.image.alt}
+                className="w-full max-h-72 object-cover border-b border-border-default"
+              />
+            )}
+            <div className="p-5 space-y-3">
+              <h2 id="music-info-title" className="text-xl font-bold pr-8">
+                {info.title}
+              </h2>
+              {info.body
+                .split(/\n+/)
+                .filter((line) => line.trim())
+                .map((line, i) => (
+                  <p key={i} className="text-sm text-text-secondary leading-relaxed">
+                    {line}
+                  </p>
+                ))}
+              {info.sources.length > 0 && (
+                <div className="pt-2 border-t border-border-default space-y-1">
+                  <p className="font-mono text-[11px] uppercase tracking-widest text-accent-amber">
+                    {labels.sources}
+                  </p>
+                  <ol className="list-decimal pl-5 text-xs text-text-secondary space-y-0.5">
+                    {info.sources.map((s, i) => (
+                      <li key={i}>
+                        {s.url ? (
+                          <a
+                            href={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="underline decoration-dotted hover:text-accent-amber"
+                          >
+                            {s.label}
+                          </a>
+                        ) : (
+                          s.label
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
