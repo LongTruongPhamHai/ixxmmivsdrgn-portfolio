@@ -50,7 +50,6 @@ export default async function HomePage(props: { params: Promise<{ locale: string
       <HomeIntro
         locale={locale}
         fullName={profile.fullName ?? null}
-        objective={profile.objective ?? ''}
         avatar={avatar}
         address={profile.address ?? null}
         email={profile.email ?? null}

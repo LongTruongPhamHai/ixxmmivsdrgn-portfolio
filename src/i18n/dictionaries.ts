@@ -9,6 +9,8 @@ export const dictionaries = {
     navEducation: 'Education',
     navContact: 'Contact',
     homeViewAbout: 'More about me',
+    homeWelcome:
+      'Welcome to my website! This is where I share my work, my projects and things worth keeping: coding tips, poems, folk sayings and quotes.',
     homeReadBlog: 'Read the blog',
     homeCurrently: 'Currently',
     homeLocation: 'Based in',
@@ -117,6 +119,8 @@ export const dictionaries = {
     navEducation: 'Học vấn',
     navContact: 'Liên hệ',
     homeViewAbout: 'Xem thêm về tôi',
+    homeWelcome:
+      'Chào mừng bạn đến với trang web của mình! Đây là nơi mình chia sẻ về công việc, các dự án và những điều đáng nhớ: tips lập trình, thơ, ca dao tục ngữ và châm ngôn.',
     homeReadBlog: 'Đọc blog',
     homeCurrently: 'Hiện tại',
     homeLocation: 'Nơi sống',

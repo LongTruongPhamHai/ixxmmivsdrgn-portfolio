@@ -4,7 +4,6 @@ import { Corners, Photo } from './HeroSection'
 interface HomeIntroProps {
   locale: string
   fullName: string | null
-  objective: string
   avatar: { url: string; alt: string } | null
   address: string | null
   email: string | null
@@ -17,7 +16,6 @@ interface HomeIntroProps {
 export function HomeIntro({
   locale,
   fullName,
-  objective,
   avatar,
   address,
   email,
@@ -25,8 +23,7 @@ export function HomeIntro({
   stack,
   t,
 }: HomeIntroProps) {
-  // first paragraph only – the full text is on the About page
-  const intro = objective.split(/\n\s*\n/)[0]
+  const intro = t.homeWelcome
 
   const facts = [
     currentRole && {
