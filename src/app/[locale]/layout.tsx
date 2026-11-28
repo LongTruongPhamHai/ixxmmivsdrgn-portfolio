@@ -44,7 +44,8 @@ export default async function RootLayout(props: {
   const image =
     musicInfoDoc?.image && typeof musicInfoDoc.image === 'object' && musicInfoDoc.image.url
       ? { url: musicInfoDoc.image.url, alt: musicInfoDoc.image.alt || musicInfoDoc.title || '' }
-      : null
+      : // default picture shipped with the site (public/pic) until one is uploaded in the admin
+        { url: '/pic/khoi-quan-nhac-doan-nghi-le-quan-doi.jpg', alt: musicInfoDoc?.title || '' }
   const musicInfo = musicInfoDoc?.title
     ? {
         title: musicInfoDoc.title,
