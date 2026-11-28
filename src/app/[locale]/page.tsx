@@ -11,7 +11,6 @@ import { visiblePosts } from '@/lib/blog'
 export const revalidate = 300
 
 const POSTS_ON_HOME = 6
-const STACK_ON_HOME = 8
 
 /** Home: short intro + basic info from the CV + latest/featured blog posts */
 export default async function HomePage(props: { params: Promise<{ locale: string }> }) {
@@ -19,15 +18,9 @@ export default async function HomePage(props: { params: Promise<{ locale: string
   if (!isLocale(locale)) notFound()
 
   const payload = await getPayload({ config: configPromise })
-  const [profile, experienceRes, skillsRes, postsRes] = await Promise.all([
+  const [profile, experienceRes, postsRes] = await Promise.all([
     payload.findGlobal({ slug: 'profile', locale }),
     payload.find({ collection: 'experience', sort: '-startDate', locale, limit: 1 }),
-    payload.find({
-      collection: 'skills',
-      locale,
-      where: { category: { equals: 'Technical' } },
-      limit: STACK_ON_HOME,
-    }),
     payload.find({
       collection: 'posts',
       locale,
@@ -58,7 +51,6 @@ export default async function HomePage(props: { params: Promise<{ locale: string
             ? { role: latestJob.role, company: latestJob.company }
             : null
         }
-        stack={skillsRes.docs.map((s) => s.name)}
         t={t}
       />
 

@@ -8,11 +8,10 @@ interface HomeIntroProps {
   address: string | null
   email: string | null
   currentRole: { role: string; company: string } | null
-  stack: string[]
   t: Record<string, any>
 }
 
-/** Short home-page introduction: who, what now, main stack – full details live on /about */
+/** Short home-page introduction: who and what now – full details live on /about */
 export function HomeIntro({
   locale,
   fullName,
@@ -20,7 +19,6 @@ export function HomeIntro({
   address,
   email,
   currentRole,
-  stack,
   t,
 }: HomeIntroProps) {
   const intro = t.homeWelcome
@@ -78,7 +76,7 @@ export function HomeIntro({
             </p>
           )}
 
-          {(facts.length > 0 || stack.length > 0) && (
+          {facts.length > 0 && (
             <dl className="grid gap-3 font-mono text-sm max-w-2xl">
               {facts.map((f) => (
                 <div key={f.label} className="hidden md:flex flex-wrap gap-x-2">
@@ -86,21 +84,6 @@ export function HomeIntro({
                   <dd className="text-text-primary">{f.value}</dd>
                 </div>
               ))}
-              {stack.length > 0 && (
-                <div className="space-y-2">
-                  <dt className="text-accent-amber">{t.homeStack}:</dt>
-                  <dd className="flex flex-wrap gap-2">
-                    {stack.map((s) => (
-                      <span
-                        key={s}
-                        className="px-2 py-0.5 bg-bg-elevated border border-border-default text-xs"
-                      >
-                        {s}
-                      </span>
-                    ))}
-                  </dd>
-                </div>
-              )}
             </dl>
           )}
 
