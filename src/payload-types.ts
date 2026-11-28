@@ -107,10 +107,12 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('vi' | 'en') | ('vi' | 'en')[];
   globals: {
     profile: Profile;
+    'music-info': MusicInfo;
     'site-stats': SiteStat;
   };
   globalsSelect: {
     profile: ProfileSelect<false> | ProfileSelect<true>;
+    'music-info': MusicInfoSelect<false> | MusicInfoSelect<true>;
     'site-stats': SiteStatsSelect<false> | SiteStatsSelect<true>;
   };
   locale: 'vi' | 'en';
@@ -786,6 +788,28 @@ export interface Profile {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "music-info".
+ */
+export interface MusicInfo {
+  id: number;
+  title?: string | null;
+  image?: (number | null) | Media;
+  /**
+   * One paragraph per line. Cite sources below.
+   */
+  body?: string | null;
+  sources?:
+    | {
+        label: string;
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "site-stats".
  */
 export interface SiteStat {
@@ -809,6 +833,25 @@ export interface ProfileSelect<T extends boolean = true> {
   phone?: T;
   email?: T;
   objective?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "music-info_select".
+ */
+export interface MusicInfoSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  body?: T;
+  sources?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

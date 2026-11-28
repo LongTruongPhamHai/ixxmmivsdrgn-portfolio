@@ -9,6 +9,8 @@ import { Footer } from '@/components/organisms/Footer'
 import { notFound } from 'next/navigation'
 import { getDictionary, isLocale } from '@/i18n/dictionaries'
 import { getPlaylists } from '@/lib/music'
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
 import { MusicPlayer } from '@/components/molecules/MusicPlayer'
 import { VisitCounter } from '@/components/atoms/VisitCounter'
 import '@/styles/globals.css'
@@ -35,6 +37,22 @@ export default async function RootLayout(props: {
 
   const t = getDictionary(locale)
   const playlists = await getPlaylists()
+  const payload = await getPayload({ config: configPromise })
+  const musicInfoDoc = await payload
+    .findGlobal({ slug: 'music-info', locale, depth: 1 })
+    .catch(() => null) // table missing before the migration runs – just no info popup
+  const image =
+    musicInfoDoc?.image && typeof musicInfoDoc.image === 'object' && musicInfoDoc.image.url
+      ? { url: musicInfoDoc.image.url, alt: musicInfoDoc.image.alt || musicInfoDoc.title || '' }
+      : null
+  const musicInfo = musicInfoDoc?.title
+    ? {
+        title: musicInfoDoc.title,
+        body: musicInfoDoc.body ?? '',
+        image,
+        sources: (musicInfoDoc.sources ?? []).map((s) => ({ label: s.label, url: s.url ?? null })),
+      }
+    : null
 
   return (
     <html
@@ -95,7 +113,11 @@ export default async function RootLayout(props: {
                   modes: t.musicModes,
                   popup: t.musicPopup,
                   autoplayHint: t.musicHint,
+                  info: t.musicInfo,
+                  close: t.musicInfoClose,
+                  sources: t.blogSources,
                 }}
+                info={musicInfo}
               />
             )}
           </div>

@@ -20,6 +20,7 @@ import { Tags } from './collections/Tags'
 import { Education } from './collections/Education'
 import { Profile } from './globals/Profile'
 import { SiteStats } from './globals/SiteStats'
+import { MusicInfo } from './globals/MusicInfo'
 import { DailyVisits } from './collections/DailyVisits'
 import { HourlyVisits } from './collections/HourlyVisits'
 import { visitEndpoints } from './endpoints/visits'
@@ -100,7 +101,7 @@ export default buildConfig({
   },
   // Public visit counter: GET/POST /api/visits
   endpoints: visitEndpoints,
-  globals: [withRevalidateGlobal(Profile), SiteStats],
+  globals: [withRevalidateGlobal(Profile), withRevalidateGlobal(MusicInfo), SiteStats],
   collections: [
     Users,
     // content collections: editing them refreshes the cached public pages
