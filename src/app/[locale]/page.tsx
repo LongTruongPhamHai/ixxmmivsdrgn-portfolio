@@ -66,8 +66,8 @@ export default async function HomePage(props: { params: Promise<{ locale: string
               {t.homeAllPosts} →
             </Link>
           </div>
-          {/* row by row (left → right), not column by column; cards carry their own mb-6 */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-6 items-start">
+          {/* row by row (left → right), not column by column; cards in a row share its height */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 [&>article]:mb-0 [&>article]:h-full">
             {postsRes.docs.map((post) => (
               <PostCard key={post.id} post={post} locale={locale} t={t} />
             ))}
