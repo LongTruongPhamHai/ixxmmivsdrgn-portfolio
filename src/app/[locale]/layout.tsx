@@ -115,6 +115,7 @@ export default async function RootLayout(props: {
                   popup: t.musicPopup,
                   autoplayHint: t.musicHint,
                   info: t.musicInfo,
+                  infoLink: t.musicInfoLink,
                   close: t.musicInfoClose,
                   sources: t.blogSources,
                 }}
