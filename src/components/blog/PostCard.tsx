@@ -59,7 +59,7 @@ export function PostCard({ post, locale, t }: PostCardProps) {
             {post.title}
           </h2>
           {post.excerpt ? (
-            <p className="text-sm text-text-secondary line-clamp-4">{post.excerpt}</p>
+            <p className="text-sm text-text-secondary line-clamp-4 text-justify">{post.excerpt}</p>
           ) : (
             <div className="line-clamp-4 text-sm">
               <PostBody post={post} displayType="article" size="card" />

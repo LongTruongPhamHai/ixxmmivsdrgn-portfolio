@@ -171,7 +171,7 @@ export default async function ColophonPage(props: { params: Promise<{ locale: st
     <article className="py-10 md:py-14 max-w-4xl space-y-14">
       <header className="space-y-3">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase">{c.title}</h1>
-        <p className="font-mono text-text-secondary max-w-2xl">{c.intro}</p>
+        <p className="font-mono text-text-secondary max-w-2xl text-justify">{c.intro}</p>
       </header>
 
       <Section title={c.stackTitle}>
@@ -193,7 +193,7 @@ export default async function ColophonPage(props: { params: Promise<{ locale: st
       </Section>
 
       <Section title={c.colorTitle}>
-        <p className="text-text-secondary text-sm max-w-2xl">{c.colorIntro}</p>
+        <p className="text-text-secondary text-sm max-w-2xl text-justify">{c.colorIntro}</p>
         {(['dark', 'light'] as const).map((mode) => (
           <div key={mode} className="space-y-2">
             <h3 className="font-mono text-xs uppercase tracking-widest text-text-secondary">
