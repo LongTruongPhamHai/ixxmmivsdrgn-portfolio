@@ -173,7 +173,16 @@ const ENTRIES: Record<string, Entry> = {
         url: WIKT('c%C3%B3_c%C3%B4ng_m%C3%A0i_s%E1%BA%AFt_c%C3%B3_ng%C3%A0y_n%C3%AAn_kim'),
       },
       { label: 'Tục ngữ – Wikipedia tiếng Việt', url: WP('T%E1%BB%A5c_ng%E1%BB%AF') },
+      {
+        label: 'có công mài sắt có ngày nên kim – Wiktionary (English)',
+        url: 'https://en.wiktionary.org/wiki/c%C3%B3_c%C3%B4ng_m%C3%A0i_s%E1%BA%AFt_c%C3%B3_ng%C3%A0y_n%C3%AAn_kim',
+      },
     ],
+    meaningEn: doc(
+      p(
+        'Literally: grind iron long enough and one day it becomes a needle. Figuratively: practice makes perfect – diligence and persistence lead to success [1][3]. Wiktionary notes it is a calque of a Chinese saying [3].',
+      ),
+    ),
     meaningVi: doc(
       p(
         'Nghĩa bóng: có quyết tâm và kiên trì thì sẽ thành công, đạt được điều mình mong muốn [1].',
@@ -187,7 +196,16 @@ const ENTRIES: Record<string, Entry> = {
         url: WIKT('u%E1%BB%91ng_n%C6%B0%E1%BB%9Bc_nh%E1%BB%9B_ngu%E1%BB%93n'),
       },
       { label: 'Tục ngữ – Wikipedia tiếng Việt', url: WP('T%E1%BB%A5c_ng%E1%BB%AF') },
+      {
+        label: 'uống nước nhớ nguồn – Wiktionary (English)',
+        url: 'https://en.wiktionary.org/wiki/u%E1%BB%91ng_n%C6%B0%E1%BB%9Bc_nh%E1%BB%9B_ngu%E1%BB%93n',
+      },
     ],
+    meaningEn: doc(
+      p(
+        'Literally "when drinking water, remember its source". Figuratively: be grateful to those who raised and helped you, and to the place that nurtured you [1][3]. A close synonym is "ăn quả nhớ kẻ trồng cây" (when eating fruit, remember who planted the tree) [3].',
+      ),
+    ),
     meaningVi: doc(
       p(
         'Nghĩa bóng: luôn nhớ ơn những người đã nuôi dạy mình và nơi đã sinh ra, nuôi mình khôn lớn [1].',
@@ -210,6 +228,14 @@ const ENTRIES: Record<string, Entry> = {
       ),
       p(
         'Thái Sơn là ngọn núi ở tỉnh Sơn Đông (Trung Quốc), được coi là quan trọng nhất trong Ngũ Nhạc danh sơn và có lịch sử thờ cúng ít nhất 3.000 năm [2].',
+      ),
+    ),
+    meaningEn: doc(
+      p(
+        "The verse is quoted when speaking of filial piety – in Confucian thought, the virtue of respecting one's parents and ancestors [1].",
+      ),
+      p(
+        "Mount Tai (Thái Sơn), to which a father's devotion is compared, is a mountain in Shandong, China, regarded as the foremost of the Five Great Mountains and worshipped for at least 3,000 years [2].",
       ),
     ),
   },
@@ -250,6 +276,142 @@ const ENTRIES: Record<string, Entry> = {
     meaningVi: doc(
       p(
         'Theo các cách hiểu được ghi trên c2 wiki: trước hết viết mã chạy được cho trường hợp phổ biến; sau đó làm cho đúng – xử lý các trường hợp đặc biệt, lỗi, và viết lại cho rõ ràng; cuối cùng mới tối ưu tốc độ. Nửa sau ("đúng trước, nhanh sau") được xem là cách phát biểu lại các nguyên tắc tối ưu hoá [1].',
+      ),
+    ),
+    meaningEn: doc(
+      p(
+        'As the interpretations collected on the c2 wiki put it: first write code that works for the common case; then make it right – handle edge cases and errors, and clean it up; only then optimise for speed. The second half ("right before fast") is seen as a restatement of the rules of optimisation [1].',
+      ),
+    ),
+  },
+
+  'banh-troi-nuoc': {
+    sources: [
+      {
+        label: 'Hồ Xuân Hương – Wikipedia tiếng Việt',
+        url: WP('H%E1%BB%93_Xu%C3%A2n_H%C6%B0%C6%A1ng'),
+      },
+      {
+        label: 'Hồ Xuân Hương – Wikipedia (English)',
+        url: 'https://en.wikipedia.org/wiki/H%E1%BB%93_Xu%C3%A2n_H%C6%B0%C6%A1ng',
+        note: 'Liệt kê bài thơ là "The Drifting Cake in the Water (Bánh Trôi Nước)", kèm bản tiếng Anh.',
+      },
+      {
+        label: 'Bánh trôi nước (tác giả, tác phẩm, nội dung chính, giá trị) – VietJack',
+        url: 'https://vietjack.com/ngu-van-7/banh-troi-nuoc.jsp',
+      },
+      { label: 'Sách giáo khoa Ngữ văn 7 (chương trình cũ)', note: TEXT_NOTE },
+    ],
+    meaningVi: doc(
+      ul(
+        [
+          'Bài thơ chữ Nôm của Hồ Xuân Hương, viết theo thể thất ngôn tứ tuyệt; được đưa vào sách giáo khoa Ngữ văn 7 [1][3].',
+        ],
+        [
+          'Bài thơ có hai lớp nghĩa: tả thực chiếc bánh trôi trắng, tròn, chìm nổi khi luộc; và ẩn dụ về thân phận lênh đênh, phụ thuộc của người phụ nữ trong xã hội phong kiến [3].',
+        ],
+        [
+          'Qua đó, tác giả bày tỏ sự cảm thông với thân phận ấy và ngợi ca phẩm chất thủy chung, son sắt của người phụ nữ [3].',
+        ],
+      ),
+    ),
+    meaningEn: doc(
+      ul(
+        [
+          'A Nôm-script poem by Hồ Xuân Hương in the seven-syllable quatrain form, taught in the Vietnamese grade-7 literature curriculum [1][3]. English Wikipedia lists it as "The Drifting Cake in the Water" [2].',
+        ],
+        [
+          'It works on two levels: a literal picture of white, round rice cakes sinking and floating as they boil, and a metaphor for the drifting, dependent lives of women in feudal society [3].',
+        ],
+        ["It voices sympathy for that fate while praising women's loyalty and steadfastness [3]."],
+      ),
+    ),
+  },
+
+  'qua-deo-ngang': {
+    sources: [
+      {
+        label: 'Qua đèo Ngang – Wikipedia tiếng Việt',
+        url: WP('Qua_%C4%91%C3%A8o_Ngang'),
+        note: 'Bài có dị bản "chợ mấy nhà" / "rợ mấy nhà".',
+      },
+      {
+        label: 'Bà Huyện Thanh Quan – Wikipedia tiếng Việt',
+        url: WP('B%C3%A0_Huy%E1%BB%87n_Thanh_Quan'),
+      },
+      {
+        label: 'Bà Huyện Thanh Quan – Wikipedia (English)',
+        url: 'https://en.wikipedia.org/wiki/B%C3%A0_Huy%E1%BB%87n_Thanh_Quan',
+        note: 'Có bản tiếng Anh của bài thơ ("Crossing Ngang Pass").',
+      },
+      { label: 'Sách giáo khoa Ngữ văn 7 (chương trình cũ)', note: TEXT_NOTE },
+    ],
+    meaningVi: doc(
+      ul(
+        ['Bài thơ chữ Nôm viết theo thể thất ngôn bát cú Đường luật [1].'],
+        [
+          'Hoàn cảnh: tác giả sáng tác trên đường vào Phú Xuân nhận chức theo lời vua Minh Mạng, khi tới Đèo Ngang lúc chiều tà [1].',
+        ],
+        [
+          'Bài thơ tả cảnh Đèo Ngang thoáng đãng mà heo hút, thấp thoáng sự sống con người nhưng vẫn hoang sơ; đồng thời bộc lộ nỗi nhớ nước thương nhà và nỗi buồn cô đơn thầm lặng của tác giả [1].',
+        ],
+      ),
+    ),
+    meaningEn: doc(
+      ul(
+        [
+          'A Nôm poem in the regulated Tang-style form of eight seven-syllable lines; known in English as "Crossing Ngang Pass" [1][3].',
+        ],
+        [
+          "The poet wrote it while travelling to Phú Xuân to take up a post at Emperor Minh Mạng's court, reaching Ngang Pass at dusk [1].",
+        ],
+        [
+          'It paints the pass as open yet desolate – a few signs of human life in a still-wild landscape – and expresses longing for country and home and a quiet, solitary sadness [1].',
+        ],
+      ),
+    ),
+  },
+
+  'thu-dieu': {
+    sources: [
+      { label: 'Nguyễn Khuyến – Wikipedia tiếng Việt', url: WP('Nguy%E1%BB%85n_Khuy%E1%BA%BFn') },
+      {
+        label: 'Nguyễn Khuyến – Wikipedia (English)',
+        url: 'https://en.wikipedia.org/wiki/Nguy%E1%BB%85n_Khuy%E1%BA%BFn',
+      },
+      {
+        label: 'Câu cá mùa thu – Nguyễn Khuyến (tóm tắt, phân tích) – Lời giải hay',
+        url: 'https://loigiaihay.com/cau-ca-mua-thu-nguyen-khuyen-c359a51466.html',
+      },
+      { label: 'Sách giáo khoa Ngữ văn 11 (chương trình cũ)', note: TEXT_NOTE },
+    ],
+    meaningVi: doc(
+      ul(
+        [
+          'Thu điếu (Câu cá mùa thu) nằm trong chùm ba bài thơ thu của Nguyễn Khuyến, cùng Thu vịnh và Thu ẩm, sáng tác khi ông đã về ở ẩn tại quê nhà Yên Đổ [2][3].',
+        ],
+        [
+          'Bài thơ vẽ cảnh thu làng quê Bắc Bộ tĩnh lặng, vắng người; tiếng cá đớp mồi chỉ làm sự yên tĩnh thêm sâu ("lấy động tả tĩnh") [3].',
+        ],
+        [
+          'Sau dáng người câu cá nhàn nhã là nỗi cô đơn, buồn man mác, cùng tình yêu thiên nhiên và tấm lòng gắn bó với đất nước của tác giả [2][3].',
+        ],
+        [
+          'Nghệ thuật: vần "eo" gợi không gian khép kín, tĩnh lặng; phép đối; bút pháp tả cảnh ngụ tình [3].',
+        ],
+      ),
+    ),
+    meaningEn: doc(
+      ul(
+        [
+          '"Fishing in Autumn" belongs to Nguyễn Khuyến\'s group of three autumn poems (with "Drinking in Autumn" and "Versing on Autumn"), counted among his best and written after he withdrew to his home village of Yên Đổ in 1884 [2][3].',
+        ],
+        [
+          'It paints a still, empty autumn scene of a northern Vietnamese village, where a fish snapping at the bait only deepens the silence [3].',
+        ],
+        [
+          'Behind the leisurely angler lie loneliness and quiet sadness, together with love of nature and of the country [2][3].',
+        ],
       ),
     ),
   },
