@@ -82,7 +82,7 @@ export function PostCard({ post, locale, t }: PostCardProps) {
           <div
             className={
               longVerse
-                ? 'max-h-52 overflow-hidden [mask-image:linear-gradient(to_bottom,black_75%,transparent)]'
+                ? 'max-h-80 overflow-hidden [mask-image:linear-gradient(to_bottom,black_75%,transparent)]'
                 : ''
             }
           >

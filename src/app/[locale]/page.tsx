@@ -66,12 +66,33 @@ export default async function HomePage(props: { params: Promise<{ locale: string
               {t.homeAllPosts} →
             </Link>
           </div>
-          {/* row by row (left → right), not column by column; cards in a row share its height */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 [&>article]:mb-0 [&>article]:h-full">
-            {postsRes.docs.map((post) => (
-              <PostCard key={post.id} post={post} locale={locale} t={t} />
-            ))}
-          </div>
+          {/*
+            Masonry in reading order: post i goes to column i % n, so the newest posts run
+            left → right across the top and every card keeps its natural height (no gaps).
+            One layout per breakpoint (1 / 2 / 3 columns); the hidden ones use display:none.
+          */}
+          {(
+            [
+              [1, 'md:hidden'],
+              [2, 'hidden md:grid lg:hidden'],
+              [3, 'hidden lg:grid'],
+            ] as const
+          ).map(([n, visibility]) => (
+            <div
+              key={n}
+              className={`${visibility} ${n === 1 ? '' : n === 2 ? 'grid-cols-2' : 'grid-cols-3'} gap-6 items-start`}
+            >
+              {Array.from({ length: n }, (_, col) => (
+                <div key={col} className="min-w-0">
+                  {postsRes.docs
+                    .filter((_, i) => i % n === col)
+                    .map((post) => (
+                      <PostCard key={post.id} post={post} locale={locale} t={t} />
+                    ))}
+                </div>
+              ))}
+            </div>
+          ))}
         </section>
       )}
     </div>
