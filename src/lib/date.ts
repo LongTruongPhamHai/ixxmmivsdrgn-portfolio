@@ -75,3 +75,16 @@ export const hourInVN = (at: Date = new Date()): string => {
   )
   return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}`
 }
+
+/** "MM/YYYY" in Vietnam time (e.g. 01/2026) – same numeric style as dd/mm/yyyy */
+export function formatMonthNumeric(value: string | null | undefined): string {
+  const date = toDate(value)
+  if (!date) return ''
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    month: '2-digit',
+    year: 'numeric',
+    timeZone: TIME_ZONE,
+  }).formatToParts(date)
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? ''
+  return `${get('month')}/${get('year')}`
+}
