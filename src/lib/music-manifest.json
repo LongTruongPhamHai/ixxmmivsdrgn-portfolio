@@ -3,48 +3,8 @@
     "id": "nghi-le",
     "tracks": [
       {
-        "artist": "Nhạc nghi lễ",
-        "title": "Trống hành khúc",
-        "url": "/music/nghi-le/00%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20Tr%E1%BB%91ng%20h%C3%A0nh%20kh%C3%BAc.mp3",
-        "isIntro": true
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Tiến bước dưới quân kỳ",
-        "url": "/music/nghi-le/01%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20Ti%E1%BA%BFn%20b%C6%B0%E1%BB%9Bc%20d%C6%B0%E1%BB%9Bi%20qu%C3%A2n%20k%E1%BB%B3.mp3"
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Trống hành khúc",
-        "url": "/music/nghi-le/00%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20Tr%E1%BB%91ng%20h%C3%A0nh%20kh%C3%BAc.mp3",
-        "isIntro": true
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Vì nhân dân quên mình",
-        "url": "/music/nghi-le/02%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20V%C3%AC%20nh%C3%A2n%20d%C3%A2n%20qu%C3%AAn%20m%C3%ACnh.mp3"
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Trống hành khúc",
-        "url": "/music/nghi-le/00%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20Tr%E1%BB%91ng%20h%C3%A0nh%20kh%C3%BAc.mp3",
-        "isIntro": true
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Hát mãi khúc quân hành",
-        "url": "/music/nghi-le/03%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20H%C3%A1t%20m%C3%A3i%20kh%C3%BAc%20qu%C3%A2n%20h%C3%A0nh.mp3"
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Trống hành khúc",
-        "url": "/music/nghi-le/00%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20Tr%E1%BB%91ng%20h%C3%A0nh%20kh%C3%BAc.mp3",
-        "isIntro": true
-      },
-      {
-        "artist": "Nhạc nghi lễ",
-        "title": "Bác đang cùng chúng cháu hành quân",
-        "url": "/music/nghi-le/04%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20-%20B%C3%A1c%20%C4%91ang%20c%C3%B9ng%20ch%C3%BAng%20ch%C3%A1u%20h%C3%A0nh%20qu%C3%A2n.mp3"
+        "title": "Nhạc nghi lễ QĐNDVN",
+        "url": "/music/nghi-le/01%20-%20Nh%E1%BA%A1c%20nghi%20l%E1%BB%85%20Q%C4%90NDVN.mp3"
       }
     ]
   },
