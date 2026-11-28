@@ -9,6 +9,7 @@ import { Footer } from '@/components/organisms/Footer'
 import { notFound } from 'next/navigation'
 import { getDictionary, isLocale } from '@/i18n/dictionaries'
 import { getPlaylists } from '@/lib/music'
+import { getSongInfo } from '@/lib/song-info'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { MusicPlayer } from '@/components/molecules/MusicPlayer'
@@ -167,6 +168,7 @@ export default async function RootLayout(props: {
                   sources: t.blogSources,
                 }}
                 info={musicInfo}
+                songInfo={getSongInfo(locale)}
               />
             )}
           </div>
