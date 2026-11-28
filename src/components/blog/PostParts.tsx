@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { RichText } from '@payloadcms/richtext-lexical/react'
+import { type JSXConvertersFunction, RichText } from '@payloadcms/richtext-lexical/react'
 import type { Category, Post, Tag } from '@/payload-types'
 import type { DisplayType } from '@/lib/blog'
 
@@ -65,12 +65,42 @@ export function PostBody({
           ? 'post-quote post-quote--card'
           : 'post-quote'
         : 'post-article'
-  return <RichText data={post.content} className={`post-body ${variant}`} />
+  return (
+    <RichText
+      data={post.content}
+      converters={size === 'full' ? citationConverters : undefined}
+      className={`post-body ${variant}`}
+    />
+  )
 }
 
 /** True when a rich-text value has any text */
 export const hasRichText = (value: Post['meaning']): value is NonNullable<Post['meaning']> =>
   Boolean(value?.root?.children?.some((n) => JSON.stringify(n).includes('"text":"')))
+
+/** Turns "[1]" citations in plain text into links to the matching entry of the sources list */
+const citationConverters: JSXConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  text: (args) => {
+    const { node } = args
+    const fallback = defaultConverters.text
+    const render = () => (typeof fallback === 'function' ? fallback(args) : node.text)
+    if (node.format || !/\[\d+\]/.test(node.text)) return render()
+    return node.text.split(/(\[\d+\])/).map((part: string, i: number) => {
+      const m = part.match(/^\[(\d+)\]$/)
+      if (!m) return part
+      return (
+        <a
+          key={i}
+          href={`#source-${m[1]}`}
+          className="text-accent-amber font-mono text-[0.85em] no-underline hover:underline"
+        >
+          {part}
+        </a>
+      )
+    })
+  },
+})
 
 /** Meaning / analysis (rich text, per language) */
 export function Meaning({
@@ -84,6 +114,7 @@ export function Meaning({
   return (
     <RichText
       data={value}
+      converters={size === 'full' ? citationConverters : undefined}
       className={`post-body post-article text-text-secondary ${size === 'card' ? 'text-sm' : ''}`}
     />
   )
@@ -113,7 +144,11 @@ export function Sources({ sources, title }: { sources: Post['sources']; title: s
       )}
       <ol className="space-y-2 text-sm list-decimal pl-5 marker:text-text-secondary marker:font-mono">
         {sources.map((s, i) => (
-          <li key={s.id ?? i} className="text-text-secondary">
+          <li
+            key={s.id ?? i}
+            id={`source-${i + 1}`}
+            className="text-text-secondary scroll-mt-24 target:bg-accent-amber/10 transition-colors"
+          >
             {s.url ? (
               <a
                 href={s.url}
