@@ -1,4 +1,4 @@
-import { formatYear } from '@/lib/date'
+import { formatMonthNumeric } from '@/lib/date'
 
 interface ExperienceSectionProps {
   experiences: any[]
@@ -32,7 +32,7 @@ export function ExperienceSection({ experiences, translations: t }: ExperienceSe
                 ) : (
                   <span className="text-accent-lime">{exp.company}</span>
                 )} •{' '}
-                {formatYear(exp.startDate)} - {exp.endDate ? formatYear(exp.endDate) : t.present}
+                {formatMonthNumeric(exp.startDate)} - {exp.endDate ? formatMonthNumeric(exp.endDate) : t.present}
               </div>
 
               {exp.projects && exp.projects.length > 0 && (
