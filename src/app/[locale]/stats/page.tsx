@@ -162,7 +162,7 @@ export default async function StatsPage({ params, searchParams }: Props) {
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase">
           {t.statsTitle}
         </h1>
-        <p className="font-mono text-text-secondary">{t.statsIntro}</p>
+        <p className="font-mono text-text-secondary text-justify">{t.statsIntro}</p>
       </header>
 
       {/* stat tiles */}

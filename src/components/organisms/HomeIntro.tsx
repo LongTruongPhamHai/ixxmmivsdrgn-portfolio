@@ -71,7 +71,7 @@ export function HomeIntro({
           </div>
 
           {intro && (
-            <p className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed font-mono line-clamp-5">
+            <p className="text-base sm:text-lg text-text-secondary max-w-2xl leading-relaxed font-mono line-clamp-5 text-justify">
               {intro}
             </p>
           )}

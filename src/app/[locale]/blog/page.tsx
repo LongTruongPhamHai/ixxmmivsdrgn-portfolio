@@ -77,7 +77,7 @@ export default async function BlogPage({ params, searchParams }: Props) {
       {/* Heading */}
       <header className="space-y-3">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter uppercase">{t.blogTitle}</h1>
-        <p className="font-mono text-text-secondary">
+        <p className="font-mono text-text-secondary text-justify">
           {activeCategory?.description || t.blogIntro}
         </p>
       </header>

@@ -25,7 +25,7 @@ export function ContactSection({ phone, email, translations: t }: ContactSection
         {/* Khối bên trái: Tiêu đề & Lời nhắn */}
         <div className="space-y-4 md:max-w-xl">
           <h2 className="text-3xl font-bold">{t.ctaTitle}</h2>
-          <p className="text-text-secondary">{t.ctaDesc}</p>
+          <p className="text-text-secondary text-justify">{t.ctaDesc}</p>
         </div>
 
         {/* Khối bên phải: 2 Button đồng bộ Style */}
