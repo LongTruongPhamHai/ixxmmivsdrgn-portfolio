@@ -163,3 +163,7 @@ body {
   content: '❝ ';
   color: var(--color-accent-amber);
 }
+.post-quote > p:last-child::after {
+  content: ' ❞';
+  color: var(--color-accent-amber);
+}
